@@ -14,7 +14,8 @@ var paths = {
 
 gulp.task('styles', function() {
     return gulp.src([
-        paths.assets + '/styles/**/*.scss'
+        paths.assets + '/styles/**/*.scss',
+        paths.assets + '/styles/**/*.css'
     ])
         .pipe(scss())
         .pipe(concat('app.css'))
@@ -26,7 +27,7 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
     return gulp.src([
-        paths.assets  + '/scripts/main.js'
+        paths.assets  + '/scripts/**/*.js'
     ])
         .pipe(concat('app.js'))
         .pipe(uglify())
