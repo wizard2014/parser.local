@@ -12,3 +12,5 @@ vendor
 composer.phar
 node_modules
 puphpet
+.gulp-scss-cache
+.sass-cache
