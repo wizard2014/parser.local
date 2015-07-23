@@ -1,0 +1,24 @@
+{
+  "name": "Parser project",
+  "version": "0.1.0",
+  "homepage": "https://github.com/wizard2014/parser.local",
+  "authors": [
+    "wizard <wizard2014@ya.ru>"
+  ],
+  "description": "Parser project",
+  "keywords": [
+    "parser",
+    "zend",
+    "framework",
+    "php",
+    "ebay"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
