@@ -11,6 +11,11 @@
  * file.
  */
 
-return array(
-    // ...
-);
+return [
+    // cache service
+    'service_manager' => [
+        'abstract_factories' => [
+            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+        ]
+    ],
+];
