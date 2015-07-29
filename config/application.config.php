@@ -12,6 +12,13 @@ return [
         'GoSession',
         'ZendDeveloperTools',
         'ZFTool',
+        'DoctrineModule',
+        'DoctrineORMModule',
+        'ZfcBase',
+        'ZfcUser',
+        'ZfcUserDoctrineORM',
+        'ScnSocialAuth',
+        'ScnSocialAuthDoctrineORM',
     ],
 
     // These are various options for the listeners attached to the ModuleManager
