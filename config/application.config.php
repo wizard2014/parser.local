@@ -10,6 +10,7 @@ return [
     'modules' => [
         'Application',
         'GoSession',
+        'User',
         'ZendDeveloperTools',
         'ZFTool',
         'DoctrineModule',
@@ -19,6 +20,7 @@ return [
         'ZfcUserDoctrineORM',
         'ScnSocialAuth',
         'ScnSocialAuthDoctrineORM',
+//        'BjyAuthorize',
     ],
 
     // These are various options for the listeners attached to the ModuleManager
