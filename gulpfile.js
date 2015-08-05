@@ -3,7 +3,7 @@
 var gulp       = require('gulp'),
     concat     = require('gulp-concat'),
     uglify     = require('gulp-uglify'),
-    scss       = require('gulp-scss'),
+    sass       = require('gulp-sass'),
     minifyCss  = require('gulp-minify-css'),
     sourcemaps = require('gulp-sourcemaps');
 
@@ -14,10 +14,10 @@ var paths = {
 
 gulp.task('styles', function() {
     return gulp.src([
-        paths.assets + '/styles/**/*.scss',
-        paths.assets + '/styles/**/*.css'
+        paths.assets + '/styles/bootstrap/*.css',
+        paths.assets + '/styles/app.scss'
     ])
-        .pipe(scss())
+        .pipe(sass())
         .pipe(concat('app.css'))
         .pipe(sourcemaps.init())
         .pipe(minifyCss())

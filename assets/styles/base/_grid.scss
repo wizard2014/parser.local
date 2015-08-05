@@ -1,0 +1,19 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 40px;
+  padding: 0;
+  color: #222;
+  background-color: #edeff0;
+}
+
+.container-fluid, .col {
+  padding: 0;
+}
+
+.row {
+  margin: 0;
+}

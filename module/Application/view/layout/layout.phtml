@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle($this->translate('Parser Name'))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headTitle($this->translate('Extrow'))->setSeparator(' &bull; ')->setAutoEscape(false) ?>
 
         <?php echo $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
@@ -13,7 +13,6 @@
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
             ->prependStylesheet($this->basePath('/css/app.css'))
-            ->prependStylesheet('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
         ; ?>
 
         <!-- Scripts -->
@@ -24,13 +23,28 @@
 
     </head>
     <body>
-        <div class="container">
+        <div class="container-fluid">
+            <!-- main nav -->
+            <div class="navbar navbar-inverse">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <h1 class="logo"><a class="navbar-brand" href="<?php echo $this->url('home'); ?>">Extrow</a></h1>
+                    </div>
+                    <div class="navbar-collapse collapse navbar-responsive-collapse">
+                        <?php echo $this->navigation('navigation')->menu()->setULClass('nav navbar-nav navbar-right'); ?>
+                    </div>
+                </div>
+            </div><!-- /main nav -->
             <?php echo $this->content; ?>
-            <hr>
-            <footer>
-                <p class="text-center">&copy; <?php echo date('Y') ?> by <a href="http://versover.com" target="_blank">Versover</a> <?php echo $this->translate('All rights reserved.') ?></p>
-            </footer>
         </div> <!-- /container -->
+        <footer>
+            <p class="text-center">&copy; <?php echo date('Y') ?> by <a href="http://versover.com" target="_blank">Versover</a> <?php echo $this->translate('All rights reserved.') ?></p>
+        </footer>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <?php
