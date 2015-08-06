@@ -1,32 +1,46 @@
-<h1><?php echo $this->translate('Sign In'); ?></h1>
+<h1 class="text-center form-header"><?php echo $this->translate('Sign In'); ?></h1>
 
 <?php
+$title = 'Log In';
+$this->headTitle($title);
+
 $form = $this->loginForm;
 $form->prepare();
 $form->setAttribute('action', $this->url('zfcuser/login'));
 $form->setAttribute('method', 'post');
+$form->setAttribute('class', 'form');
 ?>
 
 <?php echo $this->form()->openTag($form) ?>
 
-    <dl class="zend_form">
-        <?php echo $this->formElementErrors($form->get('identity')) ?>
+    <?php echo $this->formElementErrors($form->get('identity')) ?>
 
-        <dt><?php echo $this->formLabel($form->get('identity')) ?></dt>
-        <dd><?php echo $this->formInput($form->get('identity')) ?></dd>
+        <?php //echo $this->formLabel($form->get('identity')) ?>
+        <?php echo $this->formInput($form->get('identity')->setAttributes([
+            'class'       => 'form-control',
+            'id'          => 'identity',
+            'type'        => 'email',
+            'autofocus'   => true,
+            'required'    => true,
+            'placeholder' => 'Email'
+        ])) ?>
 
-        <dt><?php echo $this->formLabel($form->get('credential')) ?></dt>
-        <dd><?php echo $this->formInput($form->get('credential')) ?></dd>
+        <?php //echo $this->formLabel($form->get('credential')) ?>
+        <?php echo $this->formInput($form->get('credential')->setAttributes([
+            'class'       => 'form-control',
+            'id'          => 'credential',
+            'required'    => true,
+            'placeholder' => 'Password'
+        ])) ?>
 
         <?php if ($this->redirect): ?>
-            <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
+            <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>">
         <?php endif ?>
 
-        <dd><?php echo $this->formButton($form->get('submit')) ?></dd>
-    </dl>
+        <?php echo $this->formButton($form->get('submit')->setAttribute('class', 'btn btn-primary btn-lg btn-block submit-btn')) ?>
 
 <?php echo $this->form()->closeTag() ?>
 
 <?php if ($this->enableRegistration) : ?>
-<?php echo $this->translate('Not registered?'); ?> <a href="<?php echo $this->url('zfcuser/register') . ($this->redirect ? '?redirect='.$this->escapeUrl($this->redirect) : '') ?>"><?php echo $this->translate('Sign up!'); ?></a>
+    <p><?php echo $this->translate('Not registered?'); ?> <a href="<?php echo $this->url('zfcuser/register') . ($this->redirect ? '?redirect='.$this->escapeUrl($this->redirect) : '') ?>"><?php echo $this->translate('Sign up!'); ?></a></p>
 <?php endif; ?>

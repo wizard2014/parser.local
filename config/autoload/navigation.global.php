@@ -9,10 +9,7 @@ return [
             [
                 'label' => 'Home',
                 'route' => 'home',
-            ], /*[
-                'label' => 'Get started',
-                'route' => '',
-            ],*/
+            ],
         ],
     ],
     'service_manager' => [

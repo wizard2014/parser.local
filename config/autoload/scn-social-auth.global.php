@@ -134,7 +134,7 @@ $settings = [
      *
      * Please specify if Twitter is enabled
      */
-    'twitter_enabled' => true,
+    //'twitter_enabled' => true,
 
     /**
      * Yahoo! Enabled

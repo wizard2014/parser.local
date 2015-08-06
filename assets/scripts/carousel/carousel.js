@@ -8,23 +8,23 @@ carousel.carousel({
 
 var clickEvent = false;
 
-carousel.on('click', '.nav a', function() {
+carousel.on('click', '.nav-pills a', function() {
     clickEvent = true;
 
-    $('.nav').find('li').removeClass('active');
+    $('.nav-pills').find('li').removeClass('active');
     $(this).parent().addClass('active');
 
 }).on('slid.bs.carousel', function() {
 
     if(!clickEvent) {
-        var count   = carousel.find('.nav').children().length - 1;
-        var current = carousel.find('.nav').find('li.active');
+        var count   = carousel.find('.nav-pills').children().length - 1;
+        var current = carousel.find('.nav-pills').find('li.active');
 
         current.removeClass('active').next().addClass('active');
         var id = parseInt(current.data('slide-to'));
 
         if(count == id) {
-            $('#myCarousel').find('.nav').find('li').first().addClass('active');
+            $('#myCarousel').find('.nav-pills').find('li').first().addClass('active');
         }
     }
 
