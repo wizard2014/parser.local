@@ -2,6 +2,8 @@
 
 namespace User;
 
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;

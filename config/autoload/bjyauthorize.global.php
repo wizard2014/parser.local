@@ -13,7 +13,7 @@ return [
          * roles the "identity role" should inherit from.
          * for ZfcUser, this will be your default identity provider
         */
-        'identity_provider' => \BjyAuthorize\Provider\Identity\ZfcUserZendDb::class,
+        //'identity_provider' => \BjyAuthorize\Provider\Identity\ZfcUserZendDb::class,
 
         /* If you only have a default role and an authenticated role, you can
          * use the 'AuthenticationIdentityProvider' to allow/restrict access
@@ -23,6 +23,8 @@ return [
          * 'authenticated_role' => 'user',          // authenticated
          * 'identity_provider'  => \BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider::class,
          */
+
+        'identity_provider'  => \BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider::class,
 
         /* role providers simply provide a list of roles that should be inserted
          * into the Zend\Acl instance. the module comes with two providers, one
@@ -43,12 +45,12 @@ return [
 
             // this will load roles from the user_role table in a database
             // format: user_role(role_id(varchar], parent(varchar))
-            \BjyAuthorize\Provider\Role\ZendDb::class => [
-                'table'                 => 'user_role',
-                'identifier_field_name' => 'id',
-                'role_id_field'         => 'role_id',
-                'parent_role_field'     => 'parent_id',
-            ],
+//            \BjyAuthorize\Provider\Role\ZendDb::class => [
+//                'table'                 => 'user_role',
+//                'identifier_field_name' => 'id',
+//                'role_id_field'         => 'role_id',
+//                'parent_role_field'     => 'parent_id',
+//            ],
 
             // this will load roles from
             // the 'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' service
@@ -100,19 +102,20 @@ return [
              * You may omit the 'action' index to allow access to the entire controller
              */
             \BjyAuthorize\Guard\Controller::class => [
-                ['controller' => 'index', 'action' => 'index', 'roles' => ['guest','user']],
-                ['controller' => 'index', 'action' => 'stuff', 'roles' => ['user']],
+                ['controller' => 'Application\Controller\Index', 'action' => 'index', 'roles' => ['guest','user']],
+                ['controller' => 'ScnSocialAuth-User', 'action' => ['login', 'register'], 'roles' => ['guest','user']],
+//                ['controller' => 'index', 'action' => 'stuff', 'roles' => ['user']],
                 // You can also specify an array of actions or an array of controllers (or both)
                 // allow "guest" and "admin" to access actions "list" and "manage" on these "index",
                 // "static" and "console" controllers
                 [
-                    'controller' => ['index', 'static', 'console'],
-                    'action' => ['list', 'manage'],
-                    'roles' => ['guest', 'admin'],
+//                    'controller' => ['index', 'static', 'console'],
+//                    'action' => ['list', 'manage'],
+//                    'roles' => ['guest', 'admin'],
                 ],
                 [
-                    'controller' => ['search', 'administration'],
-                    'roles' => ['staffer', 'admin'],
+//                    'controller' => ['search', 'administration'],
+//                    'roles' => ['staffer', 'admin'],
                 ],
                 ['controller' => 'zfcuser', 'roles' => []],
                 // Below is the default index action used by the ZendSkeletonApplication
@@ -129,6 +132,8 @@ return [
                 ['route' => 'zfcuser/register', 'roles' => ['guest']],
                 // Below is the default index action used by the ZendSkeletonApplication
                 ['route' => 'home', 'roles' => ['guest', 'user']],
+                ['route' => 'scn-social-auth-user/login', 'roles' => ['guest', 'user']],
+                ['route' => 'scn-social-auth-user/register', 'roles' => ['guest', 'user']],
             ],
         ],
     ],
