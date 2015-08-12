@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="user_role", uniqueConstraints={@ORM\UniqueConstraint(name="role_id_unique", columns={"role_id"})}, indexes={@ORM\Index(name="IDX_2DE8C6A3727ACA70", columns={"parent_id"})})
  * @ORM\Entity
-  * @ORM\Table(name="user_role")
  */
 class Role implements HierarchicalRoleInterface
 {

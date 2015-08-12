@@ -39,7 +39,9 @@ return [
             \BjyAuthorize\Provider\Role\Config::class => [
                 'guest' => [],
                 'user'  => ['children' => [
-                    'admin' => [],
+                    'db_manager' => ['children' => [
+                        'db_owner' => []
+                    ]],
                 ]],
             ],
 
@@ -103,7 +105,7 @@ return [
              */
             \BjyAuthorize\Guard\Controller::class => [
                 ['controller' => 'Application\Controller\Index', 'action' => 'index', 'roles' => ['guest','user']],
-                ['controller' => 'ScnSocialAuth-User', 'action' => ['login', 'register'], 'roles' => ['guest','user']],
+                ['controller' => 'ScnSocialAuth-User', 'action' => ['login', 'register', 'logout'], 'roles' => ['guest','user']],
 //                ['controller' => 'index', 'action' => 'stuff', 'roles' => ['user']],
                 // You can also specify an array of actions or an array of controllers (or both)
                 // allow "guest" and "admin" to access actions "list" and "manage" on these "index",
@@ -132,8 +134,10 @@ return [
                 ['route' => 'zfcuser/register', 'roles' => ['guest']],
                 // Below is the default index action used by the ZendSkeletonApplication
                 ['route' => 'home', 'roles' => ['guest', 'user']],
+                ['route' => 'scn-social-auth-user', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/login', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/register', 'roles' => ['guest', 'user']],
+                ['route' => 'scn-social-auth-user/logout', 'roles' => ['guest', 'user']],
             ],
         ],
     ],

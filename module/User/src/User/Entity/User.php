@@ -7,11 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 use ZfcUser\Entity\UserInterface;
 
 /**
- * Users
+ * User
  *
  * @ORM\Table(name="users", uniqueConstraints={@ORM\UniqueConstraint(name="user_email_unique", columns={"email"}), @ORM\UniqueConstraint(name="user_name_unique", columns={"username"})})
  * @ORM\Entity
- * @ORM\Table(name="users")
  */
 class User implements UserInterface, ProviderInterface
 {
@@ -88,7 +87,7 @@ class User implements UserInterface, ProviderInterface
      *
      * @param int $id
      *
-     * @return void
+     * @return User
      */
     public function setId($id)
     {
@@ -112,7 +111,7 @@ class User implements UserInterface, ProviderInterface
      *
      * @param string $username
      *
-     * @return Users
+     * @return User
      */
     public function setUsername($username)
     {
@@ -208,7 +207,7 @@ class User implements UserInterface, ProviderInterface
      *
      * @param integer $state
      *
-     * @return Users
+     * @return User
      */
     public function setState($state)
     {
@@ -258,6 +257,6 @@ class User implements UserInterface, ProviderInterface
      */
     public function getRoles()
     {
-        return $this->roles->getValues();
+        return $this->roles;
     }
 }
