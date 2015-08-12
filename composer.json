@@ -14,6 +14,7 @@
         "zendframework/zftool": "v0.1.0",
         "socalnick/scn-social-auth-doctrine-orm": "1.5.0",
         "bjyoungblood/bjy-authorize": "1.4.0",
-        "zf-commons/zfc-admin": "v0.2.1"
+        "zf-commons/zfc-admin": "v0.2.1",
+        "san/san-session-toolbar": "0.2.0"
     }
 }

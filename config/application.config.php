@@ -11,6 +11,7 @@ return [
         'Application',
         'GoSession',
         'ZendDeveloperTools',
+        'SanSessionToolbar',
         'ZFTool',
         'DoctrineModule',
         'DoctrineORMModule',
