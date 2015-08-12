@@ -15,16 +15,16 @@ class UserAddition
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_subscriber", type="boolean", precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="is_subscriber", type="boolean", nullable=false)
      */
-    private $isSubscriber;
+    private $isSubscriber = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_key_owner", type="boolean", precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="is_key_owner", type="boolean", nullable=false)
      */
-    private $isKeyOwner;
+    private $isKeyOwner = false;
 
     /**
      * @var \User\Entity\User
@@ -33,7 +33,7 @@ class UserAddition
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="User\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=true)
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      * })
      */
     private $user;
