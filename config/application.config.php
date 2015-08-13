@@ -1,9 +1,9 @@
 <?php
 /**
- * If you need an environment-specific system or application configuration,
+ * If you need an environment-specific system or ebay configuration,
  * there is an example in the documentation
  * @see http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#environment-specific-system-configuration
- * @see http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#environment-specific-application-configuration
+ * @see http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#environment-specific-ebay-configuration
  */
 return [
     // This should be an array of module namespaces used in the application.
@@ -22,6 +22,7 @@ return [
         'ScnSocialAuthDoctrineORM',
         'BjyAuthorize',
         'User',
+        'Ebay',
     ],
 
     // These are various options for the listeners attached to the ModuleManager

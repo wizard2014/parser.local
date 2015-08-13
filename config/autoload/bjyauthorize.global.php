@@ -107,6 +107,8 @@ return [
                 ['controller' => 'Application\Controller\Index', 'action' => 'index', 'roles' => ['guest','user']],
                 ['controller' => 'ScnSocialAuth-User', 'action' => ['login', 'provider-login', 'provider-authenticate', 'register', 'logout'], 'roles' => ['guest','user']],
                 ['controller' => 'ScnSocialAuth-HybridAuth', 'action' => ['index'], 'roles' => ['guest','user']],
+                ['controller' => 'Ebay\Controller\Index', 'action' => ['index'], 'roles' => ['guest','user']],
+                ['controller' => 'Ebay\Controller\Console', 'action' => ['index'], 'roles' => ['guest','user']],
 //                ['controller' => 'index', 'action' => 'stuff', 'roles' => ['user']],
                 // You can also specify an array of actions or an array of controllers (or both)
                 // allow "guest" and "admin" to access actions "list" and "manage" on these "index",
@@ -142,6 +144,8 @@ return [
                 ['route' => 'scn-social-auth-user/register', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/logout', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-hauth', 'roles' => ['guest', 'user']],
+                ['route' => 'ebay', 'roles' => ['guest', 'user']],
+                ['route' => 'console', 'roles' => ['guest', 'user']],
             ],
         ],
     ],
