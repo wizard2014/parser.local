@@ -29,7 +29,6 @@ return [
                     ],
                 ],
             ],
-
             'console' => [
                 'type'    => 'Literal',
                 'options' => [
@@ -52,6 +51,11 @@ return [
         ],
         'factories' => [
             'Ebay\Controller\Console' => 'Ebay\Factory\Controller\ConsoleControllerFactory',
+        ],
+    ],
+    'service_manager'=> [
+        'factories' => [
+            'Ebay\Service\Category' => 'Ebay\Factory\Service\CategoryServiceFactory',
         ],
     ],
     'view_manager' => [

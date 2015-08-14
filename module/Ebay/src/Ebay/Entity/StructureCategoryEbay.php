@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * StructureCategoryEbay
  *
- * @ORM\Table(name="structure_category_ebay", uniqueConstraints={@ORM\UniqueConstraint(name="category_id_unique", columns={"category_id"})}, indexes={@ORM\Index(name="idx_category_parent_id", columns={"category_parent_id"})})
+ * @ORM\Table(name="structure_category_ebay", uniqueConstraints={@ORM\UniqueConstraint(name="category_unique", columns={"data_source_regional_id", "category_id"})}, indexes={@ORM\Index(name="idx_category_parent_id", columns={"category_parent_id"}), @ORM\Index(name="idx_data_source_regional_id", columns={"data_source_regional_id"}), @ORM\Index(name="idx_category_level", columns={"category_level"})})
  * @ORM\Entity
  */
 class StructureCategoryEbay
@@ -25,21 +25,21 @@ class StructureCategoryEbay
     /**
      * @var integer
      *
-     * @ORM\Column(name="category_id", type="integer", nullable=true)
+     * @ORM\Column(name="category_id", type="integer", nullable=false)
      */
     private $categoryId = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="category_parent_id", type="integer", nullable=true)
+     * @ORM\Column(name="category_parent_id", type="integer", nullable=false)
      */
     private $categoryParentId = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="category_level", type="integer", nullable=true)
+     * @ORM\Column(name="category_level", type="integer", nullable=false)
      */
     private $categoryLevel = '0';
 
@@ -49,6 +49,16 @@ class StructureCategoryEbay
      * @ORM\Column(name="category_name", type="string", length=255, nullable=false)
      */
     private $categoryName;
+
+    /**
+     * @var \Ebay\Entity\DataSourceRegional
+     *
+     * @ORM\ManyToOne(targetEntity="Ebay\Entity\DataSourceRegional")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="data_source_regional_id", referencedColumnName="id")
+     * })
+     */
+    private $dataSourceRegional;
 
     /**
      * Get id
@@ -154,6 +164,30 @@ class StructureCategoryEbay
     public function getCategoryName()
     {
         return $this->categoryName;
+    }
+
+    /**
+     * Set dataSourceRegional
+     *
+     * @param \Ebay\Entity\DataSourceRegional $dataSourceRegional
+     *
+     * @return StructureCategoryEbay
+     */
+    public function setDataSourceRegional(\Ebay\Entity\DataSourceRegional $dataSourceRegional = null)
+    {
+        $this->dataSourceRegional = $dataSourceRegional;
+
+        return $this;
+    }
+
+    /**
+     * Get dataSourceRegional
+     *
+     * @return \Ebay\Entity\DataSourceRegional
+     */
+    public function getDataSourceRegional()
+    {
+        return $this->dataSourceRegional;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Ebay\Mapper;
 
-interface ConsoleCategoryInterface
+interface CategoryInterface
 {
     public function findEbayCategoryBy($level, $idParent);
 }

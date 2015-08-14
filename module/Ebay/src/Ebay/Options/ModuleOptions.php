@@ -14,6 +14,19 @@ class ModuleOptions extends AbstractOptions
     protected $appId;
     protected $findingApiVersion  = '1.13.0';
     protected $shoppingApiVersion = '897';
+    protected $tradingApiVersion  = '933';
+    protected $token              = '';
+    protected $region = [
+        'EBAY-US',      // United States
+        'EBAY-ENCA',    // Canada (English)
+        'EBAY-GB',      // UK
+        'EBAY-AU',      // Australia
+        'EBAY-IN',      // India
+        'EBAY-IE',      // Ireland
+        'EBAY-MY',      // Malaysia
+        'EBAY-PH',      // Philippines
+        'EBAY-SG',      // Singapore
+    ];
     protected $sortOrder = [
         'BestMatch'                 => 'Best Match',
         'BidCountFewest'            => 'Bid Count Fewest',
@@ -27,11 +40,9 @@ class ModuleOptions extends AbstractOptions
         'PricePlusShippingLowest'   => 'Price Plus Shipping Lowest',
         'StartTimeNewest'           => 'Start Time Newest'
     ];
-    protected $postalCode       = '';
     protected $countryCodeType  = [
         'US'
     ];
-    protected $categories       = [];
     protected $delimiter        = ',';
 
     /**
@@ -83,6 +94,54 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
+     * @return string
+     */
+    public function getTradingApiVersion()
+    {
+        return $this->tradingApiVersion;
+    }
+
+    /**
+     * @param string $tradingApiVersion
+     */
+    public function setTradingApiVersion($tradingApiVersion)
+    {
+        $this->tradingApiVersion = $tradingApiVersion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param array $region
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+    }
+
+    /**
      * @return array
      */
     public function getSortOrder()
@@ -96,22 +155,6 @@ class ModuleOptions extends AbstractOptions
     public function setSortOrder($sortOrder)
     {
         $this->sortOrder = $sortOrder;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPostalCode()
-    {
-        return $this->postalCode;
-    }
-
-    /**
-     * @param string $postalCode
-     */
-    public function setPostalCode($postalCode)
-    {
-        $this->postalCode = $postalCode;
     }
 
     /**

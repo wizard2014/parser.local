@@ -4,14 +4,16 @@ namespace Ebay\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use Ebay\Entity\StructureCategoryEbay;
-
-class ConsoleCategory implements ConsoleCategoryInterface
+class Category implements CategoryInterface
 {
     /**
      * @var EntityManagerInterface
      */
     protected $em;
+    /**
+     * @var \Ebay\Entity\StructureCategoryEbay
+     */
+    protected $entity = \Ebay\Entity\StructureCategoryEbay::class;
 
     /**
      * @param EntityManagerInterface $em
@@ -24,6 +26,22 @@ class ConsoleCategory implements ConsoleCategoryInterface
     public function findEbayCategoryBy($level, $idParent = null)
     {
 
+    }
+
+    /**
+     * @return \Ebay\Entity\StructureCategoryEbay
+     */
+    public function getEntity()
+    {
+        return new $this->entity;
+    }
+
+    /**
+     * @param \Ebay\Entity\StructureCategoryEbay $entity
+     */
+    public function setEntity($entity)
+    {
+        $this->entity = $entity;
     }
 
     /**
@@ -40,6 +58,14 @@ class ConsoleCategory implements ConsoleCategoryInterface
     public function flush()
     {
         $this->em->flush();
+    }
+
+    /**
+     * clear
+     */
+    public function clear()
+    {
+        $this->em->clear();
     }
 
     /**
