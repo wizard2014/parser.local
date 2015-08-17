@@ -29,20 +29,6 @@ return [
                     ],
                 ],
             ],
-            'console' => [
-                'type'    => 'Literal',
-                'options' => [
-                    'route'    => '/console',
-                    'defaults' => [
-                        '__NAMESPACE__' => 'Ebay\Controller',
-                        'controller'    => 'Console',
-                        'action'        => 'index',
-                    ],
-                ],
-
-            ],
-
-
         ],
     ],
     'controllers' => [
@@ -67,6 +53,15 @@ return [
     'console' => [
         'router' => [
             'routes' => [
+                'ebay-category' => [
+                    'options' => [
+                        'route'    => 'ebay-category',
+                        'defaults' => [
+                            'controller' => 'Ebay\Controller\Console',
+                            'action' => 'index'
+                        ],
+                    ],
+                ],
             ],
         ],
     ],

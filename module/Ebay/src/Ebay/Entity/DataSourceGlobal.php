@@ -30,13 +30,6 @@ class DataSourceGlobal
     private $name;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Ebay\Entity\User", mappedBy="dataSourceGlobal")
-     */
-    private $user;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -76,39 +69,5 @@ class DataSourceGlobal
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Add user
-     *
-     * @param \User\Entity\User $user
-     *
-     * @return DataSourceGlobal
-     */
-    public function addUser(\User\Entity\User $user)
-    {
-        $this->user[] = $user;
-
-        return $this;
-    }
-
-    /**
-     * Remove user
-     *
-     * @param \User\Entity\User $user
-     */
-    public function removeUser(\User\Entity\User $user)
-    {
-        $this->user->removeElement($user);
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 }

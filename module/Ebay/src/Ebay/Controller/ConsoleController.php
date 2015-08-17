@@ -2,8 +2,6 @@
 
 namespace Ebay\Controller;
 
-ini_set('max_execution_time', 120);
-
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Console\Request as ConsoleRequest;
 
@@ -11,7 +9,6 @@ class ConsoleController extends AbstractActionController
 {
     protected $mapper;
     protected $categoryService;
-    private $batchSize = 6000;
 
     /**
      * @param $mapper
@@ -28,24 +25,30 @@ class ConsoleController extends AbstractActionController
      */
     public function indexAction()
     {
+        $request = $this->getRequest();
+
+        if (!$request instanceof ConsoleRequest) {
+            throw new \RuntimeException('You can only use this action from a console!');
+        }
+
         $categories = $this->categoryService->getCategoryList();
 
-        foreach ($categories as $i => $category) {
-            $categoryItem = $this->mapper->getEntity();
+        $region = $this->mapper->getRegionById(0); // Ebay US
+
+        foreach ($categories as $category) {
+            $categoryItem = $this->mapper->getCategoryEntity();
 
             $categoryItem
                 ->setCategoryLevel($category->CategoryLevel)
                 ->setCategoryName($category->CategoryName)
                 ->setCategoryId($category->CategoryID)
-                ->setCategoryParentId($category->CategoryParentID[0]);
+                ->setCategoryParentId($category->CategoryParentID[0])
+                ->setDataSourceRegional($region);
 
             $this->mapper->persist($categoryItem);
-
-            if (($i % $this->batchSize) == 0) {
-                $this->mapper->flush();
-                $this->mapper->clear();
-            }
         }
+
+        $this->mapper->flush();
 
         return 'done';
     }
