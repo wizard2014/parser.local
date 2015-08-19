@@ -183,7 +183,7 @@ class User implements UserInterface, ProviderInterface
      *
      * @param string $password
      *
-     * @return Users
+     * @return User
      */
     public function setPassword($password)
     {

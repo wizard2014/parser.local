@@ -14,8 +14,66 @@ $this->headTitle($title);
 
             <div class="tab-content">
                 <div id="ebay" class="tab-pane fade in active">
-                    <h3>eBay</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="well">
+
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>eBay</legend>
+                                <div class="form-group">
+                                    <label for="ebay-app-id" class="col-lg-2 control-label">eBay AppID</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="ebay-app-id" placeholder="eBay AppID">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="textArea" class="col-lg-2 control-label">Textarea</label>
+                                    <div class="col-lg-10">
+                                        <textarea class="form-control" rows="3" id="textArea"></textarea>
+                                        <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Radios</label>
+                                    <div class="col-lg-10">
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                                Option one is this
+                                            </label>
+                                        </div>
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                Option two can be something else
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="select" class="col-lg-2 control-label">Selects</label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="select">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+
+                    </div>
                 </div>
                 <div id="amazon" class="tab-pane fade">
                     <h3>Amazon</h3>
