@@ -50,6 +50,16 @@ return [
                     ],
                 ],
             ],
+            'get-started' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route'    => '/get-started',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\GetStarted',
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'service_manager' => [
@@ -73,7 +83,8 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index'      => 'Application\Controller\IndexController',
+            'Application\Controller\GetStarted' => 'Application\Controller\GetStartedController',
         ],
     ],
     'view_manager' => [

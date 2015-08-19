@@ -9,6 +9,9 @@ return [
             [
                 'label' => 'Home',
                 'route' => 'home',
+            ], [
+                'label' => 'Get started',
+                'route' => 'get-started',
             ],
         ],
     ],

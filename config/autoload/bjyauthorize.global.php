@@ -105,6 +105,7 @@ return [
              */
             \BjyAuthorize\Guard\Controller::class => [
                 ['controller' => 'Application\Controller\Index', 'action' => 'index', 'roles' => ['guest','user']],
+                ['controller' => 'Application\Controller\GetStarted', 'action' => 'index', 'roles' => ['guest','user']],
                 ['controller' => 'ScnSocialAuth-User', 'action' => ['login', 'provider-login', 'provider-authenticate', 'register', 'logout'], 'roles' => ['guest','user']],
                 ['controller' => 'ScnSocialAuth-HybridAuth', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Index', 'action' => ['index'], 'roles' => ['guest','user']],
@@ -137,6 +138,7 @@ return [
                 ['route' => 'zfcuser/register', 'roles' => ['guest']],
                 // Below is the default index action used by the ZendSkeletonApplication
                 ['route' => 'home', 'roles' => ['guest', 'user']],
+                ['route' => 'get-started', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/login', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/login/provider', 'roles' => ['guest', 'user']],

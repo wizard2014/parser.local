@@ -231,7 +231,7 @@ class User implements UserInterface, ProviderInterface
      *
      * @param \User\Entity\Role $role
      *
-     * @return Users
+     * @return User
      */
     public function addRole(\User\Entity\Role $role)
     {
