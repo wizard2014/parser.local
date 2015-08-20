@@ -5,7 +5,7 @@ return [
         'memcached' => [ //can be called directly via SM in the name of 'memcached'
               'adapter' => [
                   'name'     =>'memcached',
-                  'lifetime' => 7200,
+                  'lifetime' => 86400,
                   'options'  => [
                       'servers' => [
                           [

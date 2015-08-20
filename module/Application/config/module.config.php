@@ -50,6 +50,7 @@ return [
                     ],
                 ],
             ],
+
             'get-started' => [
                 'type' => 'Literal',
                 'options' => [
@@ -60,6 +61,7 @@ return [
                     ],
                 ],
             ],
+
         ],
     ],
     'service_manager' => [
@@ -101,6 +103,9 @@ return [
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+        'strategies' => [
+            'ViewJsonStrategy'
         ],
     ],
     // Placeholder for console routes
