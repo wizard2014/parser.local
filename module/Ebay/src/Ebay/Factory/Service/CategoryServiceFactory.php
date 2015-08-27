@@ -13,7 +13,7 @@ class CategoryServiceFactory implements FactoryInterface
     /**
      * @param ServiceLocatorInterface $serviceLocator
      *
-     * @return Category
+     * @return CategoryService
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

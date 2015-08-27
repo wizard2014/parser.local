@@ -8,15 +8,20 @@ use Zend\Console\Request as ConsoleRequest;
 class ConsoleController extends AbstractActionController
 {
     protected $mapper;
+    protected $cache;
     protected $categoryService;
+    private $cacheArr     = [];
+    private $ebayGlobalId = null;
 
     /**
      * @param $mapper
+     * @param $cache
      * @param $categoryService
      */
-    public function __construct($mapper, $categoryService)
+    public function __construct($mapper, $cache, $categoryService)
     {
         $this->mapper = $mapper;
+        $this->cache  = $cache;
         $this->categoryService = $categoryService;
     }
 
@@ -34,6 +39,7 @@ class ConsoleController extends AbstractActionController
         $categories = $this->categoryService->getCategoryList();
 
         $region = $this->mapper->getRegionById(0); // Ebay US
+        $this->ebayGlobalId = $region->getEbayGlobalId();
 
         foreach ($categories as $category) {
             $categoryItem = $this->mapper->getCategoryEntity();
@@ -46,10 +52,28 @@ class ConsoleController extends AbstractActionController
                 ->setDataSourceRegional($region);
 
             $this->mapper->persist($categoryItem);
+
+            $this->cacheArr[$this->ebayGlobalId][$category->CategoryLevel][] = [
+                'categoryId'        => $category->CategoryID,
+                'categoryParentId'  => $category->CategoryParentID[0],
+                'categoryName'      => $category->CategoryName,
+            ];
         }
 
         $this->mapper->flush();
 
+        $this->setInCache();
+
         return 'done';
+    }
+
+    /**
+     * Set Category list in cache
+     */
+    protected function setInCache()
+    {
+        if (!empty($this->cacheArr)) {
+            $this->cache->setItem($this->ebayGlobalId, json_encode($this->cacheArr));
+        }
     }
 }

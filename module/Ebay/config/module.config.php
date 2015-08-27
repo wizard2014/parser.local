@@ -32,10 +32,8 @@ return [
         ],
     ],
     'controllers' => [
-        'invokables' => [
-            'Ebay\Controller\Index' => 'Ebay\Controller\IndexController',
-        ],
         'factories' => [
+            'Ebay\Controller\Index'   => 'Ebay\Factory\Controller\IndexControllerFactory',
             'Ebay\Controller\Console' => 'Ebay\Factory\Controller\ConsoleControllerFactory',
         ],
     ],

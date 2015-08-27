@@ -5,15 +5,16 @@ namespace Ebay\Factory\Controller;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Ebay\Controller\ConsoleController;
+use Ebay\Controller\IndexController;
+use Ebay\Options\ModuleOptions;
 use Ebay\Mapper\Category as CategoryMapper;
 
-class ConsoleControllerFactory implements FactoryInterface
+class IndexControllerFactory implements FactoryInterface
 {
     /**
      * @param ServiceLocatorInterface $serviceLocator
      *
-     * @return ConsoleController
+     * @return IndexController
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -22,10 +23,10 @@ class ConsoleControllerFactory implements FactoryInterface
 
         $cache = $sm->get('memcached');
 
-        $categoryService = $sm->get(\Ebay\Service\Category::class);
+        $options = new ModuleOptions($sm->get('Config')['application_options']);
 
         $mapper = new CategoryMapper($em);
 
-        return new ConsoleController($mapper, $cache, $categoryService);
+        return new IndexController($mapper, $cache, $options);
     }
 }

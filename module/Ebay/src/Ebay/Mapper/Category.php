@@ -28,11 +28,6 @@ class Category implements CategoryInterface
         $this->em = $em;
     }
 
-    public function findEbayCategoryBy($level, $idParent = null)
-    {
-
-    }
-
     /**
      * @param $idRegion
      *

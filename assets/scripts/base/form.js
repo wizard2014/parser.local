@@ -8,7 +8,7 @@
         hash     = window.location.hash.split('#')[1];
 
     function urlCheck(hash, pathName) {
-        var hashes = ['ebay'],
+        var hashes = ['/ebay'],
             route  = '/get-started';
 
         pathName = pathName || window.location.pathname;
@@ -19,7 +19,7 @@
     function makeCall(hash) {
         $.ajax({
             type: 'POST',
-            url: '/' + hash,
+            url: hash,
 
             beforeSend: function() {
 
