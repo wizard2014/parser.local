@@ -26,7 +26,9 @@
             }
         })
             .done(function(data) {
-                console.log(data);
+                var region    = data.region;
+
+                console.log(region);
             })
             .fail(function() {
 

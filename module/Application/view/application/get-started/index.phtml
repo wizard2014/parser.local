@@ -15,10 +15,94 @@ $this->headTitle($title);
                     <li>Amazon</li>
                     <li>...</li>
                 </ul>
+
+
             </div>
 
-            <div class="form-place hide">
-                <!-- Form here -->
+            <div class="form-place well hide">
+                <form action="#" method="post" class="form">
+                    <div class="row">
+                        <div class="col col-sm-3">
+                            <div class="form-group">
+                                <label for="sortOrder" class="label label-primary">Sort Order: </label>
+                                <select name="sortOrder" id="sortOrder" class="form-control">
+                                    <!-- sort order -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col col-sm-6">
+                            <div class="form-group">
+                                <label for="category" class="label label-primary">Category: </label>
+                                <select name="category" id="category" class="form-control">
+                                    <!-- category -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-sm-12">
+                            <div class="form-group">
+                                <label for="keyword" class="label label-primary">Keyword</label>
+                                <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Keyword">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-sm-3">
+                            <div class="form-group">
+                                <label for="minPrice" class="label label-primary">Min Price: </label>
+                                <input type="number" name="minPrice" id="minPrice" class="form-control" placeholder="5">
+                            </div>
+                        </div>
+
+                        <div class="col col-sm-3">
+                            <div class="form-group">
+                                <label for="maxPrice" class="label label-primary">Max Price: </label>
+                                <input type="number" name="maxPrice" id="maxPrice" class="form-control" placeholder="100">
+                            </div>
+                        </div>
+
+                        <div class="col col-sm-6">
+                            <span class="label label-primary">Listing Type:</span>
+                            <div class="checkbox" id="listingType">
+                                <label>
+                                    <input type="checkbox" name="listingType[]" value="Auction"> Auction
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="listingType[]" value="AuctionWithBIN"> Auction With BIN
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="listingType[]" value="FixedPrice"> Fixed Price
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-sm-6">
+                            <div class="form-group">
+                                <label for="entriesPerPage" class="label label-primary">Entries Per Page: </label>
+                                <select name="entriesPerPage" id="entriesPerPage" class="form-control">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col col-sm-6">
+                            <div class="form-group">
+                                <label for="returnsPageNumbers" class="label label-primary">Returns Page Numbers: </label>
+                                <input type="number" name="returnsPageNumbers" id="returnsPageNumbers" class="form-control" min="1" step="1" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Send" class="btn btn-primary btn-block">
+                </form>
             </div>
         </div>
     </div>

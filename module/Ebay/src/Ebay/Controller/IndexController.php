@@ -28,11 +28,11 @@ class IndexController extends AbstractActionController
     {
         $request = $this->getRequest();
 
-//        $categories = $this->cache->getItem('EBAY-US');
+        $region = $this->options->getRegion();
 
         if ($request->isXmlHttpRequest()) {
             return new JsonModel([
-                'data' => 'ebay'
+                'region'    => $region,
             ]);
         }
 
