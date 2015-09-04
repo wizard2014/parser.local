@@ -1,5 +1,5 @@
 // AJAX call
-(function() {
+/*(function() {
     if (!'onhashchange' in window) {
         alert('The browser doesn\'t supports the hashchange event!');
     }
@@ -47,4 +47,4 @@
 
     // on page load
     if (urlCheck(hash, pathName)) { makeCall(hash) }
-})();
+})();*/

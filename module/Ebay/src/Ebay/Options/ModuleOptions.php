@@ -16,30 +16,6 @@ class ModuleOptions extends AbstractOptions
     protected $shoppingApiVersion = '897';
     protected $tradingApiVersion  = '933';
     protected $token              = '';
-    protected $region = [
-        'EBAY-US',      // United States
-        'EBAY-ENCA',    // Canada (English)
-        'EBAY-GB',      // UK
-        'EBAY-AU',      // Australia
-        'EBAY-IN',      // India
-        'EBAY-IE',      // Ireland
-        'EBAY-MY',      // Malaysia
-        'EBAY-PH',      // Philippines
-        'EBAY-SG',      // Singapore
-    ];
-    protected $sortOrder = [
-        'BestMatch'                 => 'Best Match',
-        'BidCountFewest'            => 'Bid Count Fewest',
-        'BidCountMost'              => 'Bid Count Most',
-        'CountryAscending'          => 'Country Ascending',
-        'CountryDescending'         => 'Country Descending',
-        'CurrentPriceHighest'       => 'Current Highest Price',
-        'DistanceNearest'           => 'Nearest Distance',
-        'EndTimeSoonest'            => 'End Time Soonest',
-        'PricePlusShippingHighest'  => 'Price Plus Shipping Highest',
-        'PricePlusShippingLowest'   => 'Price Plus Shipping Lowest',
-        'StartTimeNewest'           => 'Start Time Newest'
-    ];
     protected $countryCodeType  = [
         'US'
     ];
@@ -123,38 +99,6 @@ class ModuleOptions extends AbstractOptions
     public function setToken($token)
     {
         $this->token = $token;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRegion()
-    {
-        return $this->region;
-    }
-
-    /**
-     * @param array $region
-     */
-    public function setRegion($region)
-    {
-        $this->region = $region;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSortOrder()
-    {
-        return $this->sortOrder;
-    }
-
-    /**
-     * @param array $sortOrder
-     */
-    public function setSortOrder($sortOrder)
-    {
-        $this->sortOrder = $sortOrder;
     }
 
     /**

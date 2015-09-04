@@ -38,6 +38,9 @@ class ConsoleController extends AbstractActionController
 
         $categories = $this->categoryService->getCategoryList();
 
+        /**
+         * @todo fix region
+         */
         $region = $this->mapper->getRegionById(0); // Ebay US
         $this->ebayGlobalId = $region->getEbayGlobalId();
 

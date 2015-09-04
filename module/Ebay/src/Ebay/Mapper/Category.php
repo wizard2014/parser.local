@@ -16,57 +16,11 @@ class Category implements CategoryInterface
     protected $categoryEntity = \Ebay\Entity\StructureCategoryEbay::class;
 
     /**
-     * @var \Ebay\Entity\DataSourceRegional
-     */
-    protected $dataSourceRegionalEntity = \Ebay\Entity\DataSourceRegional::class;
-
-    /**
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-    }
-
-    /**
-     * @param $idRegion
-     *
-     * @return object
-     */
-    public function getRegionById($idRegion)
-    {
-        $entity = $this->getDataSourceRegionalEntity();
-
-        $regionObj = $this->em->getRepository($entity)->findOneBy(['ebaySiteId' => $idRegion]);
-
-        return $regionObj;
-    }
-
-    /**
-     * @return array
-     */
-    public function getAllEnRegions()
-    {
-        $result = [];
-
-        $entity = $this->getDataSourceRegionalEntity();
-
-        $enRegionsObj = $this->em->getRepository($entity)->findAll();
-
-        foreach ($enRegionsObj as $i => $regionItem) {
-            if (strpos($regionItem->getEbayLanguage(), 'en') !== false) {
-                $result[$i]['id']               = $regionItem->getId();
-                $result[$i]['region']           = $regionItem->getRegion();
-                $result[$i]['url']              = $regionItem->getUrl();
-                $result[$i]['ebayGlobalId']     = $regionItem->getEbayGlobalId();
-                $result[$i]['ebayLanguage']     = $regionItem->getEbayLanguage();
-                $result[$i]['ebayTerritory']    = $regionItem->getEbayTerritory();
-                $result[$i]['ebaySiteName']     = $regionItem->getEbaySiteName();
-                $result[$i]['ebaySiteId']       = $regionItem->getEbaySiteId();
-            }
-        }
-
-        return array_values($result);
     }
 
     /**
@@ -83,22 +37,6 @@ class Category implements CategoryInterface
     public function setCategoryEntity($entity)
     {
         $this->categoryEntity = $entity;
-    }
-
-    /**
-     * @return \Ebay\Entity\DataSourceRegional
-     */
-    public function getDataSourceRegionalEntity()
-    {
-        return $this->dataSourceRegionalEntity;
-    }
-
-    /**
-     * @param \Ebay\Entity\DataSourceRegional $dataSourceRegionalEntity
-     */
-    public function setDataSourceRegionalEntity($dataSourceRegionalEntity)
-    {
-        $this->dataSourceRegionalEntity = $dataSourceRegionalEntity;
     }
 
     /**
