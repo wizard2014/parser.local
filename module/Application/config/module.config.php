@@ -96,8 +96,8 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.twig',
+            'application/index/index' => __DIR__ . '/../view/application/index/index.twig',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ],
@@ -105,7 +105,8 @@ return [
             __DIR__ . '/../view',
         ],
         'strategies' => [
-            'ViewJsonStrategy'
+            'ViewJsonStrategy',
+            'ZfcTwigViewStrategy',
         ],
     ],
     // Placeholder for console routes
@@ -113,6 +114,15 @@ return [
         'router' => [
             'routes' => [
             ],
+        ],
+    ],
+    'zfctwig' => [
+        'extensions' => [
+            'Application\Extension\Instance',
+            'Twig_Extension_Debug',
+        ],
+        'environment_options' => [
+            'debug' => true
         ],
     ],
 ];

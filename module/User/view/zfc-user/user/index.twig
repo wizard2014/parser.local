@@ -1,0 +1,14 @@
+{% extends 'layout/layout.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col col-md-12">
+            <div style="float:left; padding-right:16px;">
+                {{ gravatar.zfcUserIdentity().getEmail()|raw }}
+            </div>
+
+            <h3>{{ translate('Hello') }}, {{ zfcUserDisplayName() }}!</h3>
+            <a href="{{ url('zfcuser/logout') }}">[{{ translate('Sign Out') }}]</a>
+        </div>
+    </div>
+{% endblock %}

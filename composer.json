@@ -16,6 +16,7 @@
         "bjyoungblood/bjy-authorize": "1.4.0",
         "zf-commons/zfc-admin": "v0.2.1",
         "san/san-session-toolbar": "0.2.0",
-        "dts/ebay-sdk-php": "0.*"
+        "dts/ebay-sdk-php": "0.*",
+        "zf-commons/zfc-twig": "^1.2"
     }
 }

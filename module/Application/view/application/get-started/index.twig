@@ -1,12 +1,13 @@
-<?php
-$title = 'Get Started';
-$this->headTitle($title);
-?>
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Get Started') }}{% endblock %}
+
+{% block content %}
 <div class="row">
     <div class="col col-md-12">
         <div class="container">
             <h2 class="text-center">
-                <a href="<?php echo $this->url('get-started'); ?>">Select source</a>
+                <a href="{{ url('get-started') }}">Select source</a>
             </h2>
 
             <div class="well source-list">
@@ -30,7 +31,7 @@ $this->headTitle($title);
                     <div class="row">
                         <div class="col col-sm-3">
                             <div class="form-group">
-                                <label for="sortOrder" class="label label-primary">Sort Order: </label>
+                                <label for="sortOrder" class="label label-primary">Sort Order:</label>
                                 <select name="sortOrder" id="sortOrder" class="form-control">
                                     <!-- sort order -->
                                 </select>
@@ -38,7 +39,7 @@ $this->headTitle($title);
                         </div>
                         <div class="col col-sm-6">
                             <div class="form-group">
-                                <label for="category" class="label label-primary">Category: </label>
+                                <label for="category" class="label label-primary">Category:</label>
                                 <select name="category" id="category" class="form-control">
                                     <!-- category -->
                                 </select>
@@ -49,7 +50,7 @@ $this->headTitle($title);
                     <div class="row">
                         <div class="col col-sm-12">
                             <div class="form-group">
-                                <label for="keyword" class="label label-primary">Keyword</label>
+                                <label for="keyword" class="label label-primary">Keyword:</label>
                                 <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Keyword">
                             </div>
                         </div>
@@ -113,3 +114,4 @@ $this->headTitle($title);
         </div>
     </div>
 </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Sign In') }}{% endblock %}
+
+{% set socialSignIn = true %}
+
+{% block content %}
+    {% if options.getSocialLoginOnly() == false %}
+        <div class="container">
+            <div class="row">
+                <div class="col col-md-6 col-md-offset-3">
+                    <div class="auth-box">
+                        <div class="auth">
+                            {{ zfcUserLogin|raw }}
+                        </div>
+
+                        <div class="social-auth">
+                            {% for provider in options.getEnabledProviders() %}
+                                {% if socialSignIn %}
+                                    {% set socialSignIn = false %}
+                                {% endif %}
+
+                                {% if provider == 'google' %}
+                                    <a href="/user/login/google"><i class="fa fa-4x fa-google-plus-square"></i></a>
+                                {% endif %}
+
+                                {% if provider == 'facebook' %}
+                                    <a href="/user/login/facebook"><i class="fa fa-4x fa-facebook-square"></i></a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -14,3 +14,4 @@ node_modules
 puphpet
 .gulp-scss-cache
 .sass-cache
+auth.json

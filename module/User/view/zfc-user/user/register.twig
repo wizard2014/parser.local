@@ -1,0 +1,76 @@
+{% set placeholders = ['Email', 'Password', 'Password Verify'] %}
+{% set counter = 0 %}
+
+<h1 class="text-center form-header">{{ translate('Register') }}</h1>
+
+{% if (enableRegistration) %}
+    {% set form = registerForm %}
+    {% do form.prepare() %}
+
+    {% do form.setAttribute('action', url('zfcuser/register')) %}
+    {% do form.setAttribute('class', 'form') %}
+
+    {{ form().openTag(form)|raw }}
+
+    {% if formElementErrors(form.get('email')) or formElementErrors(form.get('password')) or formElementErrors(form.get('passwordVerify')) %}
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Error!</strong>
+
+            <p>Registration failed. Please try again.</p>
+        </div>
+    {% endif %}
+
+    {% for element in form %}
+
+        <div class="form-group{% if formElementErrors(element) %} has-error{% endif %}">
+            {% if element is not instanceof('Zend\\Form\\Element\\Button') %}
+                <span class="sr-only">{{ formLabel(element) }}</span>
+            {% endif %}
+
+            {% if element is instanceof('Zend\\Form\\Element\\Button') %}
+                {{ formButton(element.setAttribute('class', 'btn btn-primary btn-lg btn-block submit-btn')) }}
+            {% elseif element is instanceof('Zend\\Form\\Element\\Captcha') %}
+                {{ formCaptcha(element) }}{{ formElementErrors(element) }}
+            {% else %}
+                {% if placeholders[counter] == 'Email' %}
+                    {{ formInput(element.setAttributes({
+                        'class'        : 'form-control',
+                        'placeholder'  : placeholders[counter],
+                        'type'         : 'email',
+                        'autocomplete' : 'off',
+
+                    })) }}
+                {% else %}
+                    {{ formInput(element.setAttributes({
+                        'class'         : 'form-control',
+                        'placeholder'   : placeholders[counter],
+                        'autocomplete'  : 'off',
+
+                    })) }}
+                {% endif %}
+
+                {% if formElementErrors(element) %}
+                    {{ formElementErrors()
+                    .setMessageOpenFormat('<p class="help-block">')
+                    .setMessageSeparatorString('</p><p class="help-block">')
+                    .setMessageCloseString('</p>')
+                    .render(element)|raw }}
+                {% endif %}
+            {% endif %}
+
+            {% set counter = counter + 1 %}
+        </div>
+
+    {% endfor %}
+
+    {% if (redirect) %}
+        <input type="hidden" name="redirect" value="{{ redirect|e }}">
+    {% endif %}
+
+    {{ form().closeTag(form)|raw }}
+
+    <p>{{ translate('Already registered?') }} <a href="{{ url('zfcuser/login') }}">{{ translate('Sign in!') }}</a></p>
+{% else %}
+    <h3 class="text-center text-info">Registration is disabled</h3>
+{% endif %}

@@ -1,0 +1,57 @@
+<h1 class="text-center form-header">{{ translate('Sign In') }}</h1>
+
+{% set form = loginForm %}
+{% do form.prepare() %}
+
+{% do form.setAttributes({
+    'action': url('zfcuser/login'),
+    'class' : 'form'
+}) %}
+
+{{ form().openTag(form)|raw }}
+
+{% if formElementErrors(form.get('identity')) %}
+    <div class="alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>Error!</strong>
+
+        {{ formElementErrors()
+        .setMessageOpenFormat('<p>')
+        .setMessageCloseString('</p>')
+        .render(form.get('identity'))|raw }}
+    </div>
+{% endif %}
+
+<div class="form-group{% if formElementErrors(form.get('identity')) %} has-error{% endif %}">
+    <span class="sr-only">{{ formLabel(form.get('identity')) }}</span>
+    {{ formInput(form.get('identity').setAttributes({
+        'class'      : 'form-control',
+        'id'         : 'identity',
+        'type'       : 'email',
+        'autofocus'  : true,
+        'required'   : true,
+        'placeholder': 'Email',
+    })) }}
+</div>
+
+<div class="form-group{% if formElementErrors(form.get('identity')) %} has-error{% endif %}">
+    <span class="sr-only">{{ formLabel(form.get('credential')) }}</span>
+    {{ formInput(form.get('credential').setAttributes({
+        'class'      : 'form-control',
+        'id'         : 'credential',
+        'required'   : true,
+        'placeholder': 'Password',
+    })) }}
+</div>
+
+{% if redirect %}
+    <input type="hidden" name="redirect" value="{{ redirect|e }}">
+{% endif %}
+
+{{ formButton(form.get('submit').setAttribute('class', 'btn btn-primary btn-lg btn-block submit-btn')) }}
+
+{{ form().closeTag(form)|raw }}
+
+{% if enableRegistration %}
+    <p>{{ translate('Not registered?') }} <a href="{{ url('zfcuser/register') }}{{ redirect ? '?redirect=' . redirect|e : '' }}">{{ translate('Sign up!') }}</a></p>
+{% endif %}

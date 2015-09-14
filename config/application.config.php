@@ -18,11 +18,12 @@ return [
         'ZfcBase',
         'ZfcUser',
         'ZfcUserDoctrineORM',
+        'ZfcTwig',
         'ScnSocialAuth',
         'ScnSocialAuthDoctrineORM',
         'BjyAuthorize',
         'User',
-        'Ebay',
+//        'Ebay',
     ],
 
     // These are various options for the listeners attached to the ModuleManager
