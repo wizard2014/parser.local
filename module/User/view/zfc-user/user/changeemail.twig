@@ -1,0 +1,58 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Change Email') }}{% endblock %}
+
+{% block content %}
+    <h3>{{ translate('Change Email for %s')|format(zfcUserDisplayName()) }}</h3>
+
+    {% if status === true %}
+        <div class="alert alert-success">{{ translate('Email address changed successfully.') }}</div>
+    {% elseif status === false %}
+        <div class="alert alert-error">{{ translate('Unable to update your email address. Please try again.') }}</div>
+    {% endif %}
+
+    {% set form = changeEmailForm %}
+    {% do form.prepare() %}
+
+    {% do form.setAttributes({
+        'action': url('zfcuser/changeemail'),
+        'class' : 'form'
+    }) %}
+
+    {{ form().openTag(form)|raw }}
+
+    {% for element in form %}
+
+    <div class="form-group{% if formElementErrors(element) %} has-error{% endif %}">
+
+        {% if element->getLabel() is not null %}
+            {{ formLabel(element) }}
+        {% endif %}
+
+        {% if element is instanceof('Zend\\Form\\Element\\Button') %}
+            {{ formButton(element) }}
+        {% elseif element is instanceof('Zend\\Form\\Element\\Captcha') %}
+            formCaptcha(element)
+        {% else %}
+            formInput(element)
+        {% endif %}
+
+        {% if formElementErrors(element) %}
+            {{ formElementErrors()
+            .setMessageOpenFormat('<p class="help-block">')
+            .setMessageSeparatorString('</p><p class="help-block">')
+            .setMessageCloseString('</p>')
+            .render(element)|raw }}
+        {% endif %}
+    </div>
+
+    {% endfor %}
+
+    {% if (redirect) %}
+        <input type="hidden" name="redirect" value="{{ redirect|e }}">
+    {% endif %}
+
+    {{ formButton(form.get('submit').setAttribute('class', 'btn btn-primary btn-lg btn-block submit-btn')) }}
+
+    {{ form().closeTag(form)|raw }}
+{% endblock %}
