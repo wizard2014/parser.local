@@ -1,10 +1,12 @@
 {% extends 'layout/layout.twig' %}
 
+{% block title %}{{ zfcUserDisplayName() }}{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col col-md-12">
-            <div style="float:left; padding-right:16px;">
-                {{ gravatar.zfcUserIdentity().getEmail()|raw }}
+            <div>
+                {{ gravatar(zfcUserIdentity().getEmail())|raw }}
             </div>
 
             <h3>{{ translate('Hello') }}, {{ zfcUserDisplayName() }}!</h3>

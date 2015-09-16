@@ -23,6 +23,7 @@ return [
         'ScnSocialAuthDoctrineORM',
         'BjyAuthorize',
         'User',
+        'Utility'
 //        'Ebay',
     ],
 
