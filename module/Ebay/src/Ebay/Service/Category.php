@@ -10,11 +10,19 @@ class Category
 {
     protected $options;
 
+    /**
+     * @param $options
+     */
     public function __construct($options)
     {
         $this->options = $options;
     }
 
+    /**
+     * @param int $region
+     *
+     * @return Types\CategoryType[]|Types\ErrorType[]
+     */
     public function getCategoryList($region = 0 /* EBAY-US */)
     {
         $service = new Services\TradingService([

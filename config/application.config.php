@@ -23,8 +23,8 @@ return [
         'ScnSocialAuthDoctrineORM',
         'BjyAuthorize',
         'User',
-        'Utility'
-//        'Ebay',
+        'Utility',
+        'Ebay',
     ],
 
     // These are various options for the listeners attached to the ModuleManager

@@ -116,13 +116,4 @@ return [
             ],
         ],
     ],
-    'zfctwig' => [
-        'extensions' => [
-            'Application\Extension\Instance',
-            'Twig_Extension_Debug',
-        ],
-        'environment_options' => [
-            'debug' => true
-        ],
-    ],
 ];

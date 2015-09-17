@@ -36,38 +36,43 @@ class ConsoleController extends AbstractActionController
             throw new \RuntimeException('You can only use this action from a console!');
         }
 
-        $categories = $this->categoryService->getCategoryList();
-
-        /**
-         * @todo fix region
-         */
-        $region = $this->mapper->getRegionById(0); // Ebay US
-        $this->ebayGlobalId = $region->getEbayGlobalId();
-
-        foreach ($categories as $category) {
-            $categoryItem = $this->mapper->getCategoryEntity();
-
-            $categoryItem
-                ->setCategoryLevel($category->CategoryLevel)
-                ->setCategoryName($category->CategoryName)
-                ->setCategoryId($category->CategoryID)
-                ->setCategoryParentId($category->CategoryParentID[0])
-                ->setDataSourceRegional($region);
-
-            $this->mapper->persist($categoryItem);
-
-            $this->cacheArr[$this->ebayGlobalId][$category->CategoryLevel][] = [
-                'categoryId'        => $category->CategoryID,
-                'categoryParentId'  => $category->CategoryParentID[0],
-                'categoryName'      => $category->CategoryName,
-            ];
-        }
-
-        $this->mapper->flush();
-
-        $this->setInCache();
+        // Set eBay category into db
+        $dataSourceGlobalIdEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay')->getId();
+        $regions = $this->mapper['dataSourceRegional']->getDataByRegion($dataSourceGlobalIdEbay, 'en', 'ebay'); // ebay in english
+        $this->setEbayCategory($regions);
 
         return 'done';
+    }
+
+    /**
+     * Set eBay category
+     *
+     * @param $regions
+     *
+     * @todo add caching
+     */
+    protected function setEbayCategory($regions)
+    {
+        foreach ($regions as $region) {
+            $ebaySiteId = $region->getPropertySet()['ebay_site_id'];
+
+            $categories = $this->categoryService->getCategoryList($ebaySiteId);
+
+            foreach ($categories as $category) {
+                $categoryItem = $this->mapper['category']->getCategoryEntity();
+
+                $categoryItem
+                    ->setCategoryLevel($category->CategoryLevel)
+                    ->setCategoryName($category->CategoryName)
+                    ->setCategoryId($category->CategoryID)
+                    ->setCategoryParentId($category->CategoryParentID[0])
+                    ->setDataSourceRegional($region);
+
+                $this->mapper['category']->persist($categoryItem);
+            }
+
+            $this->mapper['category']->flush();
+        }
     }
 
     /**
@@ -75,8 +80,6 @@ class ConsoleController extends AbstractActionController
      */
     protected function setInCache()
     {
-        if (!empty($this->cacheArr)) {
-            $this->cache->setItem($this->ebayGlobalId, json_encode($this->cacheArr));
-        }
+
     }
 }

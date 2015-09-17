@@ -10,6 +10,7 @@ class Category implements CategoryInterface
      * @var EntityManagerInterface
      */
     protected $em;
+
     /**
      * @var \Ebay\Entity\StructureCategoryEbay
      */

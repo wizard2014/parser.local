@@ -7,6 +7,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Ebay\Controller\ConsoleController;
 use Ebay\Mapper\Category as CategoryMapper;
+use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
+use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
 
 class ConsoleControllerFactory implements FactoryInterface
 {
@@ -24,7 +26,11 @@ class ConsoleControllerFactory implements FactoryInterface
 
         $categoryService = $sm->get(\Ebay\Service\Category::class);
 
-        $mapper = new CategoryMapper($em);
+        $mapper = [
+            'category'            => new CategoryMapper($em),
+            'dataSourceGlobal'    => new DataSourceGlobalMapper($em),
+            'dataSourceRegional'  => new DataSourceRegionalMapper($em),
+        ];
 
         return new ConsoleController($mapper, $cache, $categoryService);
     }
