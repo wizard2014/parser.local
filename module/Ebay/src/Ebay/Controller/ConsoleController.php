@@ -84,7 +84,7 @@ class ConsoleController extends AbstractActionController
         }
 
         // add to cache
-        $this->setInCache($cache, 'ebay_category');
+        $this->setInCache('ebay_category', $cache);
     }
 
     /**
