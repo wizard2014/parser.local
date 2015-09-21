@@ -17,7 +17,7 @@ class Category implements CategoryInterface
     protected $categoryEntity = \Ebay\Entity\StructureCategoryEbay::class;
 
     /**
-     * @param EntityManagerInterface $em
+     * {@inheritdoc}
      */
     public function __construct(EntityManagerInterface $em)
     {
@@ -25,19 +25,31 @@ class Category implements CategoryInterface
     }
 
     /**
-     * @return \Ebay\Entity\StructureCategoryEbay
+     * {@inheritdoc}
      */
     public function getCategoryEntity()
     {
-        return new $this->categoryEntity;
+        return $this->categoryEntity;
     }
 
     /**
-     * @param \Ebay\Entity\StructureCategoryEbay $entity
+     * {@inheritdoc}
      */
     public function setCategoryEntity($entity)
     {
         $this->categoryEntity = $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllCategories()
+    {
+        $entity = $this->getCategoryEntity();
+
+        $categories = $this->em->getRepository($entity)->findAll();
+
+        return $categories;
     }
 
     /**
