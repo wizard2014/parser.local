@@ -51,50 +51,48 @@ class ConsoleController extends AbstractActionController
      */
     protected function setEbayCategory($regions)
     {
-        $cache = [];
-
         foreach ($regions as $region) {
             $ebaySiteId = $region->getPropertySet()['ebay_site_id'];
 
             $categories = $this->categoryService->getCategoryList($ebaySiteId);
 
             foreach ($categories as $category) {
-                $categoryEntity = $this->mapper['category']->getCategoryEntity();
-                $categoryItem   = new $categoryEntity();
+                $cache = []; // cashing array
 
-                $categoryItem
-                    ->setCategoryLevel($category->CategoryLevel)
-                    ->setCategoryName($category->CategoryName)
-                    ->setCategoryId($category->CategoryID)
-                    ->setCategoryParentId($category->CategoryParentID[0])
-                    ->setDataSourceRegional($region);
+                $categoryEntity = $this->mapper['category']->getCategoryEntity();
+
+                $categoryItem = new $categoryEntity();
+                $categoryItem->setCategoryLevel($category->CategoryLevel);
+                $categoryItem->setCategoryName($category->CategoryName);
+                $categoryItem->setCategoryId($category->CategoryID);
+                $categoryItem->setCategoryParentId($category->CategoryParentID[0]);
+                $categoryItem->setDataSourceRegional($region);
 
                 // prepare cache data
-                $cache[$region->getPropertySet()['ebay_global_id']][] = [
+                $cache[$ebaySiteId]['level_' . $category->CategoryLevel][] = [
                     'category_id'        => $category->CategoryID,
                     'category_parent_id' => $category->CategoryParentID[0],
                     'category_name'      => $category->CategoryName,
-                    'category_level'     => $category->CategoryLevel,
                 ];
+
+                // add to cache
+                $this->setInCache($ebaySiteId, $cache);
 
                 $this->mapper['category']->persist($categoryItem);
             }
 
             $this->mapper['category']->flush();
         }
-
-        // add to cache
-        $this->setInCache('ebay_category', $cache);
     }
 
     /**
      * Set Category list in cache
      *
-     * @param       $categoryKey
-     * @param array $cacheData
+     * @param $categoryKey
+     * @param $cacheData
      */
-    protected function setInCache($categoryKey, array $cacheData)
+    protected function setInCache($categoryKey, $cacheData)
     {
-        $this->cache->setItem($categoryKey, json_encode($cacheData));
+        $this->cache->setItem($categoryKey, $cacheData);
     }
 }
