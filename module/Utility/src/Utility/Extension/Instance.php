@@ -1,6 +1,7 @@
 <?php
 
 namespace Utility\Extension;
+
 use Twig_Extension;
 
 class Instance extends Twig_Extension

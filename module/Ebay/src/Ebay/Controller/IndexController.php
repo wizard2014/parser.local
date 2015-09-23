@@ -32,7 +32,7 @@ class IndexController extends AbstractActionController
 
         if ($request->isXmlHttpRequest()) {
             return new JsonModel([
-                'region'    => $region,
+                'region' => $region,
             ]);
         }
 

@@ -60,6 +60,20 @@ return [
                         'action'     => 'index',
                     ],
                 ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'default' => [
+                        'type'    => 'Segment',
+                        'options' => [
+                            'route'    => '[/:action]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ],
+                            'defaults' => [
+                            ],
+                        ],
+                    ],
+                ],
             ],
 
         ],
@@ -85,8 +99,10 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'Application\Controller\Index'      => 'Application\Controller\IndexController',
-            'Application\Controller\GetStarted' => 'Application\Controller\GetStartedController',
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+        ],
+        'factories' => [
+            'Application\Controller\GetStarted' => 'Application\Factory\Controller\GetStartedControllerFactory',
         ],
     ],
     'view_manager' => [

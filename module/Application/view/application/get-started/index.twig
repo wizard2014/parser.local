@@ -20,27 +20,26 @@
                 <div class="tab-content">
                     <div class="tab-pane fade active in" id="ebay">
                         <!-- Regions -->
-
+                        <label for="region-select" class="sr-only">Select Region:</label>
+                        <select id="region-select" class="cs-select cs-skin-border region-select">
+                            <option value="" disabled selected>Select region...</option>
+                            {% for dataSource in ebaySourceRegional %}
+                                <option value="{{ dataSource.getPropertySet().ebay_global_id }}">{{ dataSource.getRegion() }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" class="selected-item" value="">
                     </div>
                     <!-- add tabs here -->
                 </div>
             </div>
 
-            <div class="form-place well hide">
+            <div class="form-place well">
                 <form action="#" method="post" class="form">
                     <div class="row">
-                        <div class="col col-sm-3">
-                            <div class="form-group">
-                                <label for="sortOrder" class="label label-primary">Sort Order:</label>
-                                <select name="sortOrder" id="sortOrder" class="form-control">
-                                    <!-- sort order -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col col-sm-6">
+                        <div class="col col-sm-12">
                             <div class="form-group">
                                 <label for="category" class="label label-primary">Category:</label>
-                                <select name="category" id="category" class="form-control">
+                                <select name="category" id="category" class="form-control category">
                                     <!-- category -->
                                 </select>
                             </div>
@@ -48,7 +47,19 @@
                     </div>
 
                     <div class="row">
-                        <div class="col col-sm-12">
+                        <div class="col col-sm-3">
+                            <div class="form-group">
+                                <label for="sortOrder" class="label label-primary">Sort Order:</label>
+                                <select name="sortOrder" id="sortOrder" class="form-control">
+                                    <!-- sort order -->
+                                    {% for sortItem in ebaySourceGlobal.getFilterSet()['Sort Order'] %}
+                                        <option value="{{ sortItem|replace({' ': ''}) }}">{{ sortItem }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col col-sm-9">
                             <div class="form-group">
                                 <label for="keyword" class="label label-primary">Keyword:</label>
                                 <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Keyword">
@@ -74,15 +85,11 @@
                         <div class="col col-sm-6">
                             <span class="label label-primary">Listing Type:</span>
                             <div class="checkbox" id="listingType">
-                                <label>
-                                    <input type="checkbox" name="listingType[]" value="Auction"> Auction
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="listingType[]" value="AuctionWithBIN"> Auction With BIN
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="listingType[]" value="FixedPrice"> Fixed Price
-                                </label>
+                                {% for listingType in ebaySourceGlobal.getFilterSet()['Listing Type'] %}
+                                    <label>
+                                        <input type="checkbox" name="listingType[]" value="{{ listingType|replace({' ': ''}) }}"> {{ listingType }}
+                                    </label>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

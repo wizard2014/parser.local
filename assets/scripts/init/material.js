@@ -1,2 +1,4 @@
-// Material design init
+/**
+ * Material design init
+ */
 $.material.init();

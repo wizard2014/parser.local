@@ -5,3 +5,18 @@
     background-color: rgba(255, 255, 255, .1) !important;
   }
 }
+
+.tab-pane {
+  padding: 10px;
+
+  .region {
+    width: 120px;
+    height: 150px;
+    display: inline-block;
+    border: 2px solid #009688;
+    padding: 5% 20px 20px;
+    margin: 0 10px 10px 0;
+    word-wrap: break-word;
+    vertical-align: middle;
+  }
+}
