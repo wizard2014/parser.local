@@ -3,122 +3,122 @@
 {% block title %}{{ translate('Get Started') }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col col-md-12">
-        <div class="container">
-            <h2 class="text-center">
-                <a href="{{ url('get-started') }}">Select source</a>
-            </h2>
+    <div class="row">
+        <div class="col col-md-12">
+            <div class="container">
+                <h2 class="text-center">
+                    <a href="{{ url('get-started') }}">Select source</a>
+                </h2>
 
-            <div class="well source-list">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#" data-toggle="tab">eBay</a></li>
-                    <li class="disabled" data-toggle="tooltip" data-placement="top" title="Coming soon"><a>Amazon</a></li>
-                    <li class="disabled"><a>...</a></li>
-                </ul>
+                <div class="well source-list">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#" data-toggle="tab">eBay</a></li>
+                        <li class="disabled" data-toggle="tooltip" data-placement="top" title="Coming soon"><a>Amazon</a></li>
+                        <li class="disabled"><a>...</a></li>
+                    </ul>
 
-                <div class="tab-content">
-                    <div class="tab-pane fade active in" id="ebay">
-                        <!-- Regions -->
-                        <label for="region-select" class="sr-only">Select Region:</label>
-                        <select id="region-select" class="cs-select cs-skin-border region-select">
-                            <option value="" disabled selected>Select region...</option>
-                            {% for dataSource in ebaySourceRegional %}
-                                <option value="{{ dataSource.getPropertySet().ebay_global_id }}">{{ dataSource.getRegion() }}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="hidden" class="selected-item" value="">
-                    </div>
-                    <!-- add tabs here -->
-                </div>
-            </div>
-
-            <div class="form-place well">
-                <form action="#" method="post" class="form">
-                    <div class="row">
-                        <div class="col col-sm-12">
-                            <div class="form-group">
-                                <label for="category" class="label label-primary">Category:</label>
-                                <select name="category" id="category" class="form-control category">
-                                    <!-- category -->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col col-sm-3">
-                            <div class="form-group">
-                                <label for="sortOrder" class="label label-primary">Sort Order:</label>
-                                <select name="sortOrder" id="sortOrder" class="form-control">
-                                    <!-- sort order -->
-                                    {% for sortItem in ebaySourceGlobal.getFilterSet()['Sort Order'] %}
-                                        <option value="{{ sortItem|replace({' ': ''}) }}">{{ sortItem }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col col-sm-9">
-                            <div class="form-group">
-                                <label for="keyword" class="label label-primary">Keyword:</label>
-                                <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Keyword">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col col-sm-3">
-                            <div class="form-group">
-                                <label for="minPrice" class="label label-primary">Min Price: </label>
-                                <input type="number" name="minPrice" id="minPrice" class="form-control" placeholder="5">
-                            </div>
-                        </div>
-
-                        <div class="col col-sm-3">
-                            <div class="form-group">
-                                <label for="maxPrice" class="label label-primary">Max Price: </label>
-                                <input type="number" name="maxPrice" id="maxPrice" class="form-control" placeholder="100">
-                            </div>
-                        </div>
-
-                        <div class="col col-sm-6">
-                            <span class="label label-primary">Listing Type:</span>
-                            <div class="checkbox" id="listingType">
-                                {% for listingType in ebaySourceGlobal.getFilterSet()['Listing Type'] %}
-                                    <label>
-                                        <input type="checkbox" name="listingType[]" value="{{ listingType|replace({' ': ''}) }}"> {{ listingType }}
-                                    </label>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="ebay">
+                            <!-- Regions -->
+                            <label for="region-select" class="sr-only">Select Region:</label>
+                            <select id="region-select" class="cs-select cs-skin-border region-select">
+                                <option value="" disabled selected>Select region...</option>
+                                {% for dataSource in ebaySourceRegional %}
+                                    <option value="{{ dataSource.getPropertySet().ebay_global_id }}">{{ dataSource.getRegion() }}</option>
                                 {% endfor %}
-                            </div>
+                            </select>
+                            <input type="hidden" class="selected-item" value="">
                         </div>
+                        <!-- add tabs here -->
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col col-sm-6">
-                            <div class="form-group">
-                                <label for="entriesPerPage" class="label label-primary">Entries Per Page: </label>
-                                <select name="entriesPerPage" id="entriesPerPage" class="form-control">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
+                <div class="form-place well">
+                    <form action="#" method="post" class="form">
+                        <div class="row">
+                            <div class="col col-sm-12">
+                                <div class="form-group">
+                                    <label for="category" class="label label-primary">Category:</label>
+                                    <select name="category" id="category" class="form-control category">
+                                        <!-- category -->
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col col-sm-6">
-                            <div class="form-group">
-                                <label for="returnsPageNumbers" class="label label-primary">Returns Page Numbers: </label>
-                                <input type="number" name="returnsPageNumbers" id="returnsPageNumbers" class="form-control" min="1" step="1" value="1">
+                        <div class="row">
+                            <div class="col col-sm-3">
+                                <div class="form-group">
+                                    <label for="sortOrder" class="label label-primary">Sort Order:</label>
+                                    <select name="sortOrder" id="sortOrder" class="form-control">
+                                        <!-- sort order -->
+                                        {% for sortItem in ebaySourceGlobal.getFilterSet()['Sort Order'] %}
+                                            <option value="{{ sortItem|replace({' ': ''}) }}">{{ sortItem }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col col-sm-9">
+                                <div class="form-group">
+                                    <label for="keyword" class="label label-primary">Keyword:</label>
+                                    <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Keyword">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <input type="submit" value="Send" class="btn btn-primary btn-block">
-                </form>
+                        <div class="row">
+                            <div class="col col-sm-3">
+                                <div class="form-group">
+                                    <label for="minPrice" class="label label-primary">Min Price: </label>
+                                    <input type="number" name="minPrice" id="minPrice" class="form-control" placeholder="5">
+                                </div>
+                            </div>
+
+                            <div class="col col-sm-3">
+                                <div class="form-group">
+                                    <label for="maxPrice" class="label label-primary">Max Price: </label>
+                                    <input type="number" name="maxPrice" id="maxPrice" class="form-control" placeholder="100">
+                                </div>
+                            </div>
+
+                            <div class="col col-sm-6">
+                                <span class="label label-primary">Listing Type:</span>
+                                <div class="checkbox" id="listingType">
+                                    {% for listingType in ebaySourceGlobal.getFilterSet()['Listing Type'] %}
+                                        <label>
+                                            <input type="checkbox" name="listingType[]" value="{{ listingType|replace({' ': ''}) }}"> {{ listingType }}
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-sm-6">
+                                <div class="form-group">
+                                    <label for="entriesPerPage" class="label label-primary">Entries Per Page: </label>
+                                    <select name="entriesPerPage" id="entriesPerPage" class="form-control">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col col-sm-6">
+                                <div class="form-group">
+                                    <label for="returnsPageNumbers" class="label label-primary">Returns Page Numbers: </label>
+                                    <input type="number" name="returnsPageNumbers" id="returnsPageNumbers" class="form-control" min="1" step="1" value="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="submit" value="Send" class="btn btn-primary btn-block">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
