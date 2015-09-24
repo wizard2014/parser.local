@@ -27,18 +27,17 @@
                                     <option value="{{ dataSource.getPropertySet().ebay_global_id }}">{{ dataSource.getRegion() }}</option>
                                 {% endfor %}
                             </select>
-                            <input type="hidden" class="selected-item" value="">
                         </div>
                         <!-- add tabs here -->
                     </div>
                 </div>
 
                 <div class="form-place well">
-                    <form action="#" method="post" class="form">
+                    <form action="{{ url('ebay') }}" method="post" class="form">
                         <div class="row">
-                            <div class="col col-sm-12">
+                            <div class="col col-sm-2">
                                 <div class="form-group">
-                                    <label for="category" class="label label-primary">Category:</label>
+                                    <label for="category" class="label label-primary">Category <span class="category-level"></span>:</label>
                                     <select name="category" id="category" class="form-control category">
                                         <!-- category -->
                                     </select>
@@ -62,7 +61,7 @@
                             <div class="col col-sm-9">
                                 <div class="form-group">
                                     <label for="keyword" class="label label-primary">Keyword:</label>
-                                    <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Keyword">
+                                    <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1" placeholder="Keyword">
                                 </div>
                             </div>
                         </div>
@@ -71,7 +70,7 @@
                             <div class="col col-sm-3">
                                 <div class="form-group">
                                     <label for="minPrice" class="label label-primary">Min Price: </label>
-                                    <input type="number" name="minPrice" id="minPrice" class="form-control" placeholder="5">
+                                    <input type="number" name="minPrice" id="minPrice" class="form-control" min="1" step="1" placeholder="5">
                                 </div>
                             </div>
 
@@ -114,6 +113,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="region" class="selected-item" value="">
+                        <input type="hidden" name="token" value="{{ token }}">
 
                         <input type="submit" value="Send" class="btn btn-primary btn-block">
                     </form>

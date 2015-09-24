@@ -2,6 +2,7 @@
  * Send Ajax call
  */
 (function() {
+    // select region
     var option = $('.cs-options').find('span');
 
     $(document).on('click', option, function() {
@@ -15,15 +16,23 @@
         }
     });
 
+    //select category
+    // $('').clone().attr('class', 'newLevel').appendTo('.category');
+
+    // ajax call
     function ajaxCall(region, level, parentId) {
         $.ajax({
             type: 'POST',
             url: '/get-started/get-catalog-item',
             data: { region: region, level: level, parentId: parentId },
 
-            beforeSend: function() {}
+            beforeSend: function() {
+                                
+            }
         })
             .done(function(data) {
+                $('.category-level').last().text('[level ' + data.categoryLevel + ']');
+
                 $(data.catalogList).each(function(index, value) {
                     $('.category').append('<option value="' + value.category_id + '">' + value.category_name + '</option>');
                 });

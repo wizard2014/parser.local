@@ -39,7 +39,8 @@ return [
     ],
     'service_manager'=> [
         'factories' => [
-            'Ebay\Service\Category' => 'Ebay\Factory\Service\CategoryServiceFactory',
+            'Ebay\Service\Category'  => 'Ebay\Factory\Service\CategoryServiceFactory',
+            'Ebay\Service\FindItems' => 'Ebay\Factory\Service\FindItemsServiceFactory',
         ],
     ],
     'view_manager' => [

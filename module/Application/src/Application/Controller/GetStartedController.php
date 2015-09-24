@@ -6,6 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
+use Zend\Session\Container;
 
 class GetStartedController extends AbstractActionController
 {
@@ -18,6 +19,8 @@ class GetStartedController extends AbstractActionController
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
 
+        $this->session = new Container('token');
+
         $this->mapper = $mapper;
         $this->cache  = $cache;
     }
@@ -25,7 +28,7 @@ class GetStartedController extends AbstractActionController
     public function indexAction()
     {
         // check for log in
-        if (null === $this->user) {
+        if (is_null($this->user)) {
             return $this->redirect()->toRoute('zfcuser');
         }
 
@@ -35,14 +38,12 @@ class GetStartedController extends AbstractActionController
         return new ViewModel([
             'ebaySourceGlobal'   => $ebayDataSourceGlobalEbay,
             'ebaySourceRegional' => $ebayDataSourceRegional,
+            'token'              => $this->token(),
         ]);
     }
 
     public function getCatalogItemAction()
     {
-        // region
-        // level
-
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
@@ -55,10 +56,20 @@ class GetStartedController extends AbstractActionController
             $categories = $this->cache->getItem($region)[$region]['level_' . $level];
 
             return new JsonModel([
-                'catalogList' => $categories,
+                'catalogList'   => $categories,
+                'categoryLevel' => $level,
             ]);
         }
 
         return $this->redirect()->toRoute('zfcuser');
+    }
+
+    private function token()
+    {
+        $token = md5(uniqid(mt_rand(), true));
+
+        $this->session->offsetSet('token', $token);
+
+        return $token;
     }
 }
