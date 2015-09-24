@@ -80,13 +80,28 @@ class FindItems
         }
 
         // send the request
-//        $limit  = $data['returnsPageNumbers'];
-//        $result = [];
-//
-//        for ($pageNum = 1; $pageNum <= $limit; $pageNum++) {
-//
-//        }
+        $limit  = $data['returnsPageNumbers'];
+        $result = [];
 
-        return $response;
+        for ($pageNum = 1; $pageNum <= $limit; $pageNum++) {
+            $request->paginationInput->pageNumber = $pageNum;
+//            $response = $service->findItemsAdvanced($request);
+
+            if ($response->ack !== 'Failure') {
+                foreach ($response->searchResult->item as $item) {
+                    $result[] = [
+                        'itemId'      => $item->itemId,
+                        'title'       => $item->title,
+                        'currency'    => $item->sellingStatus->currentPrice->currencyId,
+                        'price'       => $item->sellingStatus->currentPrice->value,
+                        'startTime'   => $item->listingInfo->startTime,
+                        'endTime'     => $item->listingInfo->endTime,
+                        'listingType' => $item->listingInfo->listingType,
+                    ];
+                }
+            }
+        }
+
+        return $result;
     }        
 }

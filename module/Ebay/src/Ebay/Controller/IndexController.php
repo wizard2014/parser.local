@@ -36,6 +36,7 @@ class IndexController extends AbstractActionController
                 $results = $this->ebayFindingService->findItems($data);
 
                 // save result
+
             }
         }
 
