@@ -53,7 +53,7 @@ class GetStartedController extends AbstractActionController
             $level    = $data['level'];
             $parentId = $data['parentId'];
 
-            $categories = $this->cache->getItem($region)[$region]['level_' . $level];
+            $categories = $this->cache->getItem($region)['level_' . $level];
 
             return new JsonModel([
                 'catalogList'   => $categories,
@@ -64,6 +64,9 @@ class GetStartedController extends AbstractActionController
         return $this->redirect()->toRoute('zfcuser');
     }
 
+    /**
+     * @return string
+     */
     private function token()
     {
         $token = md5(uniqid(mt_rand(), true));

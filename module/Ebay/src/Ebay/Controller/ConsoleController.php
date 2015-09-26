@@ -25,8 +25,6 @@ class ConsoleController extends AbstractActionController
 
     /**
      * @return string
-     *
-     * @todo add update categories
      */
     public function indexAction()
     {
@@ -39,7 +37,17 @@ class ConsoleController extends AbstractActionController
         // Set eBay category into db
         $dataSourceGlobalIdEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay')->getId();
         $regions = $this->mapper['dataSourceRegional']->getDataByRegion($dataSourceGlobalIdEbay, 'en', 'ebay'); // ebay in english
+
+        // Check category exists
+        $categoryExists = $this->mapper['category']->categoryExists();
+
         $this->setEbayCategory($regions);
+
+//        if ($categoryExists) {
+//            $this->updateEbayCategory($regions);
+//        } else {
+//            $this->setEbayCategory($regions);
+//        }
 
         return 'done';
     }
@@ -52,13 +60,15 @@ class ConsoleController extends AbstractActionController
     protected function setEbayCategory($regions)
     {
         foreach ($regions as $region) {
-            $ebaySiteId = $region->getPropertySet()['ebay_site_id'];
+            $propertySet    = $region->getPropertySet();
+            $ebaySiteId     = $propertySet['ebay_site_id'];
+            $ebayGlobalId   = $propertySet['ebay_global_id'];
 
             $categories = $this->categoryService->getCategoryList($ebaySiteId);
 
-            foreach ($categories as $category) {
-                $cache = []; // cashing array
+            $cache = []; // cashing array
 
+            foreach ($categories as $category) {
                 $categoryEntity = $this->mapper['category']->getCategoryEntity();
 
                 $categoryItem = new $categoryEntity();
@@ -69,20 +79,32 @@ class ConsoleController extends AbstractActionController
                 $categoryItem->setDataSourceRegional($region);
 
                 // prepare cache data
-                $cache[$ebaySiteId]['level_' . $category->CategoryLevel][] = [
+                $cache['level_' . $category->CategoryLevel][] = [
                     'category_id'        => $category->CategoryID,
                     'category_parent_id' => $category->CategoryParentID[0],
                     'category_name'      => $category->CategoryName,
                 ];
 
-                // add to cache
-                $this->setInCache($ebaySiteId, $cache);
-
                 $this->mapper['category']->persist($categoryItem);
             }
 
             $this->mapper['category']->flush();
+
+            // add to cache
+            $this->setInCache($ebayGlobalId, $cache);
         }
+    }
+
+    /**
+     * Update ebay category
+     *
+     * @param $regions
+     *
+     * @todo add update categories
+     */
+    protected function updateEbayCategory($regions)
+    {
+
     }
 
     /**
@@ -93,6 +115,6 @@ class ConsoleController extends AbstractActionController
      */
     protected function setInCache($categoryKey, $cacheData)
     {
-        $this->cache->setItem($categoryKey, $cacheData);
+        return $this->cache->setItem($categoryKey, $cacheData);
     }
 }

@@ -92,10 +92,9 @@ class FindItems
                     $result[] = [
                         'itemId'      => $item->itemId,
                         'title'       => $item->title,
-                        'currency'    => $item->sellingStatus->currentPrice->currencyId,
-                        'price'       => $item->sellingStatus->currentPrice->value,
-                        'startTime'   => $item->listingInfo->startTime,
-                        'endTime'     => $item->listingInfo->endTime,
+                        'price'       => $item->sellingStatus->currentPrice->currencyId . ' '. $item->sellingStatus->currentPrice->value, // USD 10.01
+                        'startTime'   => $item->listingInfo->startTime->format('Y-m-d'),
+                        'endTime'     => $item->listingInfo->endTime->format('Y-m-d'),
                         'listingType' => $item->listingInfo->listingType,
                     ];
                 }

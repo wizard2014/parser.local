@@ -11,6 +11,7 @@ class IndexController extends AbstractActionController
 {
     protected $ebayFindingService;
     protected $session;
+    protected $outputPath = './data/output/';
 
     /**
      * @param $ebayFindingService
@@ -35,13 +36,32 @@ class IndexController extends AbstractActionController
             if ($token) {
                 $results = $this->ebayFindingService->findItems($data);
 
-                // save result
-
+                // save result as XML
+                $xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
+                $this->arrayToXml($results, $xml);
+                $xml->asXML($this->outputPath . 'data.xml');
             }
         }
 
         return $this->redirect()->toRoute('get-started');
     }
+
+    protected function arrayToXml($data, &$xmlData) {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                if (is_numeric($key) ){
+                    $key = 'item' . $key; // dealing with <0/>..<n/> issues
+                }
+
+                $subnode = $xmlData->addChild($key);
+
+                $this->arrayToXml($value, $subnode);
+            } else {
+                $xmlData->addChild("$key", htmlspecialchars("$value"));
+            }
+        }
+    }
+
 
     /**
      * @param $token

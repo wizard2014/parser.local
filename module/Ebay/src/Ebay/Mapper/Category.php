@@ -53,6 +53,18 @@ class Category implements CategoryInterface
     }
 
     /**
+     * Check category exists
+     *
+     * @return bool
+     */
+    public function categoryExists()
+    {
+        $categories = $this->getAllCategories();
+
+        return (bool)count($categories);
+    }
+
+    /**
      * @param $entity
      */
     public function persist($entity)
