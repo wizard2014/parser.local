@@ -1,11 +1,12 @@
 'use strict';
 
-var gulp       = require('gulp'),
-    concat     = require('gulp-concat'),
-    uglify     = require('gulp-uglify'),
-    sass       = require('gulp-sass'),
-    minifyCss  = require('gulp-minify-css'),
-    sourcemaps = require('gulp-sourcemaps');
+var gulp         = require('gulp'),
+    concat       = require('gulp-concat'),
+    uglify       = require('gulp-uglify'),
+    sass         = require('gulp-sass'),
+    minifyCss    = require('gulp-minify-css'),
+    //sourcemaps = require('gulp-sourcemaps')
+    autoprefixer = require('gulp-autoprefixer');;
 
 var paths = {
     bower:  './bower_components',
@@ -20,10 +21,14 @@ gulp.task('styles', function() {
         paths.assets + '/styles/app.scss'
     ])
         .pipe(sass())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(concat('app.css'))
-        .pipe(sourcemaps.init())
+        //.pipe(sourcemaps.init())
         .pipe(minifyCss())
-        .pipe(sourcemaps.write())
+        //.pipe(sourcemaps.write())
         .pipe(gulp.dest('./public/css'));
 });
 
@@ -33,6 +38,7 @@ gulp.task('scripts', function() {
         paths.bower   + '/bootstrap-material-design/dist/js/ripples.js',
         paths.assets  + '/scripts/base/*.js',
         paths.assets  + '/scripts/select/*.js',
+        paths.assets  + '/scripts/config/*.js',
         paths.assets  + '/scripts/init/*.js'
     ])
         .pipe(concat('app.js'))

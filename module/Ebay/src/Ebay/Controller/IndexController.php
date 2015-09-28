@@ -46,10 +46,14 @@ class IndexController extends AbstractActionController
         return $this->redirect()->toRoute('get-started');
     }
 
+    /**
+     * @param $data
+     * @param $xmlData
+     */
     protected function arrayToXml($data, &$xmlData) {
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                if (is_numeric($key) ){
+                if (is_numeric($key)) {
                     $key = 'item' . $key; // dealing with <0/>..<n/> issues
                 }
 
@@ -61,7 +65,6 @@ class IndexController extends AbstractActionController
             }
         }
     }
-
 
     /**
      * @param $token
