@@ -118,22 +118,4 @@
             </div>
         </div>
     </div>
-
-    <button class="md-trigger" data-modal="modal-1">Modal</button>
-
-    <div class="md-modal md-effect-1" id="modal-1">
-        <div class="md-content">
-            <h3>Modal Dialog</h3>
-            <div class="md-content-inner">
-                <ul class="list-unstyled">
-                    {% for dataSource in ebaySourceRegional %}
-                        <li data-value="{{ dataSource.getPropertySet().ebay_global_id }}">{{ dataSource.getRegion() }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <button type="button" class="close md-close" data-toggle="tooltip" data-placement="top" title="Close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
-
-    <div class="md-overlay"></div>
 {% endblock %}
