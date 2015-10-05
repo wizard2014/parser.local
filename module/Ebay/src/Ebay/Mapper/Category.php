@@ -65,6 +65,36 @@ class Category implements CategoryInterface
     }
 
     /**
+     * @param $dataSourceRegional
+     * @param $categoryLevel
+     * @param $categoryParentId
+     *
+     * @return array
+     */
+    public function getCategory($dataSourceRegional, $categoryLevel, $categoryParentId)
+    {
+        $result = [];
+
+        $entity = $this->getCategoryEntity();
+
+        $categories = $this->em->getRepository($entity)->findBy([
+            'dataSourceRegional' => $dataSourceRegional,
+            'categoryLevel'      => $categoryLevel,
+            'categoryParentId'   => $categoryParentId,
+        ]);
+
+        foreach ($categories as $i => $category) {
+            $result[$i]['categoryId']       = $category->getCategoryId();
+            $result[$i]['categoryParentId'] = $category->getCategoryParentId();
+            $result[$i]['categoryName']     = $category->getCategoryName();
+            $result[$i]['categoryLevel']    = $category->getCategoryLevel();
+            $result[$i]['categoryName']     = $category->getCategoryName();
+        }
+
+        return $result;
+    }
+
+    /**
      * @param $entity
      */
     public function persist($entity)

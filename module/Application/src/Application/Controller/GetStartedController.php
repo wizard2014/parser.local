@@ -49,15 +49,10 @@ class GetStartedController extends AbstractActionController
         if ($request->isXmlHttpRequest()) {
             $data = $request->getPost();
 
-            $region   = $data['region'];
-            $level    = $data['level'];
-            $parentId = $data['parentId'];
-
-            $categories = $this->cache->getItem($region)['level_' . $level];
+            $categories = $this->mapper['category']->getCategory($data['region'], $data['level'], $data['parentId']);
 
             return new JsonModel([
-                'catalogList'   => $categories,
-                'categoryLevel' => $level,
+                'catalogList' => $categories,
             ]);
         }
 

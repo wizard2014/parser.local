@@ -13,13 +13,11 @@ class ConsoleController extends AbstractActionController
 
     /**
      * @param $mapper
-     * @param $cache
      * @param $categoryService
      */
-    public function __construct($mapper, $cache, $categoryService)
+    public function __construct($mapper, $categoryService)
     {
         $this->mapper = $mapper;
-        $this->cache  = $cache;
         $this->categoryService = $categoryService;
     }
 
@@ -60,13 +58,10 @@ class ConsoleController extends AbstractActionController
     protected function setEbayCategory($regions)
     {
         foreach ($regions as $region) {
-            $propertySet    = $region->getPropertySet();
-            $ebaySiteId     = $propertySet['ebay_site_id'];
-            $ebayGlobalId   = $propertySet['ebay_global_id'];
+            $propertySet = $region->getPropertySet();
+            $ebaySiteId  = $propertySet['ebay_site_id'];
 
             $categories = $this->categoryService->getCategoryList($ebaySiteId);
-
-            $cache = []; // cashing array
 
             foreach ($categories as $category) {
                 $categoryEntity = $this->mapper['category']->getCategoryEntity();
@@ -78,20 +73,10 @@ class ConsoleController extends AbstractActionController
                 $categoryItem->setCategoryParentId($category->CategoryParentID[0]);
                 $categoryItem->setDataSourceRegional($region);
 
-                // prepare cache data
-                $cache['level_' . $category->CategoryLevel][] = [
-                    'category_id'        => $category->CategoryID,
-                    'category_parent_id' => $category->CategoryParentID[0],
-                    'category_name'      => $category->CategoryName,
-                ];
-
                 $this->mapper['category']->persist($categoryItem);
             }
 
             $this->mapper['category']->flush();
-
-            // add to cache
-            $this->setInCache($ebayGlobalId, $cache);
         }
     }
 
@@ -105,16 +90,5 @@ class ConsoleController extends AbstractActionController
     protected function updateEbayCategory($regions)
     {
 
-    }
-
-    /**
-     * Set Category list in cache
-     *
-     * @param $categoryKey
-     * @param $cacheData
-     */
-    protected function setInCache($categoryKey, $cacheData)
-    {
-        return $this->cache->setItem($categoryKey, $cacheData);
     }
 }

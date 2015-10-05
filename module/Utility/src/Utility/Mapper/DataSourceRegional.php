@@ -60,7 +60,7 @@ class DataSourceRegional
             $currentDataSourceGlobalId = $region->getDataSourceGlobal()->getId();
 
             if ($currentDataSourceGlobalId === $dataSourceGlobalId && strpos($language, $selectLang) !== false) {
-                $result[] = $region;
+                $result[$region->getId()] = $region->getRegion();
             }
         }
 

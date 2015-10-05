@@ -22,8 +22,6 @@ class ConsoleControllerFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
         $em = $sm->get(\Doctrine\ORM\EntityManager::class);
 
-        $cache = $sm->get('memcached');
-
         $categoryService = $sm->get(\Ebay\Service\Category::class);
 
         $mapper = [
@@ -32,6 +30,6 @@ class ConsoleControllerFactory implements FactoryInterface
             'dataSourceRegional'  => new DataSourceRegionalMapper($em),
         ];
 
-        return new ConsoleController($mapper, $cache, $categoryService);
+        return new ConsoleController($mapper, $categoryService);
     }
 }

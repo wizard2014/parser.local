@@ -24,23 +24,11 @@ interface CategoryInterface
     public function getAllCategories();
 
     /**
-     * @param $id
-     *
-     * @return \Ebay\Entity\StructureCategoryEbay
-     */
-//    public function getCategoryById($id);
-
-    /**
+     * @param $dataSourceRegional
+     * @param $level
      * @param $categoryId
      *
      * @return \Ebay\Entity\StructureCategoryEbay
      */
-//    public function getCategoryByCategoryId($categoryId);
-
-    /**
-     * @param $categoryLevel
-     *
-     * @return \Ebay\Entity\StructureCategoryEbay
-     */
-//    public function getCategoriesByLevel($categoryLevel);
+    public function getCategory($dataSourceRegional, $level, $categoryId);
 }
