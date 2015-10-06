@@ -19,13 +19,29 @@
 
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="ebay">
-                            <!-- Regions -->
-                            <label for="region-select" class="sr-only">Select Region:</label>
-                            <select id="region-select" class="cs-select cs-skin-border region-select">
-                                {% for siteId, siteName in ebaySourceRegional %}
-                                    <option value="{{ siteId }}">{{ siteName }}</option>
-                                {% endfor %}
-                            </select>
+                            <div class="row">
+                                <div class="col col-sm-3">
+                                    <h4>Select region:</h4>
+                                </div>
+                                <div class="col col-sm-9">
+                                    {# Button trigger modal #}
+                                    <button type="button" class="btn btn-flat btn-default get-region" data-target="#modal" data-title="Select region">
+                                        Worldwide, USA
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col col-sm-3">
+                                    <h4>Select category or subcategory:</h4>
+                                </div>
+                                <div class="col col-sm-9">
+                                    {# Button trigger modal #}
+                                    <div class="category-list">
+                                        <button type="button" class="btn btn-flat btn-default mdi-content-add get-category" data-target="#modal" data-title="Select category or subcategory"></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- add tabs here -->
                     </div>
@@ -34,81 +50,9 @@
                 <div class="form-place">
                     <form action="{{ url('ebay') }}" method="post" class="form">
                         <section class="well">
-                            <div class="row">
-                                <div class="col col-sm-12">
-                                    <div class="form-group">
-                                        <label for="sortOrder" class="label label-primary">Sort Order:</label>
-                                        <select name="sortOrder" id="sortOrder" class="form-control">
-                                            <!-- sort order -->
-                                            {% for sortItem in ebaySourceGlobal.getFilterSet()['Sort Order'] %}
-                                                <option value="{{ sortItem|replace({' ': ''}) }}">{{ sortItem }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                            <input class="input-region" type="hidden" name="region" value="1">
+                            <input class="input-category" data-level="1" type="hidden" name="category" value="">
 
-                            <div class="row">
-                                <div class="col col-sm-12">
-                                    <div class="form-group">
-                                        <label for="keyword" class="label label-primary">Keyword:</label>
-                                        <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1" placeholder="Keyword">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col col-sm-6">
-                                    <div class="form-group">
-                                        <label for="minPrice" class="label label-primary">Min Price:</label>
-                                        <input type="number" name="minPrice" id="minPrice" class="form-control" min="1" step="1" placeholder="5">
-                                    </div>
-                                </div>
-
-                                <div class="col col-sm-6">
-                                    <div class="form-group">
-                                        <label for="maxPrice" class="label label-primary">Max Price:</label>
-                                        <input type="number" name="maxPrice" id="maxPrice" class="form-control" min="1" step="1" placeholder="100">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col col-sm-12">
-                                    <span class="label label-primary">Listing Type:</span>
-                                    <div class="checkbox" id="listingType">
-                                        {% for listingType in ebaySourceGlobal.getFilterSet()['Listing Type'] %}
-                                            <label>
-                                                <input type="checkbox" name="listingType[]" value="{{ listingType|replace({' ': ''}) }}"> <span class="check-text">{{ listingType }}</span>
-                                            </label>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col col-sm-6">
-                                    <div class="form-group">
-                                        <label for="entriesPerPage" class="label label-primary">Entries Per Page: </label>
-                                        <select name="entriesPerPage" id="entriesPerPage" class="form-control">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col col-sm-6">
-                                    <div class="form-group">
-                                        <label for="returnsPageNumbers" class="label label-primary">Returns Page Numbers: </label>
-                                        <input type="number" name="returnsPageNumbers" id="returnsPageNumbers" class="form-control" min="1" step="1" value="1">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <input type="hidden" name="region" class="selected-item" value="">
-                            <input type="hidden" name="category" class="category" value="">
                             <input type="hidden" name="token" value="{{ token }}">
 
                             <input type="submit" value="send" class="btn btn-primary btn-block disabled">
@@ -118,23 +62,21 @@
             </div>
         </div>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            modal
-        </button>
-
         <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        <h4 class="modal-title" id="modalLabel">
+                            {# Modal title #}
+                        </h4>
                     </div>
                     <hr>
                     <div class="modal-body">
                         <div class="row">
-
+                            {# Modal content #}
+                            <section class="destination"></section>
                         </div>
                     </div>
                 </div>

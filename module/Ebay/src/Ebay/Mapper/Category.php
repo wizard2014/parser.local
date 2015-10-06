@@ -67,14 +67,30 @@ class Category implements CategoryInterface
     /**
      * @param $dataSourceRegional
      * @param $categoryLevel
+     *
+     * @return array
+     */
+    public function getMainCategory($dataSourceRegional, $categoryLevel)
+    {
+        $entity = $this->getCategoryEntity();
+
+        $categories = $this->em->getRepository($entity)->findBy([
+            'dataSourceRegional' => $dataSourceRegional,
+            'categoryLevel'      => $categoryLevel,
+        ]);
+
+        return $this->prepareArrayResult($categories);
+    }
+
+    /**
+     * @param $dataSourceRegional
+     * @param $categoryLevel
      * @param $categoryParentId
      *
      * @return array
      */
     public function getCategory($dataSourceRegional, $categoryLevel, $categoryParentId)
     {
-        $result = [];
-
         $entity = $this->getCategoryEntity();
 
         $categories = $this->em->getRepository($entity)->findBy([
@@ -83,15 +99,7 @@ class Category implements CategoryInterface
             'categoryParentId'   => $categoryParentId,
         ]);
 
-        foreach ($categories as $i => $category) {
-            $result[$i]['categoryId']       = $category->getCategoryId();
-            $result[$i]['categoryParentId'] = $category->getCategoryParentId();
-            $result[$i]['categoryName']     = $category->getCategoryName();
-            $result[$i]['categoryLevel']    = $category->getCategoryLevel();
-            $result[$i]['categoryName']     = $category->getCategoryName();
-        }
-
-        return $result;
+        return $this->prepareArrayResult($categories);
     }
 
     /**
@@ -130,5 +138,23 @@ class Category implements CategoryInterface
     {
         $this->em->remove($entity);
         $this->em->flush();
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function prepareArrayResult(array $data)
+    {
+        $result = [];
+
+        foreach ($data as $i => $item) {
+            $result[$i]['id']    = $item->getCategoryId();
+            $result[$i]['level'] = $item->getCategoryLevel();
+            $result[$i]['name']  = $item->getCategoryName();
+        }
+
+        return $result;
     }
 }

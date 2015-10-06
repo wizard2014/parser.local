@@ -57,15 +57,21 @@ class DataSourceGlobal
     /**
      * @param $name
      *
-     * @return \Utility\Entity\DataSourceGlobal
+     * @return array
      */
     public function getSourceGlobalByName($name)
     {
+        $result = [];
+
         $entity = $this->getDataSourceGlobalEntity();
 
         $dataSourceGlobal = $this->em->getRepository($entity)->findOneBy(['name' => $name]);
 
-        return $dataSourceGlobal;
+        $result['id']           = $dataSourceGlobal->getId();
+        $result['Sort Order']   = $dataSourceGlobal->getFilterSet()['Sort Order'];
+        $result['Listing Type'] = $dataSourceGlobal->getFilterSet()['Listing Type'];
+
+        return $result;
     }
 
     /**

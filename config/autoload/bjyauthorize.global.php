@@ -106,7 +106,7 @@ return [
             \BjyAuthorize\Guard\Controller::class => [
                 ['controller' => 'Application\Controller\Index', 'action' => 'index', 'roles' => ['guest','user']],
                 ['controller' => 'Application\Controller\GetStarted', 'action' => ['index'], 'roles' => ['guest','user']],
-                ['controller' => 'Application\Controller\GetStarted', 'action' => ['get-catalog-item'], 'roles' => ['user']],
+                ['controller' => 'Application\Controller\GetStarted', 'action' => ['get-region', 'get-category'], 'roles' => ['user']],
                 ['controller' => 'ScnSocialAuth-User', 'action' => ['login', 'provider-login', 'provider-authenticate', 'register', 'logout'], 'roles' => ['guest','user']],
                 ['controller' => 'ScnSocialAuth-HybridAuth', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Index', 'action' => ['index'], 'roles' => ['guest','user']],

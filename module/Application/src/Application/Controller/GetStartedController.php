@@ -32,27 +32,40 @@ class GetStartedController extends AbstractActionController
             return $this->redirect()->toRoute('zfcuser');
         }
 
-        $ebayDataSourceGlobalEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay');
-        $ebayDataSourceRegional   = $this->mapper['dataSourceRegional']->getDataByRegion($ebayDataSourceGlobalEbay->getId(), 'en', 'ebay'); // ebay in english
-
         return new ViewModel([
-            'ebaySourceGlobal'   => $ebayDataSourceGlobalEbay,
-            'ebaySourceRegional' => $ebayDataSourceRegional,
-            'token'              => $this->token(),
+            'token' => $this->token(),
         ]);
     }
 
-    public function getCatalogItemAction()
+    public function getRegionAction()
+    {
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest()) {
+            $ebayDataSourceGlobalEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay');
+            $ebayDataSourceRegional   = $this->mapper['dataSourceRegional']->getDataByRegion($ebayDataSourceGlobalEbay['id'], 'en', 'ebay'); // ebay in english
+
+            return new JsonModel([
+                'ebaySourceRegional' => $ebayDataSourceRegional,
+            ]);
+        }
+    }
+
+    public function getCategoryAction()
     {
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
             $data = $request->getPost();
 
-            $categories = $this->mapper['category']->getCategory($data['region'], $data['level'], $data['parentId']);
+            if (isset($data['parentId'])) {
+                $categories = $this->mapper['category']->getCategory($data['region'], $data['level'], $data['parentId']);
+            } else {
+                $categories = $this->mapper['category']->getMainCategory($data['region'], $data['level']);
+            }
 
             return new JsonModel([
-                'catalogList' => $categories,
+                'categoryList' => $categories,
             ]);
         }
 
