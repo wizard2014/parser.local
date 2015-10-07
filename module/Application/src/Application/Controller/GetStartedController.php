@@ -58,7 +58,7 @@ class GetStartedController extends AbstractActionController
         if ($request->isXmlHttpRequest()) {
             $data = $request->getPost();
 
-            if (isset($data['parentId'])) {
+            if (!empty($data['parentId'])) {
                 $categories = $this->mapper['category']->getCategory($data['region'], $data['level'], $data['parentId']);
             } else {
                 $categories = $this->mapper['category']->getMainCategory($data['region'], $data['level']);

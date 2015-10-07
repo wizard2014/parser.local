@@ -6,11 +6,9 @@
         var destination = $('.destination'),
             modalTitle  = $('.modal-title');
 
-        var inputCategory = $('.input-category');
-
         var region   = $('.input-region').val(),
             level    = $('.input-category-level').val(),
-            parentId = inputCategory.data('parentId');
+            parentId = $('.input-category').val();
 
         var title = $(this).data('title');
 
@@ -28,14 +26,16 @@
                 var categories = data.categoryList,
                     html       = '';
 
-                $.each(categories, function (key, value) {
-                    html += '<button type="button" class="btn btn-flat btn-default set-category" data-category-id="' + value.id + '" data-category-level="' + value.level + '">' + value.name + '</button>';
-                });
+                if (categories.length > 0) {
+                    $.each(categories, function (key, value) {
+                        html += '<button type="button" class="btn btn-link set-category" data-category-id="' + value.id + '" data-category-level="' + value.level + '">' + value.name + '</button>';
+                    });
 
-                destination.append(html);
-                modalTitle.text(title);
+                    destination.append(html);
+                    modalTitle.text(title);
 
-                $('#modal').modal('show');
+                    $('#modal').modal('show');
+                }
             })
             .fail(function() {
 
@@ -50,15 +50,34 @@
             level = $('.input-category-level'),
             value = $(this).text();
 
-        var inputCategory = $('.input-category');
-        var nextLevel     = parseInt(level.val()) + 1;
+        var nextLevel = parseInt(level.val()) + 1;
 
         level.val(nextLevel);
-        inputCategory.val(id);
-        inputCategory.data('parentId', id);
+        $('.input-category').val(id);
 
-        $('.category-list').prepend('<button type="button" class="btn btn-flat btn-default get-category" data-target="#modal" data-title="Select category or subcategory">' + value + '</button>');
+        $('.category-list').append(
+            '<span>' +
+                '<button type="button" class="btn btn-link get-category" data-level="' + level.val() + '" data-category-id="' + id + '" data-target="#modal" data-title="Select category or subcategory">' + value + '</button>' +
+                '<i class="fa fa-trash category-remove cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove"></i>' +
+            '</span>');
 
         $('#modal').modal('hide');
+    });
+
+    // remove category elements
+    $(document).on('click', '.category-remove', function() {
+        $(this).parent('span').nextAll('span').addBack().fadeOut(400, function() {
+            $(this).remove();
+
+            var lastElem = $('.category-list').children('span').last().find('button');
+
+            if (lastElem.data('category-id') === undefined || lastElem.data('level') === undefined) {
+                $('.input-category').val('');
+                $('.input-category-level').val(1);
+            } else {
+                $('.input-category').val(lastElem.data('category-id'));
+                $('.input-category-level').val(lastElem.data('level'));
+            }
+        });
     });
 })();

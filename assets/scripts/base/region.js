@@ -22,7 +22,7 @@
                     html   = '';
 
                 $.each(region, function (key, value) {
-                    html += '<button type="button" class="btn btn-flat btn-default set-region" data-region="' + key + '">' + value + '</button>';
+                    html += '<button type="button" class="btn btn-link set-region" data-region="' + key + '">' + value + '</button>';
                 });
 
                 destination.append(html);
