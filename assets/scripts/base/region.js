@@ -40,9 +40,7 @@
 
     $(document).on('click', '.set-region', function() {
         // reset category
-        var inputCategory = $('.input-category');
-        inputCategory.val('');
-        inputCategory.data('level', 1);
+        reset();
 
         var id    = $(this).data('region'),
             value = $(this).text();
@@ -52,4 +50,11 @@
 
         $('#modal').modal('hide');
     });
+
+    function reset() {
+        $('.input-category').val('');
+        $('.input-category-level').val(1);
+
+        $('.category-list').empty();
+    }
 })();

@@ -37,9 +37,8 @@
                                 </div>
                                 <div class="col col-sm-9">
                                     {# Button trigger modal #}
-                                    <div class="category-list">
-                                        <button type="button" class="btn btn-flat btn-default mdi-content-add get-category" data-target="#modal" data-title="Select category or subcategory"></button>
-                                    </div>
+                                    <div class="category-list"></div>
+                                    <button type="button" class="btn btn-flat btn-default mdi-content-add get-category" data-target="#modal" data-title="Select category or subcategory"></button>
                                 </div>
                             </div>
                         </div>
@@ -50,8 +49,70 @@
                 <div class="form-place">
                     <form action="{{ url('ebay') }}" method="post" class="form">
                         <section class="well">
+                            <div class="row">
+                                <div class="col col-sm-12">
+                                    <div class="form-group">
+                                        <label for="keyword" class="label label-primary">Keyword:</label>
+                                        <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1" placeholder="Keyword">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col col-sm-6">
+                                    <div class="form-group">
+                                        <label for="minPrice" class="label label-primary">Min Price:</label>
+                                        <input type="number" name="minPrice" id="minPrice" class="form-control" min="1" step="1" placeholder="5">
+                                    </div>
+                                </div>
+
+                                <div class="col col-sm-6">
+                                    <div class="form-group">
+                                        <label for="maxPrice" class="label label-primary">Max Price:</label>
+                                        <input type="number" name="maxPrice" id="maxPrice" class="form-control" min="1" step="1" placeholder="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col col-sm-12">
+                                    <span class="label label-primary">Listing Type:</span>
+                                    <div class="checkbox" id="listingType">
+                                        {% for listingType in ebaySourceGlobal['Listing Type'] %}
+                                            <label>
+                                                <input type="checkbox" name="listingType[]" value="{{ listingType|replace({' ': ''}) }}"> <span class="check-text">{{ listingType }}</span>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col col-sm-6">
+                                    <div class="form-group">
+                                        <label for="entriesPerPage" class="label label-primary">Entries Per Page: </label>
+                                        <select name="entriesPerPage" id="entriesPerPage" class="form-control">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col col-sm-6">
+                                    <div class="form-group">
+                                        <label for="returnsPageNumbers" class="label label-primary">Returns Page Numbers: </label>
+                                        <input type="number" name="returnsPageNumbers" id="returnsPageNumbers" class="form-control" min="1" step="1" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="well">
                             <input class="input-region" type="hidden" name="region" value="1">
-                            <input class="input-category" data-level="1" type="hidden" name="category" value="">
+                            <input class="input-category" type="hidden" name="category">
+                            <input class="input-category-level" type="hidden" value="1">
 
                             <input type="hidden" name="token" value="{{ token }}">
 

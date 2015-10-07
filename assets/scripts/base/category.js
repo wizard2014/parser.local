@@ -9,10 +9,8 @@
         var inputCategory = $('.input-category');
 
         var region   = $('.input-region').val(),
-            level    = inputCategory.data('level'),
+            level    = $('.input-category-level').val(),
             parentId = inputCategory.data('parentId');
-
-        console.log(level);
 
         var title = $(this).data('title');
 
@@ -49,14 +47,15 @@
 
     $(document).on('click', '.set-category', function() {
         var id    = $(this).data('category-id'),
-            level = $(this).data('category-level'),
+            level = $('.input-category-level'),
             value = $(this).text();
 
         var inputCategory = $('.input-category');
-        var nextLevel     = parseInt(level) + 1;
+        var nextLevel     = parseInt(level.val()) + 1;
 
-        inputCategory.data('level', nextLevel);
+        level.val(nextLevel);
         inputCategory.val(id);
+        inputCategory.data('parentId', id);
 
         $('.category-list').prepend('<button type="button" class="btn btn-flat btn-default get-category" data-target="#modal" data-title="Select category or subcategory">' + value + '</button>');
 
