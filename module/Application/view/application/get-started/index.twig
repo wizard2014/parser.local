@@ -81,8 +81,19 @@
                             </div>
 
                             <div class="row">
-                                <div class="col col-sm-12">
-                                    <span class="label label-primary">Listing Type:</span>
+                                <div class="col col-sm-6">
+                                    <div class="form-group">
+                                        <label class="label label-primary" for="sortOrder">Sort Order:</label>
+                                        <select name="sortOrder" id="sortOrder" class="form-control">
+                                            {% for sortOrder in ebaySourceGlobal['Sort Order'] %}
+                                                <option value="{{ sortOrder|replace({' ': ''}) }}">{{ sortOrder }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col col-sm-6">
+                                    <label class="label label-primary">Listing Type:</label>
                                     <div class="checkbox" id="listingType">
                                         {% for listingType in ebaySourceGlobal['Listing Type'] %}
                                             <label>

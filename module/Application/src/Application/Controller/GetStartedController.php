@@ -32,8 +32,12 @@ class GetStartedController extends AbstractActionController
             return $this->redirect()->toRoute('zfcuser');
         }
 
+        // get eBay Sort Order & Listing Type
+        $ebayDataSourceGlobalEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay');
+
         return new ViewModel([
-            'token' => $this->token(),
+            'ebaySourceGlobal' => $ebayDataSourceGlobalEbay,
+            'token'            => $this->token(),
         ]);
     }
 
@@ -42,8 +46,8 @@ class GetStartedController extends AbstractActionController
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
-            $ebayDataSourceGlobalEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay');
-            $ebayDataSourceRegional   = $this->mapper['dataSourceRegional']->getDataByRegion($ebayDataSourceGlobalEbay['id'], 'en', 'ebay'); // ebay in english
+            $ebayId                 = $this->mapper['dataSourceGlobal']->getIdByName('eBay');
+            $ebayDataSourceRegional = $this->mapper['dataSourceRegional']->getDataByRegion($ebayId, 'en', 'ebay'); // ebay in english
 
             return new JsonModel([
                 'ebaySourceRegional' => $ebayDataSourceRegional,

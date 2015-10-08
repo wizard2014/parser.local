@@ -57,6 +57,20 @@ class DataSourceGlobal
     /**
      * @param $name
      *
+     * @return $id
+     */
+    public function getIdByName($name)
+    {
+        $entity = $this->getDataSourceGlobalEntity();
+
+        $dataSourceGlobal = $this->em->getRepository($entity)->findOneBy(['name' => $name]);
+
+        return $dataSourceGlobal->getId();
+    }
+
+    /**
+     * @param $name
+     *
      * @return array
      */
     public function getSourceGlobalByName($name)
@@ -67,7 +81,6 @@ class DataSourceGlobal
 
         $dataSourceGlobal = $this->em->getRepository($entity)->findOneBy(['name' => $name]);
 
-        $result['id']           = $dataSourceGlobal->getId();
         $result['Sort Order']   = $dataSourceGlobal->getFilterSet()['Sort Order'];
         $result['Listing Type'] = $dataSourceGlobal->getFilterSet()['Listing Type'];
 
