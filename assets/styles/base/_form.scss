@@ -1,24 +1,26 @@
+$font-size: 1.2em;
+
 .form-place {
   .col {
     padding-right: 15px;
   }
 
   label {
-    font-size: 1.1em;
+    font-size: $font-size;
   }
 
   select, input[type="text"], input[type="number"] {
     margin: 1em 0;
-    font-size: 1.5em;
+    font-size: $font-size;
   }
 
   .check-text {
-    font-size: 1.3em;
+    font-size: $font-size;
   }
 
   .base-settings {
     min-height: 3em;
-    font-size: 1.5em;
+    font-size: $font-size;
     font-weight: 700;
     padding: .9em 0 0 0;
   }

@@ -37,6 +37,7 @@ gulp.task('scripts', function() {
         paths.bower   + '/bootstrap-material-design/dist/js/material.js',
         paths.bower   + '/bootstrap-material-design/dist/js/ripples.js',
         paths.assets  + '/scripts/base/*.js',
+        paths.assets  + '/scripts/validator/*.js',
         paths.assets  + '/scripts/init/*.js'
     ])
         .pipe(concat('app.js'))
