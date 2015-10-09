@@ -28,7 +28,7 @@
 
                 if (categories.length > 0) {
                     $.each(categories, function (key, value) {
-                        html += '<button type="button" class="btn btn-link set-category" data-category-id="' + value.id + '" data-category-level="' + value.level + '">' + value.name + '</button>';
+                        html += '<span class="item"><button type="button" class="btn btn-link set-category" data-category-id="' + value.id + '" data-category-level="' + value.level + '">' + value.name + '</button></span>';
                     });
 
                     destination.append(html);

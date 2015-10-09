@@ -22,7 +22,7 @@
                     html   = '';
 
                 $.each(region, function (key, value) {
-                    html += '<button type="button" class="btn btn-link set-region" data-region="' + key + '">' + value + '</button>';
+                    html += '<span class="item"><button type="button" class="btn btn-link set-region" data-region="' + key + '">' + value + '</button></span>';
                 });
 
                 destination.append(html);
@@ -40,7 +40,7 @@
 
     $(document).on('click', '.set-region', function() {
         // reset category
-        reset();
+        resetCategory();
 
         var id    = $(this).data('region'),
             value = $(this).text();
@@ -51,7 +51,7 @@
         $('#modal').modal('hide');
     });
 
-    function reset() {
+    function resetCategory() {
         $('.input-category').val('');
         $('.input-category-level').val(1);
 
