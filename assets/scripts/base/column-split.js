@@ -11,6 +11,8 @@
         } else if (length > 10) {
             destination.slice(0, Math.ceil(length / 2)).wrapAll('<div class="col col-md-6" />');
             destination.slice(Math.ceil(length / 2), length).wrapAll('<div class="col col-md-6" />');
+        } else {
+            destination.wrapAll('<div class="col col-md-12" />');
         }
     });
 })();
