@@ -88,6 +88,56 @@ class DataSourceGlobal
     }
 
     /**
+     * @param $name
+     * @param $sortOrderFromForm
+     *
+     * @return bool
+     */
+    public function sortOrderExists($name, $sortOrderFromForm)
+    {
+        $sortOrder = $this->getSourceGlobalByName($name)['Sort Order'];
+
+        return in_array($sortOrderFromForm, $sortOrder);
+    }
+
+    /**
+     * @param $name
+     * @param $listingTypeFromForm
+     *
+     * @return bool
+     */
+    public function listingTypeExists($name, $listingTypeFromForm)
+    {
+        $listingType = $this->getSourceGlobalByName($name)['Listing Type'];
+
+        foreach ($listingTypeFromForm as $item) {
+            if (!in_array($item, $listingType)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $regionId
+     *
+     * @return bool
+     */
+    public function regionExists($regionId)
+    {
+        $entity = $this->getDataSourceGlobalEntity();
+
+        try {
+            $region = $this->em->find($entity, $regionId);
+        } catch(\Exception $e) {
+            return false;
+        }
+
+        return !empty($region);
+    }
+
+    /**
      * @param $entity
      */
     public function persist($entity)

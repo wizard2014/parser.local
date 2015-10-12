@@ -37,6 +37,7 @@ class GetStartedController extends AbstractActionController
 
         return new ViewModel([
             'ebaySourceGlobal' => $ebayDataSourceGlobalEbay,
+            'flashMessages'    => $this->flashMessenger()->getMessages(),
             'token'            => $this->token(),
         ]);
     }

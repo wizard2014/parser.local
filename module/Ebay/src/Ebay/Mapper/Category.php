@@ -57,11 +57,23 @@ class Category implements CategoryInterface
      *
      * @return bool
      */
-    public function categoryExists()
+    public function categoriesExists()
     {
         $categories = $this->getAllCategories();
 
         return (bool)count($categories);
+    }
+
+    public function categoryExists($dataSourceRegional, $categoryId)
+    {
+        $entity = $this->getCategoryEntity();
+
+        $category = $this->em->getRepository($entity)->findBy([
+            'dataSourceRegional' => $dataSourceRegional,
+            'categoryId'         => $categoryId,
+        ]);
+
+        return (bool)$category;
     }
 
     /**

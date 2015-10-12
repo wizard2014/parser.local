@@ -10,6 +10,19 @@
                     <a href="{{ url('get-started') }}">Select source</a>
                 </h2>
 
+                {% if flashMessages|length %}
+                    <div class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Error!</strong>
+
+                        <ul class="list-unstyled">
+                            {% for msg in flashMessages[0] %}
+                                <li>{{ msg }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
                 <div class="well source-list">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#" data-toggle="tab">eBay</a></li>
@@ -86,7 +99,7 @@
                                         <label class="label label-primary" for="sortOrder">Sort Order:</label>
                                         <select name="sortOrder" id="sortOrder" class="form-control">
                                             {% for sortOrder in ebaySourceGlobal['Sort Order'] %}
-                                                <option value="{{ sortOrder|replace({' ': ''}) }}">{{ sortOrder }}</option>
+                                                <option value="{{ sortOrder }}">{{ sortOrder }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -97,7 +110,7 @@
                                     <div class="checkbox" id="listingType">
                                         {% for listingType in ebaySourceGlobal['Listing Type'] %}
                                             <label>
-                                                <input type="checkbox" name="listingType[]" value="{{ listingType|replace({' ': ''}) }}"> <span class="check-text">{{ listingType }}</span>
+                                                <input type="checkbox" name="listingType[]" value="{{ listingType }}"> <span class="check-text">{{ listingType }}</span>
                                             </label>
                                         {% endfor %}
                                     </div>

@@ -37,11 +37,11 @@ class ConsoleController extends AbstractActionController
         $regions = $this->mapper['dataSourceRegional']->getDataByRegion($dataSourceGlobalIdEbay, 'en', 'ebay'); // ebay in english
 
         // Check category exists
-        $categoryExists = $this->mapper['category']->categoryExists();
+        $categoriesExists = $this->mapper['category']->categoriesExists();
 
         $this->setEbayCategory($regions);
 
-//        if ($categoryExists) {
+//        if ($categoriesExists) {
 //            $this->updateEbayCategory($regions);
 //        } else {
 //            $this->setEbayCategory($regions);

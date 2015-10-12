@@ -66,7 +66,7 @@ class FindItems
         ]);
 
         // set sort order
-        isset($data['sortOrder']) ? $request->sortOrder = $data['sortOrder'] : $request->sortOrder = 'BestMatch';
+        $request->sortOrder = $data['sortOrder'];
 
         // limit the results
         $request->paginationInput = new TypesFinding\PaginationInput();
@@ -80,7 +80,7 @@ class FindItems
         }
 
         // send the request
-        $limit  = $data['returnsPageNumbers'];
+        $limit  = (int)$data['returnsPageNumbers'];
         $result = [];
 
         for ($pageNum = 1; $pageNum <= $limit; $pageNum++) {

@@ -10,17 +10,21 @@ use Zend\Session\Container;
 class IndexController extends AbstractActionController
 {
     protected $ebayFindingService;
+    protected $mapper;
     protected $session;
     protected $outputPath = './data/output/';
 
     /**
      * @param $ebayFindingService
+     * @param $mapper
      */
-    public function __construct($ebayFindingService)
+    public function __construct($ebayFindingService, $mapper)
     {
         $this->ebayFindingService = $ebayFindingService;
 
         $this->session = new Container('token');
+
+        $this->mapper = $mapper;
     }
 
     public function indexAction()
@@ -33,7 +37,17 @@ class IndexController extends AbstractActionController
             // validate token
             $token = $this->tokenValidate($data['token']);
 
-            if ($token) {
+            // clear data
+            array_walk_recursive($data, function (&$value) {
+                $value = trim(strip_tags($value));
+            });
+
+            // validate form data
+            $errors = $this->validate($data);
+
+            if (!empty($errors)) {
+                $this->flashMessenger()->addMessage($errors);
+            } elseif ($token) {
                 $results = $this->ebayFindingService->findItems($data);
 
                 // save result as XML
@@ -64,6 +78,45 @@ class IndexController extends AbstractActionController
                 $xmlData->addChild("$key", htmlspecialchars("$value"));
             }
         }
+    }
+
+    protected function validate($data)
+    {
+        $errors = [];
+
+        if (!empty($data['minPrice']) && !is_numeric($data['minPrice'])) {
+            $errors[] = '[Min Price] should be a number.';
+        }
+
+        if (!empty($data['maxPrice']) && !is_numeric($data['maxPrice'])) {
+            $errors[] = '[Max Price] should be a number.';
+        }
+
+        if (!$this->mapper['dataSourceGlobal']->sortOrderExists('eBay', $data['sortOrder'])) {
+            $errors[] = 'Invalid [Sort Order].';
+        }
+
+        if (!empty($data['listingType']) && !$this->mapper['dataSourceGlobal']->listingTypeExists('eBay', $data['listingType'])) {
+            $errors[] = 'Invalid [Listing Type].';
+        }
+
+        if (empty($data['entriesPerPage']) || !is_numeric($data['entriesPerPage']) || (int)$data['entriesPerPage'] < 0) {
+            $errors[] = '[Entries Per Page] should be positive integer.';
+        }
+
+        if (empty($data['returnsPageNumbers']) || !is_numeric($data['returnsPageNumbers']) || (int)$data['returnsPageNumbers'] < 0) {
+            $errors[] = '[Returns Page Numbers] should be positive integer.';
+        }
+
+        if ($this->mapper['dataSourceGlobal']->regionExists($data['region'])) {
+            if (!$this->mapper['category']->categoryExists($data['region'], $data['category'])) {
+                $errors[] = 'Invalid [Category].';
+            }
+        } else {
+            $errors[] = 'Invalid [Region].';
+        }
+
+        return $errors;
     }
 
     /**
