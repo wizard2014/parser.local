@@ -4,7 +4,8 @@
 (function() {
     $(document).on('click', '.get-category', function() {
         var destination = $('.destination'),
-            modalTitle  = $('.modal-title');
+            modalTitle  = $('.modal-title'),
+            loader      = $('.loader');
 
         var region   = $('.input-region').val(),
             level    = $('.input-category-level').val(),
@@ -18,6 +19,8 @@
             data : { region: region, level: level, parentId: parentId },
 
             beforeSend: function() {
+                loader.toggleClass('visible');
+
                 destination.empty();
                 modalTitle.empty();
             }
@@ -41,7 +44,7 @@
 
             })
             .always(function() {
-
+                loader.toggleClass('visible');
             });
     });
 

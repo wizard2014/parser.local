@@ -4,7 +4,8 @@
 (function() {
     $('.get-region').on('click', function() {
         var destination = $('.destination'),
-            modalTitle  = $('.modal-title');
+            modalTitle  = $('.modal-title'),
+            loader      = $('.loader');
 
         var title = $(this).data('title');
 
@@ -13,6 +14,8 @@
             url : '/get-started/get-region',
 
             beforeSend: function() {
+                loader.toggleClass('visible');
+
                 destination.empty();
                 modalTitle.empty();
             }
@@ -34,7 +37,7 @@
 
             })
             .always(function() {
-
+                loader.toggleClass('visible');
             });
     });
 
