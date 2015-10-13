@@ -101,13 +101,13 @@ class FindItems
                         'buyItNow'                      => $item->listingInfo->buyItNowAvailable
                             ? $item->listingInfo->buyItNowPrice->currencyId . ' ' . $item->listingInfo->buyItNowPrice->value : 'No',
 
+                        'condition'                     => $item->condition->conditionDisplayName,
                         'country'                       => $item->country,
                         'autoPay'                       => $item->autoPay ? 'Yes': 'No',
-                        'pricingTreatment'              => $item->discountPriceInfo->pricingTreatment,
                         'originalRetailPrice'           => $item->discountPriceInfo->originalRetailPrice->currencyId . ' ' . $item->discountPriceInfo->originalRetailPrice->value,
                         'multiVariationListing'         => $item->isMultiVariationListing ? 'Yes' : 'No',
                         'location'                      => $item->location,
-                        'paymentMethod'                 => $item->paymentMethod->current(), // only first method
+                        'paymentMethod'                 => $item->paymentMethod->current(), // only first value !!!
                         'postalCode'                    => $item->postalCode,
                         'productId'                     => $item->productId->type . ' ' . $item->productId->value,
                         'returnsAccepted'               => $item->returnsAccepted ? 'Yes' : 'No',
@@ -132,10 +132,13 @@ class FindItems
                         'unitPrice'                     => $item->unitPrice->type . ' ' .  $item->unitPrice->quantity,
 
                         'url'                           => $item->viewItemURL,
+
                     ];
                 }
             }
         }
+
+        var_dump($result); exit;
 
         return $result;
     }        
