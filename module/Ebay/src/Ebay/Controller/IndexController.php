@@ -48,6 +48,13 @@ class IndexController extends AbstractActionController
             if (!empty($errors)) {
                 $this->flashMessenger()->addMessage($errors);
             } elseif ($token) {
+                /**
+                 * replace region id to Ebay global id
+                 *
+                 * @todo Change solution
+                 */
+                $data['region'] = $this->mapper['dataSourceRegional']->getPropertySet($data['region'], 'ebay_global_id');
+
                 $results = $this->ebayFindingService->findItems($data);
 
                 // save result as XML
@@ -80,6 +87,11 @@ class IndexController extends AbstractActionController
         }
     }
 
+    /**
+     * @param $data
+     *
+     * @return array
+     */
     protected function validate($data)
     {
         $errors = [];

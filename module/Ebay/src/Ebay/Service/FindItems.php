@@ -46,27 +46,28 @@ class FindItems
             $itemFilter->name = 'ListingType';
 
             foreach ($data['listingType'] as $listingType) {
-                $itemFilter->value[] = $listingType;
+                $itemFilter->value[] = str_replace(' ', '', $listingType);
             }
 
             $request->itemFilter[] = $itemFilter;
         }
 
         // set min/max price range
-        $min[] = !empty($data['minPrice']) ? $data['minPrice'] : '0.01';
-        $max[] = !empty($data['maxPrice']) ? $data['maxPrice'] : '9999999.00';
-
-        $request->itemFilter[] = new TypesFinding\ItemFilter([
-            'name'  => 'MinPrice',
-            'value' => $min
-        ]);
-        $request->itemFilter[] = new TypesFinding\ItemFilter([
-            'name'  => 'MaxPrice',
-            'value' => $max
-        ]);
+        if (!empty($data['minPrice'])) {
+            $request->itemFilter[] = new TypesFinding\ItemFilter([
+                'name'  => 'MinPrice',
+                'value' => [$data['minPrice']],
+            ]);
+        }
+        if (!empty($data['maxPrice'])) {
+            $request->itemFilter[] = new TypesFinding\ItemFilter([
+                'name'  => 'MaxPrice',
+                'value' => [$data['maxPrice']],
+            ]);
+        }
 
         // set sort order
-        $request->sortOrder = $data['sortOrder'];
+        $request->sortOrder = str_replace(' ', '', $data['sortOrder']);
 
         // limit the results
         $request->paginationInput = new TypesFinding\PaginationInput();
@@ -90,12 +91,47 @@ class FindItems
             if ($response->ack !== 'Failure') {
                 foreach ($response->searchResult->item as $item) {
                     $result[] = [
-                        'itemId'      => $item->itemId,
-                        'title'       => $item->title,
-                        'price'       => $item->sellingStatus->currentPrice->currencyId . ' '. $item->sellingStatus->currentPrice->value, // USD 10.01
-                        'startTime'   => $item->listingInfo->startTime->format('Y-m-d'),
-                        'endTime'     => $item->listingInfo->endTime->format('Y-m-d'),
-                        'listingType' => $item->listingInfo->listingType,
+                        'itemId'                        => $item->itemId,
+                        'title'                         => $item->title,
+                        'price'                         => $item->sellingStatus->currentPrice->currencyId . ' '. $item->sellingStatus->currentPrice->value, // USD 10.01
+                        'startTime'                     => $item->listingInfo->startTime->format('Y-m-d H:i:s'),
+                        'endTime'                       => $item->listingInfo->endTime->format('Y-m-d H:i:s'),
+                        'listingType'                   => $item->listingInfo->listingType,
+                        'bestOfferEnabled'              => $item->listingInfo->bestOfferEnabled ? 'Yes' : 'No',
+                        'buyItNow'                      => $item->listingInfo->buyItNowAvailable
+                            ? $item->listingInfo->buyItNowPrice->currencyId . ' ' . $item->listingInfo->buyItNowPrice->value : 'No',
+
+                        'country'                       => $item->country,
+                        'autoPay'                       => $item->autoPay ? 'Yes': 'No',
+                        'pricingTreatment'              => $item->discountPriceInfo->pricingTreatment,
+                        'originalRetailPrice'           => $item->discountPriceInfo->originalRetailPrice->currencyId . ' ' . $item->discountPriceInfo->originalRetailPrice->value,
+                        'multiVariationListing'         => $item->isMultiVariationListing ? 'Yes' : 'No',
+                        'location'                      => $item->location,
+                        'paymentMethod'                 => $item->paymentMethod->current(), // only first method
+                        'postalCode'                    => $item->postalCode,
+                        'productId'                     => $item->productId->type . ' ' . $item->productId->value,
+                        'returnsAccepted'               => $item->returnsAccepted ? 'Yes' : 'No',
+
+                        'sellerFeedbackRatingStar'      => $item->sellerInfo->feedbackRatingStar,
+                        'sellerFeedbackScore'           => $item->sellerInfo->feedbackScore,
+                        'sellerPositiveFeedbackPercent' => $item->sellerInfo->positiveFeedbackPercent,
+                        'sellerUserName'                => $item->sellerInfo->sellerUserName,
+                        'topRatedSeller'                => $item->sellerInfo->topRatedSeller ? 'Yes' : 'No',
+                        'bidCount'                      => $item->sellingStatus->bidCount,
+                        'sellingState'                  => $item->sellingStatus->sellingState,
+
+                        'shippingType'                  => $item->shippingInfo->shippingType,
+                        // and more
+
+                        'storeName'                     => $item->storeInfo->storeName,
+                        'storeURL'                      => $item->storeInfo->storeURL,
+
+                        'subtitle'                      => $item->subtitle,
+                        'topRatedListing'               => $item->topRatedListing ? 'Yes' : 'No',
+
+                        'unitPrice'                     => $item->unitPrice->type . ' ' .  $item->unitPrice->quantity,
+
+                        'url'                           => $item->viewItemURL,
                     ];
                 }
             }

@@ -68,6 +68,25 @@ class DataSourceRegional
     }
 
     /**
+     * @param      $id
+     * @param null $prop
+     *
+     * @return array
+     */
+    public function getPropertySet($id, $prop = null)
+    {
+        $entity = $this->getDataSourceRegionalEntity();
+
+        if (is_null($prop)) {
+            $props = $this->em->find($entity, $id)->getPropertySet();
+        } else {
+            $props = $this->em->find($entity, $id)->getPropertySet()[$prop];
+        }
+
+        return $props;
+    }
+
+    /**
      * @param $entity
      */
     public function persist($entity)
