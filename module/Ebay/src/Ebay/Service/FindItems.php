@@ -25,7 +25,7 @@ class FindItems
         $service = new FindingServices\FindingService([
             'appId'      => $this->options->getAppId(),
             'apiVersion' => $this->options->getFindingApiVersion(),
-            'globalId'   => $data['region'] ?: 'EBAY-US'
+            'globalId'   => $data['region'] ?: 'EBAY-US',
         ]);
 
         // Create the request object
@@ -74,10 +74,14 @@ class FindItems
         $request->paginationInput->entriesPerPage = (int)$data['entriesPerPage'];
         $request->paginationInput->pageNumber     = 1;
 
+        // DistanceNearest Sorts items by distance from the buyer in ascending order. The request must also include a buyerPostalCode
+//        $request->buyerPostalCode = '';
+
         // specific params
         $request->outputSelector = [
             EnumsFinding\OutputSelectorType::C_SELLER_INFO,
             EnumsFinding\OutputSelectorType::C_STORE_INFO,
+            EnumsFinding\OutputSelectorType::C_UNIT_PRICE_INFO,
 //            EnumsFinding\OutputSelectorType::C_PICTUREURL_SUPER_SIZE,
         ];
 
@@ -136,7 +140,7 @@ class FindItems
                         'subtitle'                      => $item->subtitle,
                         'topRatedListing'               => $item->topRatedListing ? 'Yes' : 'No',
 
-                        'unitPrice'                     => $item->unitPrice->type . ' ' .  $item->unitPrice->quantity,
+                        'unitPrice'                     => $item->unitPrice->quantity . ' ' . $item->unitPrice->type, // e.g. Kg 100g 10g L 100ml 10ml M M2 M3 Unit
 
                         'url'                           => $item->viewItemURL,
 
