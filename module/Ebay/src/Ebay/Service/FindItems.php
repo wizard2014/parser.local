@@ -138,8 +138,6 @@ class FindItems
             }
         }
 
-        var_dump($result); exit;
-
         return $result;
     }        
 }
