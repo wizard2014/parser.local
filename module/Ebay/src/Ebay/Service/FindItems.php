@@ -74,6 +74,13 @@ class FindItems
         $request->paginationInput->entriesPerPage = (int)$data['entriesPerPage'];
         $request->paginationInput->pageNumber     = 1;
 
+        // specific params
+        $request->outputSelector = [
+            EnumsFinding\OutputSelectorType::C_SELLER_INFO,
+            EnumsFinding\OutputSelectorType::C_STORE_INFO,
+//            EnumsFinding\OutputSelectorType::C_PICTUREURL_SUPER_SIZE,
+        ];
+
         $response = $service->findItemsAdvanced($request);
 
         if (isset($response->errorMessage)) {
@@ -114,7 +121,7 @@ class FindItems
 
                         'sellerFeedbackRatingStar'      => $item->sellerInfo->feedbackRatingStar,
                         'sellerFeedbackScore'           => $item->sellerInfo->feedbackScore,
-                        'sellerPositiveFeedbackPercent' => $item->sellerInfo->positiveFeedbackPercent,
+                        'sellerPositiveFeedbackPercent' => $item->sellerInfo->positiveFeedbackPercent . '%',
                         'sellerUserName'                => $item->sellerInfo->sellerUserName,
                         'topRatedSeller'                => $item->sellerInfo->topRatedSeller ? 'Yes' : 'No',
                         'bidCount'                      => $item->sellingStatus->bidCount,
