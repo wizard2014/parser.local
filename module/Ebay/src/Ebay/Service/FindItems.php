@@ -97,7 +97,6 @@ class FindItems
 
         for ($pageNum = 1; $pageNum <= $limit; $pageNum++) {
             $request->paginationInput->pageNumber = $pageNum;
-//            $response = $service->findItemsAdvanced($request);
 
             if ($response->ack !== 'Failure') {
                 foreach ($response->searchResult->item as $item) {
