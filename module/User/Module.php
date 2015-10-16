@@ -8,8 +8,16 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
+use User\Listener\UserListener;
+
 class Module implements AutoloaderProviderInterface
 {
+    public function onBootstrap(MvcEvent $e)
+    {
+        $em = $e->getApplication()->getEventManager();
+        $em->attach(new UserListener());
+    }
+
     public function getAutoloaderConfig()
     {
         return array(
