@@ -50,14 +50,8 @@
                                 </div>
                                 <div class="col col-sm-9">
                                     {# Button trigger modal #}
-                                    <div class="row">
-                                        <div class="col col-sm-1">
-                                            <button type="button" class="btn btn-flat mdi-content-add get-category" data-target="#modal" data-title="Select category or subcategory"></button>
-                                        </div>
-                                        <div class="col col-sm-11">
-                                            <div class="category-list"></div>
-                                        </div>
-                                    </div>
+                                    <span class="category-list"></span>
+                                    <button type="button" class="btn btn-flat mdi-content-add add-category" data-target="#modal" data-title="Select category or subcategory"></button>
                                 </div>
                             </div>
                         </div>
@@ -69,19 +63,19 @@
                     <form action="{{ url('ebay') }}" method="post" class="form">
                         <section class="well">
                             <div class="row">
-                                <div class="col col-sm-12">
-                                    <div class="form-group">
-                                        <label for="keyword" class="label label-primary">Keyword:</label>
-                                        <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1" placeholder="Keyword">
-                                    </div>
+                                <div class="form-group">
+                                    <label for="keyword" class="label label-primary">Keyword:</label>
+                                    <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1" placeholder="Keyword">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col col-sm-6">
-                                    <div class="form-group">
-                                        <label for="minPrice" class="label label-primary">Min Price:</label>
-                                        <input type="number" name="minPrice" id="minPrice" class="form-control num-only" min="1" step="1" placeholder="5">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="minPrice" class="label label-primary">Min Price:</label>
+                                            <input type="number" name="minPrice" id="minPrice" class="form-control num-only" min="1" step="1" placeholder="5">
+                                        </div>
                                     </div>
                                 </div>
 

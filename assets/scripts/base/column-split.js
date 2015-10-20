@@ -4,7 +4,6 @@
             length      = destination.length;
 
         if (length > 25) {
-            console.log(Math.ceil(length / 3));
             destination.slice(0, Math.ceil(length / 3)).wrapAll('<div class="col col-md-4" />');
             destination.slice(Math.ceil(length / 3), Math.ceil(length / 3) * 2).wrapAll('<div class="col col-md-4" />');
             destination.slice(Math.ceil(length / 3) * 2, length).wrapAll('<div class="col col-md-4" />');

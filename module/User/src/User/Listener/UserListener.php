@@ -30,8 +30,20 @@ class UserListener extends AbstractListenerAggregate
         $em = $sm->get('doctrine.entitymanager.orm_default');
 
         $ip = $this->getUserIp();
+        $timezone = $this->getTimeZone($ip);
 
-        // get locale
+
+    }
+
+    /**
+     * @param $ip
+     *
+     * @return string
+     */
+    protected function getTimeZone($ip) {
+        $data = json_decode(file_get_contents('http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . $ip), true);
+
+        return $data['geobytestimezone'];
     }
 
     /**
