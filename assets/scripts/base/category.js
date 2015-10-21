@@ -42,7 +42,7 @@
                 }
             })
             .fail(function() {
-
+                ajaxFail();
             })
             .always(function() {
                 loader.toggleClass('visible');
@@ -113,7 +113,7 @@
                 }
             })
             .fail(function() {
-
+                ajaxFail();
             })
             .always(function() {
                 loader.toggleClass('visible');
@@ -164,4 +164,9 @@
             }
         });
     });
+
+    // ajax call failed
+    function ajaxFail() {
+        $('.alert').removeClass('hide').find('.error-list').append('<li>Something went wrong! Please try again later.</li>');
+    }
 })();

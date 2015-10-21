@@ -10,18 +10,16 @@
                     <a href="{{ url('get-started') }}">Select source</a>
                 </h2>
 
-                {% if flashMessages|length %}
-                    <div class="alert alert-dismissable alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <strong>Error!</strong>
+                <div class="alert alert-dismissable alert-danger{{ flashMessages|length ? '' : ' hide' }}">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <h3>Oops... Error!</h3>
 
-                        <ul class="list-unstyled">
-                            {% for msg in flashMessages[0] %}
-                                <li>{{ msg }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
+                    <ul class="list-unstyled error-list">
+                        {% for msg in flashMessages[0] %}
+                            <li>{{ msg }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
 
                 <div class="well source-list">
                     <ul class="nav nav-tabs">
