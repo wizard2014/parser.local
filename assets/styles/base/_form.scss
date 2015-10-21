@@ -1,5 +1,10 @@
 $font-size: 1.2em;
 
+.add-category:hover,
+.add-category:focus {
+  text-decoration: none;
+}
+
 .form-place {
   .col {
     padding-right: 15px;
