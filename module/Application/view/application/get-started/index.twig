@@ -33,7 +33,7 @@
                         <div class="tab-pane fade active in" id="ebay">
                             <div class="row">
                                 <div class="col col-sm-3">
-                                    <span class="label label-primary">Select region:</span>
+                                    <span class="label label-primary">Select region: <span class="fa fa-asterisk"></span></span>
                                 </div>
                                 <div class="col col-sm-9">
                                     {# Button trigger modal #}
@@ -45,7 +45,7 @@
 
                             <div class="row">
                                 <div class="col col-sm-3">
-                                    <span class="label label-primary">Select category or subcategory:</span>
+                                    <span class="label label-primary">Select category or subcategory: <span class="fa fa-asterisk"></span></span>
                                 </div>
                                 <div class="col col-sm-9">
                                     {# Button trigger modal #}
@@ -70,7 +70,7 @@
 
                                 <div class="col col-sm-2">
                                     <div class="form-group">
-                                        <label class="label label-primary" for="sortOrder">Sort Order:</label>
+                                        <label class="label label-primary" for="sortOrder">Sort Order: <span class="fa fa-asterisk"></span></label>
                                         <select name="sortOrder" id="sortOrder" class="form-control">
                                             {% for sortOrder in ebaySourceGlobal['Sort Order'] %}
                                                 <option value="{{ sortOrder }}">{{ sortOrder }}</option>
@@ -97,7 +97,7 @@
 
                                 <div class="col col-sm-2">
                                     <div class="form-group">
-                                        <label for="itemsQty" class="label label-primary">Items qty:</label>
+                                        <label for="itemsQty" class="label label-primary">Items qty: <span class="fa fa-asterisk"></span></label>
                                         <select name="itemsQty" id="itemsQty" class="form-control">
                                             <option value="100">100</option>
                                             <option value="10000" disabled>10000</option>
@@ -130,6 +130,8 @@
 
                             <input type="submit" value="send" class="btn btn-primary btn-block submit-btn disabled" disabled>
                         </form>
+
+                        <p><span class="fa fa-asterisk"></span> - required fields.</p>
                     </div>
                 </div>
             </div>
