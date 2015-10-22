@@ -9,7 +9,9 @@
 .tab-pane {
   padding: 10px;
 
-  h4 {
-    padding: 10px 0;
+  .label {
+    display: inline-block;
+    font-size: 1.2em;
+    margin-top: 18px;
   }
 }
