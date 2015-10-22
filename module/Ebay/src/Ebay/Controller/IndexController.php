@@ -112,12 +112,8 @@ class IndexController extends AbstractActionController
             $errors[] = 'Invalid [Listing Type].';
         }
 
-        if (empty($data['entriesPerPage']) || !is_numeric($data['entriesPerPage']) || (int)$data['entriesPerPage'] < 0) {
-            $errors[] = '[Entries Per Page] should be positive integer.';
-        }
-
-        if (empty($data['returnsPageNumbers']) || !is_numeric($data['returnsPageNumbers']) || (int)$data['returnsPageNumbers'] < 0) {
-            $errors[] = '[Returns Page Numbers] should be positive integer.';
+        if (!in_array($data['itemsQty'], [100, /*10000, 50000, 100000*/])) { // uncomment in future
+            $errors[] = 'Invalid [Items qty].';
         }
 
         if ($this->mapper['dataSourceGlobal']->regionExists($data['region'])) {

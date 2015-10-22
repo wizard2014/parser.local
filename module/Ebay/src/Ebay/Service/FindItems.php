@@ -10,6 +10,7 @@ use DTS\eBaySDK\Finding\Enums as EnumsFinding;
 class FindItems
 {
     protected $options;
+    private $maxItemForPage = 100;
 
     /**
      * @param $options
@@ -71,7 +72,7 @@ class FindItems
 
         // limit the results
         $request->paginationInput = new TypesFinding\PaginationInput();
-        $request->paginationInput->entriesPerPage = (int)$data['entriesPerPage'];
+        $request->paginationInput->entriesPerPage = $this->maxItemForPage;
         $request->paginationInput->pageNumber     = 1;
 
         // DistanceNearest Sorts items by distance from the buyer in ascending order. The request must also include a buyerPostalCode
@@ -92,7 +93,7 @@ class FindItems
         }
 
         // send the request
-        $limit  = (int)$data['returnsPageNumbers'];
+        $limit  = ($data['itemsQty'] / $this->maxItemForPage);
         $result = [];
 
         for ($pageNum = 1; $pageNum <= $limit; $pageNum++) {
@@ -142,12 +143,11 @@ class FindItems
                         'unitPrice'                     => $item->unitPrice->quantity . ' ' . $item->unitPrice->type, // e.g. Kg 100g 10g L 100ml 10ml M M2 M3 Unit
 
                         'url'                           => $item->viewItemURL,
-
                     ];
                 }
             }
         }
 
         return $result;
-    }        
+    }
 }
