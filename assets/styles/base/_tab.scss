@@ -1,3 +1,5 @@
+$font-size: 1.2em;
+
 .nav-tabs {
   margin-bottom: 15px;
 
@@ -11,7 +13,18 @@
 
   .label {
     display: inline-block;
-    font-size: 1.2em;
+    font-size: $font-size;
     margin-top: 18px;
+  }
+
+  .get-region, .edit-category {
+    font-size: $font-size;
+  }
+
+  .add-category {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
   }
 }
