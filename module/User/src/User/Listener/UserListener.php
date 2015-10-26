@@ -6,6 +6,7 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
 use Zend\Http\PhpEnvironment\Request as PhpEnvironment;
+use Zend\Http\Client;
 
 class UserListener extends AbstractListenerAggregate
 {
@@ -24,15 +25,25 @@ class UserListener extends AbstractListenerAggregate
         $this->listeners[] = $sharedManager->attach(\ZfcUser\Service\User::class, 'register.post', [$this, 'onRegisterPost']);
     }
 
+    /**
+     * Set user timezone
+     *
+     * @param Event $e
+     */
     public function onRegisterPost(Event $e)
     {
-        $sm = $e->getTarget()->getServiceManager();
-        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $sm     = $e->getTarget()->getServiceManager();
+        $em     = $sm->get('doctrine.entitymanager.orm_default');
+        $user   = $e->getParam('user');
+        $userId = $user->getId();
 
         $ip = $this->getUserIp();
-        $timezone = $this->getTimeZone($ip);
+        $timezone = (int)$this->getTimeZone($ip);
 
+        $currentUser = $em->find(\User\Entity\UserStatus::class, $userId);
+        $currentUser->setTimezone($timezone);
 
+        $em->flush();
     }
 
     /**
@@ -41,7 +52,10 @@ class UserListener extends AbstractListenerAggregate
      * @return string
      */
     protected function getTimeZone($ip) {
-        $data = json_decode(file_get_contents('http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . $ip), true);
+        $client = new Client('http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . $ip);
+
+        $response = $client->send();
+        $data     = json_decode($response->getBody(), true);
 
         return $data['geobytestimezone'];
     }
