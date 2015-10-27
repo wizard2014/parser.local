@@ -53,6 +53,26 @@ class Category implements CategoryInterface
     }
 
     /**
+     * Get the names of the categories
+     *
+     * @return array
+     */
+    public function getAllCategoriesNames()
+    {
+        $categories = $this->getAllCategories();
+
+        $result = [];
+
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $result[$category->getDataSourceRegional()->getId()][$category->getCategoryName()] = true;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Check category exists
      *
      * @return bool
@@ -64,6 +84,12 @@ class Category implements CategoryInterface
         return (bool)count($categories);
     }
 
+    /**
+     * @param $dataSourceRegional
+     * @param $categoryId
+     *
+     * @return bool
+     */
     public function categoryExists($dataSourceRegional, $categoryId)
     {
         $entity = $this->getCategoryEntity();

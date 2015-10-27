@@ -46,8 +46,10 @@ class DataSourceRegional
      * @param string $vendor
      *
      * @return array
+     *
+     * @todo refactor duplicate
      */
-    public function getDataByRegion($dataSourceGlobalId, $selectLang, $vendor)
+    public function getRegions($dataSourceGlobalId, $selectLang, $vendor)
     {
         $entity = $this->getDataSourceRegionalEntity();
 
@@ -68,22 +70,66 @@ class DataSourceRegional
     }
 
     /**
+     * @param        $dataSourceGlobalId
+     * @param string $selectLang
+     * @param string $vendor
+     *
+     * @return array
+     *
+     * @todo refactor duplicate
+     */
+    public function getDataByRegion($dataSourceGlobalId, $selectLang, $vendor)
+    {
+        $entity = $this->getDataSourceRegionalEntity();
+
+        $regions = $this->em->getRepository($entity)->findAll();
+
+        $result = [];
+
+        foreach ($regions as $region) {
+            $language                  = $region->getPropertySet()[strtolower($vendor) . '_language'];
+            $currentDataSourceGlobalId = $region->getDataSourceGlobal()->getId();
+
+            if ($currentDataSourceGlobalId === $dataSourceGlobalId && strpos($language, $selectLang) !== false) {
+                $result[] = $region;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * @param      $id
      * @param null $prop
      *
-     * @return array
+     * @return mixed
      */
     public function getPropertySet($id, $prop = null)
     {
         $entity = $this->getDataSourceRegionalEntity();
 
         if (is_null($prop)) {
-            $props = $this->em->find($entity, $id)->getPropertySet();
+            $prop = $this->em->find($entity, $id)->getPropertySet();
         } else {
-            $props = $this->em->find($entity, $id)->getPropertySet()[$prop];
+            $prop = $this->em->find($entity, $id)->getPropertySet()[$prop];
         }
 
-        return $props;
+        return $prop;
+    }
+
+    public function getPropertiesSet($dataSourceGlobalId, $prop = null)
+    {
+        $result = [];
+
+        $entity = $this->getDataSourceRegionalEntity();
+
+        $props = $this->em->getRepository($entity)->findBy(['dataSourceGlobal' => $dataSourceGlobalId]);
+
+        foreach ($props as $item) {
+            $result[] = !is_null($prop) ? $item->getPropertySet()[$prop] : $item->getPropertySet();
+        }
+
+        return $result;
     }
 
     /**

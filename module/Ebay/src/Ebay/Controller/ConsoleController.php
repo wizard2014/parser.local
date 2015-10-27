@@ -33,19 +33,10 @@ class ConsoleController extends AbstractActionController
         }
 
         // Set eBay category into db
-        $dataSourceGlobalIdEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay')->getId();
+        $dataSourceGlobalIdEbay = $this->mapper['dataSourceGlobal']->getIdByName('eBay');
         $regions = $this->mapper['dataSourceRegional']->getDataByRegion($dataSourceGlobalIdEbay, 'en', 'ebay'); // ebay in english
 
-        // Check category exists
-        $categoriesExists = $this->mapper['category']->categoriesExists();
-
         $this->setEbayCategory($regions);
-
-//        if ($categoriesExists) {
-//            $this->updateEbayCategory($regions);
-//        } else {
-//            $this->setEbayCategory($regions);
-//        }
 
         return 'done';
     }
@@ -57,23 +48,29 @@ class ConsoleController extends AbstractActionController
      */
     protected function setEbayCategory($regions)
     {
+        $currentCategories = $this->mapper['category']->getAllCategoriesNames();
+
         foreach ($regions as $region) {
-            $propertySet = $region->getPropertySet();
-            $ebaySiteId  = $propertySet['ebay_site_id'];
+            $ebaySiteId = $region->getPropertySet()['ebay_site_id'];
 
             $categories = $this->categoryService->getCategoryList($ebaySiteId);
 
             foreach ($categories as $category) {
-                $categoryEntity = $this->mapper['category']->getCategoryEntity();
+                $test = $this->filter($category->CategoryName);
 
-                $categoryItem = new $categoryEntity();
-                $categoryItem->setCategoryLevel($category->CategoryLevel);
-                $categoryItem->setCategoryName($category->CategoryName);
-                $categoryItem->setCategoryId($category->CategoryID);
-                $categoryItem->setCategoryParentId($category->CategoryParentID[0]);
-                $categoryItem->setDataSourceRegional($region);
+                if ($test && !isset($currentCategories[$region->getId()][$category->CategoryName])) {
+                    $categoryEntity = $this->mapper['category']->getCategoryEntity();
 
-                $this->mapper['category']->persist($categoryItem);
+                    $categoryItem = new $categoryEntity();
+                    $categoryItem->setCategoryLevel($category->CategoryLevel);
+                    $categoryItem->setCategoryName($category->CategoryName);
+                    $categoryItem->setCategoryId($category->CategoryID);
+                    $categoryItem->setCategoryParentId($category->CategoryParentID[0]);
+                    $categoryItem->setDataSourceRegional($region);
+
+                    $this->mapper['category']->persist($categoryItem);
+                }
+
             }
 
             $this->mapper['category']->flush();
@@ -81,14 +78,22 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
-     * Update ebay category
+     * @param $categoryName
      *
-     * @param $regions
-     *
-     * @todo add update categories
+     * @return bool
      */
-    protected function updateEbayCategory($regions)
+    protected function filter($categoryName)
     {
+        if (stripos($categoryName, 'unknown')       !== false ||
+            stripos($categoryName, 'test auctions') !== false ||
+            stripos($categoryName, 'attributes')    !== false ||
+            stripos($categoryName, 'category')      !== false ||
+            preg_match('/group[\s]*[0-9]/i', $categoryName)   ||
+            preg_match('/ebay[\s]*test/i', $categoryName)
+        ) {
+            return false;
+        }
 
+        return true;
     }
 }

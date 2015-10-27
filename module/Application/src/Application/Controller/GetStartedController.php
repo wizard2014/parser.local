@@ -48,7 +48,7 @@ class GetStartedController extends AbstractActionController
 
         if ($request->isXmlHttpRequest()) {
             $ebayId                 = $this->mapper['dataSourceGlobal']->getIdByName('eBay');
-            $ebayDataSourceRegional = $this->mapper['dataSourceRegional']->getDataByRegion($ebayId, 'en', 'ebay'); // ebay in english
+            $ebayDataSourceRegional = $this->mapper['dataSourceRegional']->getRegions($ebayId, 'en', 'ebay'); // ebay in english
 
             return new JsonModel([
                 'ebaySourceRegional' => $ebayDataSourceRegional,
