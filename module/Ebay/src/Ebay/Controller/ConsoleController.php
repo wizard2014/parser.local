@@ -48,7 +48,7 @@ class ConsoleController extends AbstractActionController
      */
     protected function setEbayCategory($regions)
     {
-        $currentCategories = $this->mapper['category']->getAllCategoriesNames();
+        $currentCategories = $this->mapper['category']->getAllCategoriesId();
 
         foreach ($regions as $region) {
             $ebaySiteId = $region->getPropertySet()['ebay_site_id'];
@@ -58,7 +58,7 @@ class ConsoleController extends AbstractActionController
             foreach ($categories as $category) {
                 $test = $this->filter($category->CategoryName);
 
-                if ($test && !isset($currentCategories[$region->getId()][$category->CategoryName])) {
+                if ($test && !isset($currentCategories[$category->CategoryID])) {
                     $categoryEntity = $this->mapper['category']->getCategoryEntity();
 
                     $categoryItem = new $categoryEntity();

@@ -117,6 +117,12 @@ class DataSourceRegional
         return $prop;
     }
 
+    /**
+     * @param      $dataSourceGlobalId
+     * @param null $prop
+     *
+     * @return array
+     */
     public function getPropertiesSet($dataSourceGlobalId, $prop = null)
     {
         $result = [];

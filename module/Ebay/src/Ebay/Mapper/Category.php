@@ -53,11 +53,11 @@ class Category implements CategoryInterface
     }
 
     /**
-     * Get the names of the categories
+     * Get the ids of the categories
      *
      * @return array
      */
-    public function getAllCategoriesNames()
+    public function getAllCategoriesId()
     {
         $categories = $this->getAllCategories();
 
@@ -65,7 +65,7 @@ class Category implements CategoryInterface
 
         if (!empty($categories)) {
             foreach ($categories as $category) {
-                $result[$category->getDataSourceRegional()->getId()][$category->getCategoryName()] = true;
+                $result[$category->getCategoryId()] = true;
             }
         }
 
