@@ -125,21 +125,21 @@ class UserStatus
      *
      * @ORM\Column(name="subscription_date_creation", type="datetime", nullable=true)
      */
-    private $subscriptionDateCreation = '-infinity';
+    private $subscriptionDateCreation = '1970-01-01 00:00:00';
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="subscription_date_activation", type="datetime", nullable=true)
      */
-    private $subscriptionDateActivation = '-infinity';
+    private $subscriptionDateActivation = '1970-01-01 00:00:00';
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="subscription_date_expiration", type="datetime", nullable=true)
      */
-    private $subscriptionDateExpiration = '-infinity';
+    private $subscriptionDateExpiration = '1970-01-01 00:00:00';
 
     /**
      * @var \User\Entity\User
