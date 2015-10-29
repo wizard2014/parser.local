@@ -46,25 +46,14 @@ class DataSourceRegional
      * @param string $vendor
      *
      * @return array
-     *
-     * @todo refactor duplicate
      */
     public function getRegions($dataSourceGlobalId, $selectLang, $vendor)
     {
-        $entity = $this->getDataSourceRegionalEntity();
+        $entity  = $this->getDataSourceRegionalEntity();
 
         $regions = $this->em->getRepository($entity)->findAll();
 
-        $result = [];
-
-        foreach ($regions as $region) {
-            $language                  = $region->getPropertySet()[strtolower($vendor) . '_language'];
-            $currentDataSourceGlobalId = $region->getDataSourceGlobal()->getId();
-
-            if ($currentDataSourceGlobalId === $dataSourceGlobalId && strpos($language, $selectLang) !== false) {
-                $result[$region->getId()] = $region->getRegion();
-            }
-        }
+        $result  = $this->getRegionResult($dataSourceGlobalId, $selectLang, $vendor, $regions, false);
 
         return $result;
     }
@@ -75,15 +64,29 @@ class DataSourceRegional
      * @param string $vendor
      *
      * @return array
-     *
-     * @todo refactor duplicate
      */
     public function getDataByRegion($dataSourceGlobalId, $selectLang, $vendor)
     {
-        $entity = $this->getDataSourceRegionalEntity();
+        $entity  = $this->getDataSourceRegionalEntity();
 
         $regions = $this->em->getRepository($entity)->findAll();
 
+        $result  = $this->getRegionResult($dataSourceGlobalId, $selectLang, $vendor, $regions);
+
+        return $result;
+    }
+
+    /**
+     * @param           $dataSourceGlobalId
+     * @param           $selectLang
+     * @param           $vendor
+     * @param           $regions
+     * @param bool|true $fullResult
+     *
+     * @return array
+     */
+    protected function getRegionResult($dataSourceGlobalId, $selectLang, $vendor, $regions, $fullResult = true)
+    {
         $result = [];
 
         foreach ($regions as $region) {
@@ -91,7 +94,11 @@ class DataSourceRegional
             $currentDataSourceGlobalId = $region->getDataSourceGlobal()->getId();
 
             if ($currentDataSourceGlobalId === $dataSourceGlobalId && strpos($language, $selectLang) !== false) {
-                $result[] = $region;
+                if ($fullResult) {
+                    $result[] = $region;
+                } else {
+                    $result[$region->getId()] = $region->getRegion();
+                }
             }
         }
 
