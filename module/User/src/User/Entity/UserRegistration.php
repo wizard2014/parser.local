@@ -3,6 +3,9 @@
 namespace User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Math\Rand;
+use ZfcUser\Entity\UserInterface;
+use HtUserRegistration\Entity\UserRegistrationInterface;
 
 /**
  * UserRegistration
@@ -10,8 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user_registration", uniqueConstraints={@ORM\UniqueConstraint(name="token_unique", columns={"token"})})
  * @ORM\Entity
  */
-class UserRegistration
+class UserRegistration implements UserRegistrationInterface
 {
+    // length of request key
+    const REQUEST_KEY_LENGTH = 16;
+
     /**
      * @var string
      *
@@ -46,6 +52,20 @@ class UserRegistration
     private $user;
 
     /**
+     * Constructor
+     * Intiliazes the entity
+     *
+     * @param UserInterface|null $user
+     */
+    public function __construct(UserInterface $user = null)
+    {
+        $this->requestTime = new \DateTime;
+        if ($user) {
+            $this->setUser($user);
+        }
+    }
+
+    /**
      * Set token
      *
      * @param string $token
@@ -70,13 +90,21 @@ class UserRegistration
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function generateToken()
+    {
+        $this->setToken(Rand::getString(static::REQUEST_KEY_LENGTH, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', true));
+    }
+
+    /**
      * Set requestTime
      *
      * @param \DateTime $requestTime
      *
      * @return UserRegistration
      */
-    public function setRequestTime($requestTime)
+    public function setRequestTime(\DateTime $requestTime)
     {
         $this->requestTime = $requestTime;
 
@@ -118,13 +146,19 @@ class UserRegistration
     }
 
     /**
-     * Set user
-     *
-     * @param \User\Entity\User $user
-     *
-     * @return UserRegistration
+     * {@inheritDoc}
      */
-    public function setUser(\User\Entity\User $user)
+    public function isResponded()
+    {
+        return $this->responded;
+    }
+
+    /**
+     * @param UserInterface $user
+     *
+     * @return $this
+     */
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
 

@@ -15,6 +15,13 @@ return [
                 ],
             ],
         ],
+        'entity_resolver' => [
+            'orm_default' => [
+                'resolvers' => [
+                    'ZfcUser\Entity\UserInterface' => 'User\Entity\User',
+                ]
+            ]
+        ],
     ],
 
     'zfcuser' => [

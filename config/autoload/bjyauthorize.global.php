@@ -111,6 +111,7 @@ return [
                 ['controller' => 'ScnSocialAuth-HybridAuth', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Index', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Console', 'action' => ['index'], 'roles' => ['guest','user']],
+                ['controller' => 'HtUserRegistration', 'action' => ['verify-email'], 'roles' => ['guest','user']],
 //                ['controller' => 'index', 'action' => 'stuff', 'roles' => ['user']],
                 // You can also specify an array of actions or an array of controllers (or both)
                 // allow "guest" and "admin" to access actions "list" and "manage" on these "index",
@@ -137,11 +138,14 @@ return [
                 ['route' => 'zfcuser/logout', 'roles' => ['user']],
                 ['route' => 'zfcuser/login', 'roles' => ['guest']],
                 ['route' => 'zfcuser/register', 'roles' => ['guest']],
+                // ht-user-registration
+                ['route' => 'zfcuser/verify_email', 'roles' => ['guest']],
                 // Below is the default index action used by the ZendSkeletonApplication
                 ['route' => 'home', 'roles' => ['guest', 'user']],
                 ['route' => 'application', 'roles' => ['guest', 'user']],
                 ['route' => 'get-started', 'roles' => ['guest', 'user']],
                 ['route' => 'get-started/default', 'roles' => ['user']],
+                // social auth
                 ['route' => 'scn-social-auth-user', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/login', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/login/provider', 'roles' => ['guest', 'user']],
@@ -149,6 +153,7 @@ return [
                 ['route' => 'scn-social-auth-user/register', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-user/logout', 'roles' => ['guest', 'user']],
                 ['route' => 'scn-social-auth-hauth', 'roles' => ['guest', 'user']],
+                // ebay
                 ['route' => 'ebay', 'roles' => ['guest', 'user']],
 //                ['route' => 'console', 'roles' => ['guest', 'user']],
                 ['route' => 'ebay-category', 'roles' => ['guest', 'user']],
