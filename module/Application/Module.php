@@ -11,6 +11,7 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Controller\Plugin\FlashMessenger;
 
 class Module
 {
@@ -19,6 +20,15 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        // add global message
+        $eventManager->attach(MvcEvent::EVENT_RENDER, function(MvcEvent $e) {
+            $flashMessenger = new FlashMessenger();
+
+            if ($flashMessenger->hasMessages()) {
+                current($e->getViewModel()->getChildren())->setVariable('flashMessages', $flashMessenger->getMessages());
+            }
+        });
     }
 
     public function getConfig()

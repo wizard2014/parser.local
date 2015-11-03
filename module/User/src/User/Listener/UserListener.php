@@ -7,6 +7,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
 use Zend\Http\PhpEnvironment\Request as PhpEnvironment;
 use Zend\Http\Client;
+use Zend\Mvc\Controller\Plugin\FlashMessenger;
 
 class UserListener extends AbstractListenerAggregate
 {
@@ -44,6 +45,12 @@ class UserListener extends AbstractListenerAggregate
         $currentUser->setTimezone($timezone);
 
         $em->flush();
+
+        // add message to flashMessenger
+        $userEmail = $user->getEmail();
+
+        $flashMessenger = new FlashMessenger();
+        $flashMessenger->addMessage('Confirm your email (<strong>' . $userEmail . '</strong>). After you created your account we sent you a confirmation email. You need to check that out before you can sign in.');
     }
 
     /**
