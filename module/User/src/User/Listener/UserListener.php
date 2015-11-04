@@ -50,7 +50,7 @@ class UserListener extends AbstractListenerAggregate
         $userEmail = $user->getEmail();
 
         $flashMessenger = new FlashMessenger();
-        $flashMessenger->addMessage('Confirm your email (<strong>' . $userEmail . '</strong>). After you created your account we sent you a confirmation email. You need to check that out before you can sign in.');
+        $flashMessenger->addMessage('Confirm your email (' . $userEmail . '). After you created your account we sent you a confirmation email. You need to check that out before you can sign in.|info', 'zfcuser-login-form');
     }
 
     /**
@@ -61,8 +61,12 @@ class UserListener extends AbstractListenerAggregate
     protected function getTimeZone($ip) {
         $client = new Client('http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . $ip);
 
-        $response = $client->send();
-        $data     = json_decode($response->getBody(), true);
+        try {
+            $response = $client->send();
+            $data     = json_decode($response->getBody(), true);
+        } catch (\Exception $e) {
+            $data['geobytestimezone'] = 0;
+        }
 
         return $data['geobytestimezone'];
     }
