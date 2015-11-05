@@ -14,18 +14,19 @@
 {% if formElementErrors(form.get('identity')) %}
     {% set identity = form.get('identity').getMessages()[0] %}
     {% set hasInfo  = '|' in identity %}
-    {% set msg      = identity|split('|') %}
-    {% set info     = msg|last %}
+    {% set email    = identity|split('|')|first %}
 {% endif %}
 {# end check #}
 
 {% if formElementErrors(form.get('identity')) or formElementErrors(form.get('credential')) %}
     <div class="alert alert-dismissable{{ hasInfo ? ' alert-info' : ' alert-danger' }}">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong>{{ hasInfo ? 'Info' : 'Error!' }}</strong>
+        <strong>{{ hasInfo ? '' : 'Error!' }}</strong>
 
         {% if hasInfo %}
-            <p>{{ msg|first|raw }}</p>
+            <h4>Confirm your email (<strong>{{ email }}</strong>).</h4>
+            <p>After you created your account we sent you a confirmation email. You need to check that out before you can sign in.</p>
+            <p>If you didn't receive the email we can send you another one. <a class="btn btn-primary" href="#">Re-send</a></p>
         {% else %}
             {{ formElementErrors()
             .setMessageOpenFormat('<p>')
@@ -36,7 +37,7 @@
 {% endif %}
 {# end check #}
 
-<div class="form-group{% if formElementErrors(form.get('identity')) and not info %} has-error{% endif %}">
+<div class="form-group{% if formElementErrors(form.get('identity')) and not hasInfo %} has-error{% endif %}">
     <span class="sr-only">{{ formLabel(form.get('identity')) }}</span>
     {{ formInput(form.get('identity').setAttributes({
         'class'      : 'form-control',

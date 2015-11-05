@@ -50,7 +50,7 @@ class UserListener extends AbstractListenerAggregate
         $userEmail = $user->getEmail();
 
         $flashMessenger = new FlashMessenger();
-        $flashMessenger->addMessage('Confirm your email (<strong>' . $userEmail . '</strong>). After you created your account we sent you a confirmation email. You need to check that out before you can sign in.|info', 'zfcuser-login-form');
+        $flashMessenger->addMessage($userEmail . '|info', 'zfcuser-login-form');
     }
 
     /**
