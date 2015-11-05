@@ -13,7 +13,7 @@ $options = [
      * Default: empty
      */
     'email_from_address' => [
-        'versoverteam@gmail.com' => 'Versover Team',
+        'versoverteam@gmail.com' => 'Extrow | Email confirmation',
     ],
 
     /**
