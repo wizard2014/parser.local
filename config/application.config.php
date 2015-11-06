@@ -23,7 +23,6 @@ return [
         'ScnSocialAuthDoctrineORM',
         'MtMail',
         'HtUserRegistration',
-//        'HtUserRegistrationMod',
         'HtUserRegistrationDoctrineORM',
         'BjyAuthorize',
         'User',

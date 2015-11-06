@@ -12,6 +12,7 @@ class GetStartedController extends AbstractActionController
 {
     protected $mapper;
     protected $cache;
+    protected $session;
     private $user;
 
     public function __construct($mapper, $cache)
@@ -28,7 +29,7 @@ class GetStartedController extends AbstractActionController
     public function indexAction()
     {
         // check for log in
-        if (is_null($this->user)) {
+        if (null === $this->user) {
             return $this->redirect()->toRoute('zfcuser');
         }
 

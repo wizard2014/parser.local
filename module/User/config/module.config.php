@@ -1,5 +1,25 @@
 <?php
 return [
+    'router' => [
+        'routes' => [
+            'resend' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route'    => '/user/resend',
+                    'defaults' => [
+                        'controller' => 'User\Controller\ReSend',
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'controllers' => [
+        'invokables' => [
+            'User\Controller\ReSend' => 'User\Controller\ReSendController',
+        ],
+    ],
+
     'doctrine' => [
         'driver' => [
             // overriding zfc-user-doctrine-orm's config
