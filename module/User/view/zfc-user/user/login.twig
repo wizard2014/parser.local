@@ -26,7 +26,7 @@
         {% if hasInfo %}
             <h4>Confirm your email (<strong>{{ email }}</strong>).</h4>
             <p>After you created your account we sent you a confirmation email. You need to check that out before you can sign in.</p>
-            <p>If you didn't receive the email we can send you another one. <a class="btn btn-primary" href="#">Resend</a></p>
+            <p>If you didn't receive the email we can send you another one. <a class="btn btn-primary" href="{{ url('resend') }}">Resend</a></p>
         {% else %}
             {{ formElementErrors()
             .setMessageOpenFormat('<p>')
@@ -35,7 +35,6 @@
         {% endif %}
     </div>
 {% endif %}
-{# end check #}
 
 <div class="form-group{% if formElementErrors(form.get('identity')) and not hasInfo %} has-error{% endif %}">
     <span class="sr-only">{{ formLabel(form.get('identity')) }}</span>

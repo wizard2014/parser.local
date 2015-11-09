@@ -15,8 +15,8 @@ return [
         ],
     ],
     'controllers' => [
-        'invokables' => [
-            'User\Controller\ReSend' => 'User\Controller\ReSendController',
+        'factories' => [
+            'User\Controller\ReSend' => 'User\Factory\Controller\ReSendControllerFactory',
         ],
     ],
 
