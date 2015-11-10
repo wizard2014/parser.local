@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col col-sm-2 col-sm-offset-5 col-xs-10 col-xs-offset-1">
+        <div class="col col-sm-3 col-sm-offset-4 col-xs-10 col-xs-offset-1">
             <h2 class="text-center">Resend email</h2>
 
             {# check email confirmation #}
@@ -18,7 +18,7 @@
 
                     {% if hasInfo %}
                         <h4>Confirm your email (<strong>{{ email }}</strong>).</h4>
-                        <p>We sent you a confirmation email. You need to check that out before you can sign in.</p>
+                        <p>We sent you a confirmation email. You need to check that out before you can <strong><a href="{{ url('zfcuser/login') }}">sign in</a></strong>.</p>
                     {% else %}
                         <p>{{ flashMessenger[0] }}</p>
                     {% endif %}

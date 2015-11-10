@@ -112,6 +112,7 @@ return [
                 ['controller' => 'Ebay\Controller\Index', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Console', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'HtUserRegistration', 'action' => ['verify-email'], 'roles' => ['guest','user']],
+                ['controller' => 'goalioforgotpassword_forgot', 'action' => ['forgot', 'passwordchanged', 'reset', 'sent'], 'roles' => ['guest']],
                 ['controller' => 'User\Controller\ReSend', 'action' => ['index'], 'roles' => ['guest']],
 //                ['controller' => 'index', 'action' => 'stuff', 'roles' => ['user']],
                 // You can also specify an array of actions or an array of controllers (or both)
@@ -143,6 +144,8 @@ return [
                 ['route' => 'zfcuser/verify_email', 'roles' => ['guest']],
                 // resend email
                 ['route' => 'resend', 'roles' => ['guest']],
+                // forgot password
+                ['route' => 'zfcuser/forgotpassword', 'roles' => ['guest']],
                 // Below is the default index action used by the ZendSkeletonApplication
                 ['route' => 'home', 'roles' => ['guest', 'user']],
                 ['route' => 'application', 'roles' => ['guest', 'user']],

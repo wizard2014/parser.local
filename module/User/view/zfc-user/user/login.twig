@@ -66,6 +66,10 @@
 
 {{ form().closeTag(form)|raw }}
 
-{% if enableRegistration %}
-    <p>{{ translate('Not registered?') }} <a href="{{ url('zfcuser/register') }}{{ redirect ? '?redirect=' . redirect|e : '' }}">{{ translate('Sign up!') }}</a></p>
-{% endif %}
+<div class="clearfix">
+    <p class="pull-right"><a href="{{ url('zfcuser/forgotpassword') }}">Forgot your password?</a></p>
+
+    {% if enableRegistration %}
+        <p class="pull-left">{{ translate('Not registered?') }} <a href="{{ url('zfcuser/register') }}{{ redirect ? '?redirect=' . redirect|e : '' }}">{{ translate('Sign up!') }}</a></p>
+    {% endif %}
+</div>
