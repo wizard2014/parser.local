@@ -14,7 +14,7 @@ $settings = [
      */
     'email_from_address' => [
     	'email' => 'versoverteam@gmail.com',
-    	'name' => 'Extrow',
+    	'name'  => 'Extrow | Password reset',
     ],
 
     /**
@@ -38,7 +38,7 @@ $settings = [
      *
      * Default: 'Zend\Mail\Transport\Sendmail'
      */
-    //'email_transport' => 'Zend\Mail\Transport\Sendmail',
+    'email_transport' => \Zend\Mail\Transport\Smtp::class,
 
     /**
      * Password Model Entity Class
@@ -46,7 +46,7 @@ $settings = [
      * Name of Entity class to use. Useful for using your own entity class
      * instead of the default one provided. Default is GoalioForgotPassword\Entity\Password.
      */
-    //'password_entity_class' => 'GoalioForgotPassword\Entity\Password',
+    'password_entity_class' => \GoalioForgotPassword\Entity\Password::class,
 
     /**
      * Reset expire time
@@ -56,7 +56,7 @@ $settings = [
      * Default value: 86400 seconds = 24 hours
      * Accepted values: the number of seconds the user should be allowed to change his password
      */
-    //'reset_expire' => 86400,
+    'reset_expire' => 86400,
 
     /**
      * Validate that given e-mail exists in db
@@ -64,7 +64,7 @@ $settings = [
      * If set to true, service will validate that given e-mail address is really registred
      *
      */
-    //'validate_existing_record' => true
+    'validate_existing_record' => true
 
     /**
      * End of GoalioForgotPassword configuration

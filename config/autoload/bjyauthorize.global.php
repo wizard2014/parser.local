@@ -146,6 +146,7 @@ return [
                 ['route' => 'resend', 'roles' => ['guest']],
                 // forgot password
                 ['route' => 'zfcuser/forgotpassword', 'roles' => ['guest']],
+                ['route' => 'zfcuser/resetpassword', 'roles' => ['guest']],
                 // Below is the default index action used by the ZendSkeletonApplication
                 ['route' => 'home', 'roles' => ['guest', 'user']],
                 ['route' => 'application', 'roles' => ['guest', 'user']],

@@ -1,0 +1,78 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Change Password for %s')|format(email)|e }}{% endblock %}
+
+{% block content %}
+    {% set form = resetForm %}
+    {% do form.prepare() %}
+
+    {% do form.setAttributes({
+        'action': url('zfcuser/resetpassword', {'userId': userId, 'token': token}),
+        'class' : 'form'
+    }) %}
+
+    <h2 class="text-center">{{ translate('Change Password for %s')|format(email)|e }}</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1">
+                {{ form().openTag(form)|raw }}
+
+                {% if formElementErrors(form.get('newCredential')) or formElementErrors(form.get('newCredentialVerify')) %}
+                    <div class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Error!</strong>
+
+                        <p>Change Password failed. Please try again.</p>
+                    </div>
+                {% endif %}
+
+                <div class="form-group{% if formElementErrors(form.get('newCredential')) %} has-error{% endif %}">
+                    <span class="sr-only">{{ formLabel(form.get('newCredential')) }}</span>
+                    {{ formInput(form.get('newCredential').setAttributes({
+                        'class'      : 'form-control',
+                        'id'         : 'new-credential',
+                        'type'       : 'password',
+                        'autofocus'  : true,
+                        'required'   : true,
+                        'placeholder': 'New password',
+                    })) }}
+
+                    {% if formElementErrors(form.get('newCredential')) %}
+                        {{ formElementErrors()
+                        .setMessageOpenFormat('<p class="help-block">')
+                        .setMessageSeparatorString('</p><p class="help-block">')
+                        .setMessageCloseString('</p>')
+                        .render(form.get('newCredential'))|raw }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group{% if formElementErrors(form.get('newCredentialVerify')) %} has-error{% endif %}">
+                    <span class="sr-only">{{ formLabel(form.get('newCredentialVerify')) }}</span>
+                    {{ formInput(form.get('newCredentialVerify').setAttributes({
+                        'class'      : 'form-control',
+                        'id'         : 'new-credential-verify',
+                        'type'       : 'password',
+                        'autofocus'  : true,
+                        'required'   : true,
+                        'placeholder': 'Repeat password',
+                    })) }}
+
+                    {% if formElementErrors(form.get('newCredentialVerify')) %}
+                        {{ formElementErrors()
+                        .setMessageOpenFormat('<p class="help-block">')
+                        .setMessageSeparatorString('</p><p class="help-block">')
+                        .setMessageCloseString('</p>')
+                        .render(form.get('newCredentialVerify'))|raw }}
+                    {% endif %}
+                </div>
+
+                {{ formButton(form.get('submit').setAttributes({'class': 'btn btn-primary btn-lg btn-block submit-btn'})) }}
+
+                {{ form().closeTag(form)|raw }}
+
+                <p><a href="{{ url('zfcuser/login') }}">Back to login</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

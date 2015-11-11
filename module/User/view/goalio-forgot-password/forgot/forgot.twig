@@ -1,0 +1,53 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Forgot your password?') }}{% endblock %}
+
+{% block content %}
+    {% set form = forgotForm %}
+    {% do form.prepare() %}
+
+    {% do form.setAttributes({
+        'action': url('zfcuser/forgotpassword'),
+        'class' : 'form'
+    }) %}
+
+    <h2 class="text-center">Forgot your password?</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1">
+                {{ form().openTag(form)|raw }}
+
+                {% if formElementErrors(form.get('email')) %}
+                    <div class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Error</strong>
+
+                        {{ formElementErrors()
+                        .setMessageOpenFormat('<p>')
+                        .setMessageCloseString('</p>')
+                        .render(form.get('email'))|raw }}
+                    </div>
+                {% endif %}
+
+                <div class="form-group{% if formElementErrors(form.get('email')) %} has-error{% endif %}">
+                    <span class="sr-only">{{ formLabel(form.get('email')) }}</span>
+                    {{ formInput(form.get('email').setAttributes({
+                        'class'      : 'form-control',
+                        'id'         : 'email',
+                        'type'       : 'email',
+                        'autofocus'  : true,
+                        'required'   : true,
+                        'placeholder': 'Email',
+                    })) }}
+                </div>
+
+                {{ formButton(form.get('submit').setAttributes({'class': 'btn btn-primary btn-lg btn-block submit-btn'}).setLabel('Reset')) }}
+
+                {{ form().closeTag(form)|raw }}
+
+                <p><a href="{{ url('zfcuser/login') }}">Back to login</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
