@@ -12,11 +12,22 @@ return [
                     ],
                 ],
             ],
+            'settings' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route'    => '/user/settings',
+                    'defaults' => [
+                        'controller' => 'User\Controller\Settings',
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
-            'User\Controller\ReSend' => 'User\Factory\Controller\ReSendControllerFactory',
+            'User\Controller\ReSend'    => 'User\Factory\Controller\ReSendControllerFactory',
+            'User\Controller\Settings'  => 'User\Factory\Controller\SettingsControllerFactory',
         ],
     ],
 

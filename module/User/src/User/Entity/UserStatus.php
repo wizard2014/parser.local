@@ -23,6 +23,13 @@ class UserStatus
     private $id;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="registration_date", type="date", nullable=false)
+     */
+    private $registrationDate = '2015-11-12';
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="timezone", type="integer", nullable=true)
@@ -189,6 +196,30 @@ class UserStatus
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set registrationDate
+     *
+     * @param \DateTime $registrationDate
+     *
+     * @return UserStatus
+     */
+    public function setRegistrationDate($registrationDate)
+    {
+        $this->registrationDate = $registrationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get registrationDate
+     *
+     * @return \DateTime
+     */
+    public function getRegistrationDate()
+    {
+        return $this->registrationDate;
     }
 
     /**
@@ -640,7 +671,7 @@ class UserStatus
     /**
      * Get dataSourceGlobal
      *
-     * @return \User\Entity\DataSourceGlobal
+     * @return \Utility\Entity\DataSourceGlobal
      */
     public function getDataSourceGlobal()
     {
@@ -650,11 +681,11 @@ class UserStatus
     /**
      * Set subscriptionType2
      *
-     * @param \User\Entity\AttributeValue $subscriptionType2
+     * @param \Utility\Entity\AttributeValue $subscriptionType2
      *
      * @return UserStatus
      */
-    public function setSubscriptionType2(\User\Entity\AttributeValue $subscriptionType2 = null)
+    public function setSubscriptionType2(\Utility\Entity\AttributeValue $subscriptionType2 = null)
     {
         $this->subscriptionType2 = $subscriptionType2;
 
@@ -664,7 +695,7 @@ class UserStatus
     /**
      * Get subscriptionType2
      *
-     * @return \User\Entity\AttributeValue
+     * @return \Utility\Entity\AttributeValue
      */
     public function getSubscriptionType2()
     {
@@ -674,11 +705,11 @@ class UserStatus
     /**
      * Set subscriptionStatus2
      *
-     * @param \User\Entity\AttributeValue $subscriptionStatus2
+     * @param \Utility\Entity\AttributeValue $subscriptionStatus2
      *
      * @return UserStatus
      */
-    public function setSubscriptionStatus2(\User\Entity\AttributeValue $subscriptionStatus2 = null)
+    public function setSubscriptionStatus2(\Utility\Entity\AttributeValue $subscriptionStatus2 = null)
     {
         $this->subscriptionStatus2 = $subscriptionStatus2;
 
@@ -688,7 +719,7 @@ class UserStatus
     /**
      * Get subscriptionStatus2
      *
-     * @return \User\Entity\AttributeValue
+     * @return \Utility\Entity\AttributeValue
      */
     public function getSubscriptionStatus2()
     {
