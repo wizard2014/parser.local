@@ -114,7 +114,7 @@ return [
                 ['controller' => 'HtUserRegistration', 'action' => ['verify-email'], 'roles' => ['guest','user']],
                 ['controller' => 'goalioforgotpassword_forgot', 'action' => ['forgot', 'passwordchanged', 'reset', 'sent'], 'roles' => ['guest']],
                 ['controller' => 'User\Controller\ReSend', 'action' => ['index'], 'roles' => ['guest']],
-                ['controller' => 'User\Controller\Settings', 'action' => ['index'], 'roles' => ['guest', 'user']],
+                ['controller' => 'User\Controller\Settings', 'action' => ['index', 'profile', 'notification'], 'roles' => ['guest', 'user']],
 //                ['controller' => 'index', 'action' => 'stuff', 'roles' => ['user']],
                 // You can also specify an array of actions or an array of controllers (or both)
                 // allow "guest" and "admin" to access actions "list" and "manage" on these "index",
@@ -141,11 +141,14 @@ return [
                 ['route' => 'zfcuser/logout', 'roles' => ['user']],
                 ['route' => 'zfcuser/login', 'roles' => ['guest']],
                 ['route' => 'zfcuser/register', 'roles' => ['guest']],
+                ['route' => 'zfcuser/changeemail', 'roles' => ['user']],
+                ['route' => 'zfcuser/changepassword', 'roles' => ['user']],
                 // ht-user-registration
                 ['route' => 'zfcuser/verify_email', 'roles' => ['guest']],
                 // resend email
                 ['route' => 'resend', 'roles' => ['guest']],
                 ['route' => 'settings', 'roles' => ['guest', 'user']],
+                ['route' => 'settings/default', 'roles' => ['guest', 'user']],
                 // forgot password
                 ['route' => 'zfcuser/forgotpassword', 'roles' => ['guest']],
                 ['route' => 'zfcuser/resetpassword', 'roles' => ['guest']],

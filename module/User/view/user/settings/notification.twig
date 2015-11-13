@@ -1,0 +1,45 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Settings') }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-12">
+                <h2>Notifications</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-sm-2">
+                <h4>Account</h4>
+                <p><a href="#">Subscription</a></p>
+                <p><a href="#">Statistics</a></p>
+
+                <h4>User</h4>
+                <p><a href="{{ url('settings/default', {'action': 'profile'}) }}">Profile</a></p>
+                <p><a href="{{ url('settings/default', {'action': 'notification'}) }}">Notifications</a></p>
+            </div>
+
+            <div class="col col-sm-10">
+                <div class="row">
+                    <section class="notification">
+                        <h2>E-mail Subscriptions</h2>
+                        <p>By subscribing to our email newsletter, you will be opting to receive updates about new feature releases, security updates, and more.</p>
+                        <p>If you're not interested in receiving this content, please uncheck the box below to unsubscribe.</p>
+
+                        <form action="{{ url('settings/default', {'action': 'notification'}) }}" method="post" class="notification-form" role="form">
+                            <div class="checkbox" id="listingType">
+                                <label>
+                                    <input class="notification-checkbox" type="checkbox" name="notification" {% if isEmailSubscriber %}{{ 'checked' }}{% endif %}> <span class="check-text">Subscribe to newsletters</span>
+                                </label>
+                                <input type="hidden" name="token" value="">
+                            </div>
+                            <input class="btn btn-primary hide" type="submit" value="Send">
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

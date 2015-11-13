@@ -2,57 +2,91 @@
 
 {% block title %}{{ translate('Change Email') }}{% endblock %}
 
+{% set placeholders = ['New Email', 'New Email replay', 'Password'] %}
+{# -1 to skip empty label string in loop bottom #}
+{% set counter = -1 %}
+
 {% block content %}
-    <h3>{{ translate('Change Email for %s')|format(zfcUserDisplayName()) }}</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-12">
+                <h2>Profile</h2>
+            </div>
+        </div>
 
-    {% if status === true %}
-        <div class="alert alert-success">{{ translate('Email address changed successfully.') }}</div>
-    {% elseif status === false %}
-        <div class="alert alert-error">{{ translate('Unable to update your email address. Please try again.') }}</div>
-    {% endif %}
+        <div class="row">
+            <div class="col col-sm-2">
+                <h4>Account</h4>
+                <p><a href="#">Subscription</a></p>
+                <p><a href="#">Statistics</a></p>
 
-    {% set form = changeEmailForm %}
-    {% do form.prepare() %}
+                <h4>User</h4>
+                <p><a href="{{ url('settings/default', {'action': 'profile'}) }}">Profile</a></p>
+                <p><a href="{{ url('settings/default', {'action': 'notification'}) }}">Notifications</a></p>
+            </div>
 
-    {% do form.setAttributes({
-        'action': url('zfcuser/changeemail'),
-        'class' : 'form'
-    }) %}
+            <div class="col col-sm-4">
+                <div class="row settings-content">
+                    <h3>{{ translate('Change Email for %s')|format(zfcUserDisplayName()) }}</h3>
 
-    {{ form().openTag(form)|raw }}
+                    {% if status is same as(true) %}
+                        <div class="alert alert-success">{{ translate('Email address changed successfully.') }}</div>
+                    {% elseif status is same as(false) %}
+                        <div class="alert alert-error">{{ translate('Unable to update your email address. Please try again.') }}</div>
+                    {% endif %}
 
-    {% for element in form %}
+                    {% set form = changeEmailForm %}
+                    {% do form.prepare() %}
 
-    <div class="form-group{% if formElementErrors(element) %} has-error{% endif %}">
+                    {% do form.setAttributes({
+                    'action': url('zfcuser/changeemail'),
+                    'class' : 'form'
+                    }) %}
 
-        {% if element->getLabel() is not null %}
-            {{ formLabel(element) }}
-        {% endif %}
+                    {{ form().openTag(form)|raw }}
 
-        {% if element is instanceof('Zend\\Form\\Element\\Button') %}
-            {{ formButton(element) }}
-        {% elseif element is instanceof('Zend\\Form\\Element\\Captcha') %}
-            formCaptcha(element)
-        {% else %}
-            formInput(element)
-        {% endif %}
+                    {% for element in form %}
 
-        {% if formElementErrors(element) %}
-            {{ formElementErrors()
-            .setMessageOpenFormat('<p class="help-block">')
-            .setMessageSeparatorString('</p><p class="help-block">')
-            .setMessageCloseString('</p>')
-            .render(element)|raw }}
-        {% endif %}
+                        <div class="form-group{% if formElementErrors(element) %} has-error{% endif %}">
+
+                            {% if element.getLabel() %}
+                                <span class="sr-only">{{ formLabel(element) }}</span>
+                            {% endif %}
+
+                            {% if element is instanceof('Zend\\Form\\Element\\Button') %}
+                                {{ formButton(element) }}
+                            {% elseif element is instanceof('Zend\\Form\\Element\\Captcha') %}
+                                {{ formCaptcha(element) }}
+                            {% else %}
+                                {{ formInput(element.setAttributes({
+                                    'class'         : 'form-control',
+                                    'placeholder'   : placeholders[counter],
+                                    'required'      : true,
+                                    'autocomplete'  : 'off',
+                                })) }}
+                            {% endif %}
+
+                            {% if formElementErrors(element) %}
+                                {{ formElementErrors()
+                                .setMessageOpenFormat('<p class="help-block">')
+                                .setMessageSeparatorString('</p><p class="help-block">')
+                                .setMessageCloseString('</p>')
+                                .render(element)|raw }}
+                            {% endif %}
+                        </div>
+
+                        {% set counter = counter + 1 %}
+                    {% endfor %}
+
+                    {% if (redirect) %}
+                        <input type="hidden" name="redirect" value="{{ redirect|e }}">
+                    {% endif %}
+
+                    <input type="submit" class="btn btn-primary btn-lg btn-block submit-btn" value="Send">
+
+                    {{ form().closeTag(form)|raw }}
+                </div>
+            </div>
+        </div>
     </div>
-
-    {% endfor %}
-
-    {% if (redirect) %}
-        <input type="hidden" name="redirect" value="{{ redirect|e }}">
-    {% endif %}
-
-    {{ formButton(form.get('submit').setAttribute('class', 'btn btn-primary btn-lg btn-block submit-btn')) }}
-
-    {{ form().closeTag(form)|raw }}
 {% endblock %}

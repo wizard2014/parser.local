@@ -1,12 +1,18 @@
-.gravatar {
-  width: 80px;
-  margin: 20px auto 0;
-
-  @media (max-width:770px) {
-    margin: 0;
+.settings-content {
+  h3 {
+    margin: 5px 0;
   }
 
-  img {
-    border-radius: 40px;
+  .gravatar {
+    width: 80px;
+    margin: 20px auto 0;
+
+    @media (max-width:770px) {
+      margin: 0;
+    }
+
+    img {
+      border-radius: 40px;
+    }
   }
 }

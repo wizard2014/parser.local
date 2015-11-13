@@ -39,6 +39,13 @@ class UserStatus
     /**
      * @var boolean
      *
+     * @ORM\Column(name="is_email_subscriber", type="boolean", nullable=false)
+     */
+    private $isEmailSubscriber = false;
+
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="is_key_owner", type="boolean", nullable=false)
      */
     private $isKeyOwner = false;
@@ -244,6 +251,30 @@ class UserStatus
     public function getTimezone()
     {
         return $this->timezone;
+    }
+
+    /**
+     * Set isEmailSubscriber
+     *
+     * @param boolean $isEmailSubscriber
+     *
+     * @return UserStatus
+     */
+    public function setIsEmailSubscriber($isEmailSubscriber)
+    {
+        $this->isEmailSubscriber = $isEmailSubscriber;
+
+        return $this;
+    }
+
+    /**
+     * Get isEmailSubscriber
+     *
+     * @return boolean
+     */
+    public function getIsEmailSubscriber()
+    {
+        return $this->isEmailSubscriber;
     }
 
     /**
