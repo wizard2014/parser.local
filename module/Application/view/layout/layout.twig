@@ -36,7 +36,8 @@
                         <a class="navbar-brand" href="{{ url('home') }}">Extrow</a>
                     </div>
                     <div class="navbar-collapse collapse navbar-responsive-collapse">
-                        {{ navigation('navigation').menu().setULClass('nav navbar-nav navbar-right')|raw }}
+                        {% set container = navigation('navigation').getContainer() %}
+                        {{ CustomMenu(container).setUlClass('nav navbar-nav navbar-right').escapeLabels(false)|raw }}
                     </div>
                 </div>
             </div><!-- /main nav -->

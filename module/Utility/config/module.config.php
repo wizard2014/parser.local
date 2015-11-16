@@ -25,4 +25,9 @@ return [
             'debug' => true
         ],
     ],
+    'view_helpers' => [
+        'invokables' => [
+            'CustomMenu' => 'Utility\View\Helper\CustomMenu',
+        ],
+    ],
 ];
