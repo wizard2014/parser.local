@@ -18,13 +18,32 @@ class Module implements AutoloaderProviderInterface
         $em = $e->getApplication()->getEventManager();
         $em->attach(new UserListener());
 
-        $em->attach(MvcEvent::EVENT_DISPATCH, function ($e) {
+        $protectedRoute = [
+            'get-started',
+            'settings',
+            'settings/default',
+        ];
+
+        $em->attach(MvcEvent::EVENT_ROUTE, function ($e) use ($protectedRoute) {
             $auth = new AuthenticationService();
             $user = $auth->getIdentity();
 
             // if user
             if (null !== $user) {
-                current($e->getViewModel()->getChildren())->setVariable('user', true);
+                // add variable to layout
+                $twig = $e->getApplication()->getServiceManager()->get('twigenvironment');
+                $twig->addGlobal('user', true);
+            } else {
+                $matchRoute = $e->getApplication()->getMvcEvent()->getRouteMatch()->getMatchedRouteName();
+
+                if (in_array($matchRoute, $protectedRoute)) {
+                    $response = $e->getResponse();
+                    $response->setStatusCode(302);
+
+                    // redirect to login route
+                    $response->getHeaders()->addHeaderLine('Location', '/user/login');
+                    $e->stopPropagation();
+                }
             }
         });
     }
