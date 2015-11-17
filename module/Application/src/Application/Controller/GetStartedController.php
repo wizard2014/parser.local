@@ -5,7 +5,6 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use Zend\Authentication\AuthenticationService;
 use Zend\Session\Container;
 
 class GetStartedController extends AbstractActionController
@@ -13,13 +12,9 @@ class GetStartedController extends AbstractActionController
     protected $mapper;
     protected $cache;
     protected $session;
-    private $user;
 
     public function __construct($mapper, $cache)
     {
-        $auth = new AuthenticationService();
-        $this->user = $auth->getIdentity();
-
         $this->session = new Container('token');
 
         $this->mapper = $mapper;
@@ -28,11 +23,6 @@ class GetStartedController extends AbstractActionController
 
     public function indexAction()
     {
-        // check for log in
-        if (null === $this->user) {
-            return $this->redirect()->toRoute('zfcuser');
-        }
-
         // get eBay Sort Order & Listing Type
         $ebayDataSourceGlobalEbay = $this->mapper['dataSourceGlobal']->getSourceGlobalByName('eBay');
 

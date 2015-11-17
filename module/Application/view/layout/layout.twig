@@ -36,7 +36,13 @@
                         <a class="navbar-brand" href="{{ url('home') }}">Extrow</a>
                     </div>
                     <div class="navbar-collapse collapse navbar-responsive-collapse">
-                        {% set container = navigation('navigation').getContainer() %}
+                        {# menu depends on role #}
+                        {% if user %}
+                            {% set container = navigation('Zend\Navigation\User').getContainer() %}
+                        {% else %}
+                            {% set container = navigation('Zend\Navigation\Default').getContainer() %}
+                        {% endif %}
+
                         {{ CustomMenu(container).setUlClass('nav navbar-nav navbar-right').escapeLabels(false)|raw }}
                     </div>
                 </div>
