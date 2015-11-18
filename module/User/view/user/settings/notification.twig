@@ -33,7 +33,7 @@
                                 <label>
                                     <input class="notification-checkbox" type="checkbox" name="notification" {% if isEmailSubscriber %}{{ 'checked' }}{% endif %}> <span class="check-text">Subscribe to newsletters</span>
                                 </label>
-                                <input type="hidden" name="token" value="">
+                                <input class="token" type="hidden" name="token" value="{{ token }}">
                             </div>
                             <input class="btn btn-primary hide" type="submit" value="Send">
                         </form>

@@ -3,8 +3,12 @@
 namespace User\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
+use Zend\Authentication\AuthenticationService;
+
 use User\Mapper\UserStatus as UserStatusMapper;
+use Utility\Helper\Csrf\Csrf;
 
 class SettingsController extends AbstractActionController
 {
@@ -13,6 +17,9 @@ class SettingsController extends AbstractActionController
 
     public function __construct(UserStatusMapper $mapper)
     {
+        $auth = new AuthenticationService();
+        $this->user = $auth->getIdentity();
+
         $this->mapper = $mapper;
     }
 
@@ -32,9 +39,6 @@ class SettingsController extends AbstractActionController
         ]);
     }
 
-    /**
-     * @todo add token
-     */
     public function notificationAction()
     {
         $userId = $this->user;
@@ -44,15 +48,24 @@ class SettingsController extends AbstractActionController
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
-            if ($isEmailSubscriber) {
-                $isEmailSubscriber = $this->mapper->unsubscribe($userId);
-            } else {
-                $isEmailSubscriber = $this->mapper->subscribe($userId);
+            $token = $request->getPost('token');
+
+            if (isset($token) && Csrf::valid($token)) {
+                if ($isEmailSubscriber) {
+                    $this->mapper->unsubscribe($userId);
+                } else {
+                    $this->mapper->subscribe($userId);
+                }
             }
+
+            return new JsonModel([
+                'token' => Csrf::generate(),
+            ]);
         }
 
         return new ViewModel([
             'isEmailSubscriber' => $isEmailSubscriber,
+            'token'             => Csrf::generate(),
         ]);
     }
 
