@@ -1,0 +1,33 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Subscription') }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-12">
+                <h2>Subscription</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-sm-2">
+                <h4>Account</h4>
+                <p><a href="{{ url('settings/default', {'action': 'subscription'}) }}">Subscription</a></p>
+                <p><a href="{{ url('settings/default', {'action': 'statistics'}) }}">Statistics</a></p>
+
+                <h4>User</h4>
+                <p><a href="{{ url('settings/default', {'action': 'profile'}) }}">Profile</a></p>
+                <p><a href="{{ url('settings/default', {'action': 'notification'}) }}">Notifications</a></p>
+            </div>
+
+            <div class="col col-sm-10">
+                <div class="row">
+                    <section class="subscription">
+
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

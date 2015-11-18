@@ -79,11 +79,11 @@ class UserStatus
     {
         $entity = $this->getUserStatusEntity();
 
-        $subscribe = $this->em->find($entity, $userId);
+        $user = $this->em->find($entity, $userId);
 
-        $subscribe->setIsEmailSubscriber(true);
+        $user->setIsEmailSubscriber(true);
 
-        $this->persistFlush($subscribe);
+        $this->persistFlush($user);
 
         return true;
     }
@@ -99,13 +99,31 @@ class UserStatus
     {
         $entity = $this->getUserStatusEntity();
 
-        $subscribe = $this->em->find($entity, $userId);
+        $user = $this->em->find($entity, $userId);
 
-        $subscribe->setIsEmailSubscriber(false);
+        $user->setIsEmailSubscriber(false);
 
-        $this->persistFlush($subscribe);
+        $this->persistFlush($user);
 
         return false;
+    }
+
+    public function isFreeSubUser($userId)
+    {
+        $entity = $this->getUserStatusEntity();
+
+        $user = $this->em->find($entity, $userId);
+
+        return (bool) ($user->getSubscriptionType2()->getId() === 1); // Free account
+    }
+
+    public function isActiveUser($userId)
+    {
+        $entity = $this->getUserStatusEntity();
+
+        $user = $this->em->find($entity, $userId);
+
+        return (bool) ($user->getSubscriptionStatus2()->getId() === 7); // Active account
     }
 
     /**

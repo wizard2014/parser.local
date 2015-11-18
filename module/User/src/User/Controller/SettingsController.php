@@ -25,7 +25,16 @@ class SettingsController extends AbstractActionController
 
     public function indexAction()
     {
-        return new ViewModel();
+        $userId = $this->user;
+
+        $isFreeUser     = $this->mapper->isFreeSubUser($userId);
+        $isActiveUser   = $this->mapper->isActiveUser($userId);
+
+        if ($isFreeUser || !$isActiveUser) {
+            return $this->redirect()->toRoute('settings/default', ['action' => 'subscription']);
+        }
+
+        return $this->redirect()->toRoute('settings/default', ['action' => 'profile']);
     }
 
     public function profileAction()
