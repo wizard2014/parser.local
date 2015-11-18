@@ -5,10 +5,11 @@ namespace User\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
-use Zend\Session\Container;
 use User\Mapper\User as UserMapper;
 use HtUserRegistration\Mapper\UserRegistrationMapperInterface;
 use HtUserRegistration\Mailer\MailerInterface;
+
+use Utility\Helper\Csrf\Csrf;
 
 class ReSendController extends AbstractActionController
 {
@@ -27,7 +28,6 @@ class ReSendController extends AbstractActionController
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
 
-        $this->session                = new Container('token');
         $this->mapper                 = $mapper;
         $this->userRegistrationMapper = $userRegistrationMapper;
         $this->mailer                 = $mailer;
@@ -46,7 +46,7 @@ class ReSendController extends AbstractActionController
             $data = $request->getPost()->toArray();
 
             // validate token
-            $token = $this->tokenValidate($data['token']);
+            $token = Csrf::valid($data['token']);
 
             // clear data
             array_walk_recursive($data, function (&$value) {
@@ -87,36 +87,9 @@ class ReSendController extends AbstractActionController
         }
 
         return new ViewModel([
-            'token'          => $this->token(),
+            'token'          => Csrf::generate(),
             'flashMessenger' => $this->flashMessenger()->getMessages(),
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    private function token()
-    {
-        $token = md5(uniqid(mt_rand(), true));
-
-        $this->session->offsetSet('token', $token);
-
-        return $token;
-    }
-
-    /**
-     * @param $token
-     *
-     * @return bool
-     */
-    protected function tokenValidate($token) {
-        $sessionToken = $this->session->offsetGet('token');
-
-        if (!empty($token) && $token === $sessionToken) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

@@ -9,7 +9,7 @@
         }
     });
 
-    $('body').on('click', function() {
+    $('html').on('click', function() {
         var dropdown = $('.dropdown');
 
         if (dropdown.hasClass('open')) {

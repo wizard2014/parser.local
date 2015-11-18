@@ -5,7 +5,8 @@ namespace Ebay\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
-use Zend\Session\Container;
+
+use Utility\Helper\Csrf\Csrf;
 
 class IndexController extends AbstractActionController
 {
@@ -22,8 +23,6 @@ class IndexController extends AbstractActionController
     {
         $this->ebayFindingService = $ebayFindingService;
 
-        $this->session = new Container('token');
-
         $this->mapper = $mapper;
     }
 
@@ -35,7 +34,7 @@ class IndexController extends AbstractActionController
             $data = $request->getPost()->toArray();
 
             // validate token
-            $token = $this->tokenValidate($data['token']);
+            $token = Csrf::valid($data['token']);
 
             // clear data
             array_walk_recursive($data, function (&$value) {
@@ -71,7 +70,8 @@ class IndexController extends AbstractActionController
      * @param $data
      * @param $xmlData
      */
-    protected function arrayToXml($data, &$xmlData) {
+    protected function arrayToXml($data, &$xmlData)
+    {
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 if (is_numeric($key)) {
@@ -125,20 +125,5 @@ class IndexController extends AbstractActionController
         }
 
         return $errors;
-    }
-
-    /**
-     * @param $token
-     *
-     * @return bool
-     */
-    protected function tokenValidate($token) {
-        $sessionToken = $this->session->offsetGet('token');
-
-        if (!empty($token) && $token === $sessionToken) {
-            return true;
-        }
-
-        return false;
     }
 }

@@ -5,7 +5,8 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use Zend\Session\Container;
+
+use Utility\Helper\Csrf\Csrf;
 
 class GetStartedController extends AbstractActionController
 {
@@ -15,8 +16,6 @@ class GetStartedController extends AbstractActionController
 
     public function __construct($mapper, $cache)
     {
-        $this->session = new Container('token');
-
         $this->mapper = $mapper;
         $this->cache  = $cache;
     }
@@ -29,7 +28,7 @@ class GetStartedController extends AbstractActionController
         return new ViewModel([
             'ebaySourceGlobal' => $ebayDataSourceGlobalEbay,
             'flashMessages'    => $this->flashMessenger()->getMessages(),
-            'token'            => $this->token(),
+            'token'            => Csrf::generate(),
         ]);
     }
 
@@ -66,17 +65,5 @@ class GetStartedController extends AbstractActionController
         }
 
         return $this->redirect()->toRoute('zfcuser');
-    }
-
-    /**
-     * @return string
-     */
-    private function token()
-    {
-        $token = md5(uniqid(mt_rand(), true));
-
-        $this->session->offsetSet('token', $token);
-
-        return $token;
     }
 }
