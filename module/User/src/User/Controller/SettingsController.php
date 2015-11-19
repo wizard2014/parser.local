@@ -8,27 +8,30 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
 
 use User\Mapper\UserStatus as UserStatusMapper;
+use Utility\Mapper\AttributeValue as AttributeValueMapper;
 use Utility\Helper\Csrf\Csrf;
 
 class SettingsController extends AbstractActionController
 {
-    protected $mapper;
+    protected $userStatusMapper;
+    protected $attributeValueMapper;
     private $user;
 
-    public function __construct(UserStatusMapper $mapper)
+    public function __construct(UserStatusMapper $userStatusMapper, AttributeValueMapper $attributeValueMapper)
     {
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
 
-        $this->mapper = $mapper;
+        $this->userStatusMapper     = $userStatusMapper;
+        $this->attributeValueMapper = $attributeValueMapper;
     }
 
     public function indexAction()
     {
         $userId = $this->user;
 
-        $isFreeUser     = $this->mapper->isFreeSubUser($userId);
-        $isActiveUser   = $this->mapper->isActiveUser($userId);
+        $isFreeUser     = $this->userStatusMapper->isFreeSubUser($userId);
+        $isActiveUser   = $this->userStatusMapper->isActiveUser($userId);
 
         if ($isFreeUser || !$isActiveUser) {
             return $this->redirect()->toRoute('settings/default', ['action' => 'subscription']);
@@ -41,10 +44,18 @@ class SettingsController extends AbstractActionController
     {
         $userId = $this->user;
 
-        $memberSince = $this->mapper->getMemberSince($userId);
+        $memberSince = $this->userStatusMapper->getMemberSince($userId);
+
+        $subTypeId   = $this->userStatusMapper->getSubscriptionTypeId($userId);
+        $subStatusId = $this->userStatusMapper->getSubscriptionStatusId($userId);
+
+        $subType    = $this->attributeValueMapper->getAttributeValueById($subTypeId);
+        $subStatus  = $this->attributeValueMapper->getAttributeValueById($subStatusId);
 
         return new ViewModel([
-            'memberSince' => $memberSince,
+            'memberSince'   => $memberSince,
+            'subType'       => $subType,
+            'subStatus'     => $subStatus,
         ]);
     }
 
@@ -52,7 +63,7 @@ class SettingsController extends AbstractActionController
     {
         $userId = $this->user;
 
-        $isEmailSubscriber = $this->mapper->isEmailSubscriber($userId);
+        $isEmailSubscriber = $this->userStatusMapper->isEmailSubscriber($userId);
 
         $request = $this->getRequest();
 
@@ -61,9 +72,9 @@ class SettingsController extends AbstractActionController
 
             if (isset($token) && Csrf::valid($token)) {
                 if ($isEmailSubscriber) {
-                    $this->mapper->unsubscribe($userId);
+                    $this->userStatusMapper->unsubscribe($userId);
                 } else {
-                    $this->mapper->subscribe($userId);
+                    $this->userStatusMapper->subscribe($userId);
                 }
             }
 

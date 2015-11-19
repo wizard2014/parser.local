@@ -7,6 +7,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Controller\SettingsController;
 use User\Mapper\UserStatus as UserStatusMapper;
+use Utility\Mapper\AttributeValue as AttributeValueMapper;
 
 class SettingsControllerFactory implements FactoryInterface
 {
@@ -20,6 +21,9 @@ class SettingsControllerFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
         $em = $sm->get(\Doctrine\ORM\EntityManager::class);
 
-        return new SettingsController(new UserStatusMapper($em));
+        return new SettingsController(
+            new UserStatusMapper($em),
+            new AttributeValueMapper($em)
+        );
     }
 }

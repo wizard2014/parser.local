@@ -108,22 +108,57 @@ class UserStatus
         return false;
     }
 
-    public function isFreeSubUser($userId)
+    /**
+     * @param $userId
+     *
+     * @return int
+     */
+    public function getSubscriptionTypeId($userId)
     {
         $entity = $this->getUserStatusEntity();
 
         $user = $this->em->find($entity, $userId);
 
-        return (bool) ($user->getSubscriptionType2()->getId() === 1); // Free account
+        return $user->getSubscriptionType2()->getId();
     }
 
-    public function isActiveUser($userId)
+    /**
+     * @param $userId
+     *
+     * @return int
+     */
+    public function getSubscriptionStatusId($userId)
     {
         $entity = $this->getUserStatusEntity();
 
         $user = $this->em->find($entity, $userId);
 
-        return (bool) ($user->getSubscriptionStatus2()->getId() === 7); // Active account
+        return $user->getSubscriptionStatus2()->getId();
+    }
+
+
+    /**
+     * @param $userId
+     *
+     * @return bool
+     */
+    public function isFreeSubUser($userId)
+    {
+        $subTypeId = $this->getSubscriptionTypeId($userId);
+
+        return (bool) ($subTypeId === 1);// Free account
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return bool
+     */
+    public function isActiveUser($userId)
+    {
+        $subStatusId = $this->getSubscriptionStatusId($userId);
+
+        return (bool) ($subStatusId === 7) || ($subStatusId === 10); // Active or In Progress account
     }
 
     /**
