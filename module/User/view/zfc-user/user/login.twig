@@ -36,7 +36,7 @@
     </div>
 {% endif %}
 
-<div class="form-group{% if formElementErrors(form.get('identity')) and not hasInfo %} has-error{% endif %}">
+<div class="form-group form-group-material-blue-grey{% if formElementErrors(form.get('identity')) and not hasInfo %} has-error{% endif %}">
     <span class="sr-only">{{ formLabel(form.get('identity')) }}</span>
     {{ formInput(form.get('identity').setAttributes({
         'class'      : 'form-control',
@@ -48,7 +48,7 @@
     })) }}
 </div>
 
-<div class="form-group{% if formElementErrors(form.get('credential')) %} has-error{% endif %}">
+<div class="form-group form-group-material-blue-grey{% if formElementErrors(form.get('credential')) %} has-error{% endif %}">
     <span class="sr-only">{{ formLabel(form.get('credential')) }}</span>
     {{ formInput(form.get('credential').setAttributes({
         'class'      : 'form-control',
@@ -62,7 +62,7 @@
     <input type="hidden" name="redirect" value="{{ redirect|e }}">
 {% endif %}
 
-{{ formButton(form.get('submit').setAttribute('class', 'btn btn-primary btn-lg btn-block submit-btn')) }}
+{{ formButton(form.get('submit').setAttribute('class', 'btn btn-material-blue-grey btn-lg btn-block submit-btn')) }}
 
 {{ form().closeTag(form)|raw }}
 

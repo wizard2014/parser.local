@@ -47,7 +47,7 @@
 
                     {% for element in form %}
 
-                        <div class="form-group{% if formElementErrors(element) %} has-error{% endif %}">
+                        <div class="form-group form-group-material-blue-grey{% if formElementErrors(element) %} has-error{% endif %}">
 
                             {% if element.getLabel() %}
                                 <span class="sr-only">{{ formLabel(element) }}</span>
@@ -82,7 +82,7 @@
                         <input type="hidden" name="redirect" value="{{ redirect|e }}">
                     {% endif %}
 
-                    <input type="submit" class="btn btn-primary btn-lg btn-block submit-btn" value="Send">
+                    <input type="submit" class="btn btn-material-blue-grey btn-lg btn-block submit-btn" value="Send">
 
                     {{ form().closeTag(form)|raw }}
                 </div>

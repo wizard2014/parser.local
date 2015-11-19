@@ -23,13 +23,13 @@
 
     {% for element in form %}
 
-        <div class="form-group{% if formElementErrors(element) %} has-error{% endif %}">
+        <div class="form-group form-group-material-blue-grey{% if formElementErrors(element) %} has-error{% endif %}">
             {% if element is not instanceof('Zend\\Form\\Element\\Button') %}
                 <span class="sr-only">{{ formLabel(element) }}</span>
             {% endif %}
 
             {% if element is instanceof('Zend\\Form\\Element\\Button') %}
-                {{ formButton(element.setAttribute('class', 'btn btn-primary btn-lg btn-block submit-btn')) }}
+                {{ formButton(element.setAttribute('class', 'btn btn-material-blue-grey btn-lg btn-block submit-btn')) }}
             {% elseif element is instanceof('Zend\\Form\\Element\\Captcha') %}
                 {{ formCaptcha(element) }}{{ formElementErrors(element) }}
             {% else %}
