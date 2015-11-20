@@ -43,6 +43,19 @@
                         {% endif %}
 
                         <p><i class="fa fa-key"></i> <a href="{{ url('zfcuser/changepassword') }}">Change password</a></p>
+                        <p><button type="button" class="btn btn-material-deep-orange key-form-toggle">Add/Edit Key</button></p>
+
+                        <div class="api-key-form hide">
+                            <form action="#" method="post" class="form-inline ebay-api-key-form">
+                                <div class="form-group form-group-material-blue-grey">
+                                    <label for="ebay-key-input"></label>
+                                    <input id="ebay-key-input" type="text" class="form-control" placeholder="Ebay AppID">
+                                </div>
+
+                                <input type="hidden" name="token" value="">
+                                <button type="submit" class="btn btn-material-deep-orange keys"><i class="fa fa-floppy-o"></i></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -15,9 +15,9 @@ $orange: #FF5722;
     color: $orange;
   }
 
-  a,
-  a:focus,
-  a:hover
+  a:not(.btn),
+  a:focus:not(.btn),
+  a:hover:not(.btn)
   {
     color: $grey;
     text-decoration: none;
