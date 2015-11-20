@@ -4,16 +4,21 @@ $orange: #FF5722;
 .fa-asterisk {
   font-size: 10px;
   vertical-align: top;
-  color: $orange;
+  color: #cc0000;
 }
 
 .form-place {
+  padding: 10px;
+
   .col {
     padding-right: 15px;
   }
 
-  label {
+  .label {
     font-size: $font-size;
+    background: none;
+    color: $orange;
+    padding-left: 0;
   }
 
   select, input[type="text"], input[type="number"] {

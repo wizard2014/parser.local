@@ -1,4 +1,5 @@
 $font-size: 1.2em;
+$orange: #FF5722;
 
 .nav-tabs {
   background: #607D8B;
@@ -16,6 +17,9 @@ $font-size: 1.2em;
     display: inline-block;
     font-size: $font-size;
     margin-top: 18px;
+    padding-left: 0;
+    background: none;
+    color: $orange;
   }
 
   .get-region, .edit-category {

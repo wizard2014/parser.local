@@ -19,7 +19,7 @@
             data: { token: token.val() },
 
             beforeSend: function() {
-                checkbox.attr('disabled', true);
+                checkbox.attr('disabled', true).parents('.checkbox').addClass('disabled');
             }
         })
             .done(function(data) {
@@ -31,7 +31,7 @@
                 //ajaxFail();
             })
             .always(function() {
-                checkbox.removeAttr('disabled');
+                checkbox.removeAttr('disabled').parents('.checkbox').removeClass('disabled');
             });
     });
 })();
