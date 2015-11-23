@@ -9,21 +9,36 @@ use Zend\Authentication\AuthenticationService;
 
 use User\Mapper\UserStatus as UserStatusMapper;
 use Utility\Mapper\AttributeValue as AttributeValueMapper;
+use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
+use User\Mapper\User as UserMapper;
+use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
 use Utility\Helper\Csrf\Csrf;
 
 class SettingsController extends AbstractActionController
 {
     protected $userStatusMapper;
     protected $attributeValueMapper;
+    protected $dataSourceGlobalMapper;
+    protected $userMapper;
+    protected $dataSourceKey;
     private $user;
 
-    public function __construct(UserStatusMapper $userStatusMapper, AttributeValueMapper $attributeValueMapper)
+    public function __construct(
+        UserStatusMapper $userStatusMapper,
+        AttributeValueMapper $attributeValueMapper,
+        DataSourceGlobalMapper $dataSourceGlobalMapper,
+        UserMapper $userMapper,
+        DataSourceKeyMapper $dataSourceKey
+    )
     {
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
 
-        $this->userStatusMapper     = $userStatusMapper;
-        $this->attributeValueMapper = $attributeValueMapper;
+        $this->userStatusMapper       = $userStatusMapper;
+        $this->attributeValueMapper   = $attributeValueMapper;
+        $this->dataSourceGlobalMapper = $dataSourceGlobalMapper;
+        $this->userMapper             = $userMapper;
+        $this->dataSourceKey          = $dataSourceKey;
     }
 
     public function indexAction()
@@ -52,10 +67,43 @@ class SettingsController extends AbstractActionController
         $subType    = $this->attributeValueMapper->getAttributeValueById($subTypeId);
         $subStatus  = $this->attributeValueMapper->getAttributeValueById($subStatusId);
 
+        // data source keys
+        $dataSourceKeys = $this->dataSourceGlobalMapper->getAll(); // form for Ebay, Amazon, etc...
+
+        // current user keys
+//        $keys = $this->dataSourceKey->getKey($userId);
+
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest()) {
+            $token = $request->getPost('token');
+
+            if (isset($token) && Csrf::valid($token)) {
+                $data = $request->getPost()->toArray();
+
+                // clear data
+                array_walk_recursive($data, function (&$value) {
+                    $value = trim(strip_tags($value));
+                });
+
+                if ($dataSourceGlobal = $this->dataSourceGlobalMapper->getSourceGlobalById($data['vendor'])) {
+                    $user = $this->userMapper->getUserById($this->user);
+
+                    $this->dataSourceKey->setKey($user, $dataSourceGlobal, $data['key']);
+                }
+            }
+
+            return new JsonModel([
+                'token' => Csrf::generate(),
+            ]);
+        }
+
         return new ViewModel([
-            'memberSince'   => $memberSince,
-            'subType'       => $subType,
-            'subStatus'     => $subStatus,
+            'memberSince'    => $memberSince,
+            'subType'        => $subType,
+            'subStatus'      => $subStatus,
+            'dataSourceKeys' => $dataSourceKeys,
+            'token'          => Csrf::generate(),
         ]);
     }
 

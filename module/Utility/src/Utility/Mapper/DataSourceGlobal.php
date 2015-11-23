@@ -41,6 +41,26 @@ class DataSourceGlobal
     }
 
     /**
+     * Get all DataSourceGlobal
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        $result = [];
+
+        $entity = $this->getDataSourceGlobalEntity();
+
+        $all = $this->em->getRepository($entity)->findAll();
+
+        foreach ($all as $item) {
+            $result[$item->getId()] = $item->getName();
+        }
+
+        return $result;
+    }
+
+    /**
      * @param $id
      *
      * @return \Utility\Entity\DataSourceGlobal

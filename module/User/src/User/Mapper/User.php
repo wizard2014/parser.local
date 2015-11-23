@@ -43,7 +43,7 @@ class User
     /**
      * @param $userId
      *
-     * @return object
+     * @return \User\Entity\User
      */
     public function getUserById($userId)
     {
