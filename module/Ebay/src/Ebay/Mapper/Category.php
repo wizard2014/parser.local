@@ -85,6 +85,29 @@ class Category implements CategoryInterface
     }
 
     /**
+     * Set Ebay category
+     *
+     * @param $categoryLevel
+     * @param $categoryName
+     * @param $categoryId
+     * @param $categoryParentId
+     * @param $region
+     */
+    public function setCategory($categoryLevel, $categoryName, $categoryId, $categoryParentId, $region)
+    {
+        $entity = $this->getCategoryEntity();
+
+        $category = new $entity();
+        $category->setCategoryLevel($categoryLevel);
+        $category->setCategoryName($categoryName);
+        $category->setCategoryId($categoryId);
+        $category->setCategoryParentId($categoryParentId);
+        $category->setDataSourceRegional($region);
+
+        $this->persist($category);
+    }
+
+    /**
      * @param $dataSourceRegional
      * @param $categoryId
      *

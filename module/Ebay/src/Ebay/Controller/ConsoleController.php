@@ -70,16 +70,13 @@ class ConsoleController extends AbstractActionController
                 $test = $this->filter($category->CategoryName);
 
                 if ($test && !isset($currentCategories[$category->CategoryID])) {
-                    $categoryEntity = $this->categoryMapper->getCategoryEntity();
-
-                    $categoryItem = new $categoryEntity();
-                    $categoryItem->setCategoryLevel($category->CategoryLevel);
-                    $categoryItem->setCategoryName($category->CategoryName);
-                    $categoryItem->setCategoryId($category->CategoryID);
-                    $categoryItem->setCategoryParentId($category->CategoryParentID[0]);
-                    $categoryItem->setDataSourceRegional($region);
-
-                    $this->categoryMapper->persist($categoryItem);
+                    $this->categoryMapper->setCategory(
+                        $category->CategoryLevel,
+                        $category->CategoryName,
+                        $category->CategoryID,
+                        $category->CategoryParentID[0],
+                        $region
+                    );
                 }
 
             }
