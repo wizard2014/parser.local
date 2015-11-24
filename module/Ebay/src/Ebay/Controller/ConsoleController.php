@@ -5,20 +5,31 @@ namespace Ebay\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Console\Request as ConsoleRequest;
 
+use Ebay\Service\Category as CategoryService;
+use Ebay\Mapper\Category as CategoryMapper;
+use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
+use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
+
 class ConsoleController extends AbstractActionController
 {
     protected $mapper;
     protected $cache;
     protected $categoryService;
+    protected $categoryMapper;
+    protected $dataSourceGlobalMapper;
+    protected $dataSourceRegionalMapper;
 
-    /**
-     * @param $mapper
-     * @param $categoryService
-     */
-    public function __construct($mapper, $categoryService)
-    {
-        $this->mapper = $mapper;
+    public function __construct(
+        CategoryService          $categoryService,
+        CategoryMapper           $categoryMapper,
+        DataSourceGlobalMapper   $dataSourceGlobalMapper,
+        DataSourceRegionalMapper $dataSourceRegionalMapper
+    ) {
         $this->categoryService = $categoryService;
+
+        $this->categoryMapper           = $categoryMapper;
+        $this->dataSourceGlobalMapper   = $dataSourceGlobalMapper;
+        $this->dataSourceRegionalMapper = $dataSourceRegionalMapper;
     }
 
     /**
@@ -33,8 +44,8 @@ class ConsoleController extends AbstractActionController
         }
 
         // Set eBay category into db
-        $dataSourceGlobalIdEbay = $this->mapper['dataSourceGlobal']->getIdByName('eBay');
-        $regions = $this->mapper['dataSourceRegional']->getDataByRegion($dataSourceGlobalIdEbay, 'en', 'ebay'); // ebay in english
+        $dataSourceGlobalIdEbay = $this->dataSourceGlobalMapper->getIdByName('eBay');
+        $regions = $this->dataSourceRegionalMapper->getDataByRegion($dataSourceGlobalIdEbay, 'en', 'ebay'); // ebay in english
 
         $this->setEbayCategory($regions);
 
@@ -48,7 +59,7 @@ class ConsoleController extends AbstractActionController
      */
     protected function setEbayCategory($regions)
     {
-        $currentCategories = $this->mapper['category']->getAllCategoriesId();
+        $currentCategories = $this->categoryMapper->getAllCategoriesId();
 
         foreach ($regions as $region) {
             $ebaySiteId = $region->getPropertySet()['ebay_site_id'];
@@ -59,7 +70,7 @@ class ConsoleController extends AbstractActionController
                 $test = $this->filter($category->CategoryName);
 
                 if ($test && !isset($currentCategories[$category->CategoryID])) {
-                    $categoryEntity = $this->mapper['category']->getCategoryEntity();
+                    $categoryEntity = $this->categoryMapper->getCategoryEntity();
 
                     $categoryItem = new $categoryEntity();
                     $categoryItem->setCategoryLevel($category->CategoryLevel);
@@ -68,12 +79,12 @@ class ConsoleController extends AbstractActionController
                     $categoryItem->setCategoryParentId($category->CategoryParentID[0]);
                     $categoryItem->setDataSourceRegional($region);
 
-                    $this->mapper['category']->persist($categoryItem);
+                    $this->categoryMapper->persist($categoryItem);
                 }
 
             }
 
-            $this->mapper['category']->flush();
+            $this->categoryMapper->flush();
         }
     }
 

@@ -24,12 +24,11 @@ class ConsoleControllerFactory implements FactoryInterface
 
         $categoryService = $sm->get(\Ebay\Service\Category::class);
 
-        $mapper = [
-            'category'            => new CategoryMapper($em),
-            'dataSourceGlobal'    => new DataSourceGlobalMapper($em),
-            'dataSourceRegional'  => new DataSourceRegionalMapper($em),
-        ];
-
-        return new ConsoleController($mapper, $categoryService);
+        return new ConsoleController(
+            $categoryService,
+            new CategoryMapper($em),
+            new DataSourceGlobalMapper($em),
+            new DataSourceRegionalMapper($em)
+        );
     }
 }
