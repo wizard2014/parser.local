@@ -6,24 +6,38 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 
+use Ebay\Service\FindItems;
+use Ebay\Mapper\Category as CategoryMapper;
+use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
+use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
 use Utility\Helper\Csrf\Csrf;
 
 class IndexController extends AbstractActionController
 {
     protected $ebayFindingService;
-    protected $mapper;
+    protected $categoryMapper;
+    protected $dataSourceGlobalMapper;
+    protected $dataSourceRegionalMapper;
     protected $session;
     protected $outputPath = './data/output/';
 
     /**
-     * @param $ebayFindingService
-     * @param $mapper
+     * @param FindItems                $ebayFindingService
+     * @param CategoryMapper           $categoryMapper
+     * @param DataSourceGlobalMapper   $dataSourceGlobalMapper
+     * @param DataSourceRegionalMapper $dataSourceRegionalMapper
      */
-    public function __construct($ebayFindingService, $mapper)
-    {
+    public function __construct(
+        FindItems                $ebayFindingService,
+        CategoryMapper           $categoryMapper,
+        DataSourceGlobalMapper   $dataSourceGlobalMapper,
+        DataSourceRegionalMapper $dataSourceRegionalMapper
+    ) {
         $this->ebayFindingService = $ebayFindingService;
 
-        $this->mapper = $mapper;
+        $this->categoryMapper           = $categoryMapper;
+        $this->dataSourceGlobalMapper   = $dataSourceGlobalMapper;
+        $this->dataSourceRegionalMapper = $dataSourceRegionalMapper;
     }
 
     public function indexAction()
@@ -52,7 +66,7 @@ class IndexController extends AbstractActionController
                  *
                  * @todo Change solution
                  */
-                $data['region'] = $this->mapper['dataSourceRegional']->getPropertySet($data['region'], 'ebay_global_id');
+                $data['region'] = $this->dataSourceRegionalMapper->getPropertySet($data['region'], 'ebay_global_id');
 
                 $results = $this->ebayFindingService->findItems($data);
 
@@ -104,11 +118,11 @@ class IndexController extends AbstractActionController
             $errors[] = '[Max Price] should be a number.';
         }
 
-        if (!$this->mapper['dataSourceGlobal']->sortOrderExists('eBay', $data['sortOrder'])) {
+        if (!$this->dataSourceGlobalMapper->sortOrderExists('eBay', $data['sortOrder'])) {
             $errors[] = 'Invalid [Sort Order].';
         }
 
-        if (!empty($data['listingType']) && !$this->mapper['dataSourceGlobal']->listingTypeExists('eBay', $data['listingType'])) {
+        if (!empty($data['listingType']) && !$this->dataSourceGlobalMapper->listingTypeExists('eBay', $data['listingType'])) {
             $errors[] = 'Invalid [Listing Type].';
         }
 
@@ -116,8 +130,8 @@ class IndexController extends AbstractActionController
             $errors[] = 'Invalid [Items qty].';
         }
 
-        if ($this->mapper['dataSourceGlobal']->regionExists($data['region'])) {
-            if (!$this->mapper['category']->categoryExists($data['region'], $data['category'])) {
+        if ($this->dataSourceGlobalMapper->regionExists($data['region'])) {
+            if (!$this->categoryMapper->categoryExists($data['region'], $data['category'])) {
                 $errors[] = 'Invalid [Category].';
             }
         } else {

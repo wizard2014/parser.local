@@ -25,12 +25,11 @@ class IndexControllerFactory implements FactoryInterface
 
         $ebayFindingService = $sm->get(\Ebay\Service\FindItems::class);
 
-        $mapper = [
-            'category'            => new CategoryMapper($em),
-            'dataSourceGlobal'    => new DataSourceGlobalMapper($em),
-            'dataSourceRegional'  => new DataSourceRegionalMapper($em),
-        ];
-
-        return new IndexController($ebayFindingService, $mapper);
+        return new IndexController(
+            $ebayFindingService,
+            new CategoryMapper($em),
+            new DataSourceGlobalMapper($em),
+            new DataSourceRegionalMapper($em)
+        );
     }
 }
