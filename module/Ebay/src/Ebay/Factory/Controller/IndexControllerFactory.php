@@ -9,6 +9,8 @@ use Ebay\Controller\IndexController;
 use Ebay\Mapper\Category as CategoryMapper;
 use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
 use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
+use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
+use User\Mapper\UserStatus as UserStatusMapper;
 
 class IndexControllerFactory implements FactoryInterface
 {
@@ -29,7 +31,9 @@ class IndexControllerFactory implements FactoryInterface
             $ebayFindingService,
             new CategoryMapper($em),
             new DataSourceGlobalMapper($em),
-            new DataSourceRegionalMapper($em)
+            new DataSourceRegionalMapper($em),
+            new DataSourceKeyMapper($em),
+            new UserStatusMapper($em)
         );
     }
 }

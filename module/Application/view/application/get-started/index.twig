@@ -12,7 +12,7 @@
 
                 <div class="alert alert-dismissable alert-danger{{ flashMessages|length ? '' : ' hide' }}">
                     <button type="button" class="close" data-dismiss="alert">×</button>
-                    <h3>Oops... Error!</h3>
+                    <h3 class="error-header">Oops... Error!</h3>
 
                     <ul class="list-unstyled error-list">
                         {% for msg in flashMessages[0] %}

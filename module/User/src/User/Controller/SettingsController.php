@@ -61,6 +61,7 @@ class SettingsController extends AbstractActionController
 
         $memberSince = $this->userStatusMapper->getMemberSince($userId);
 
+        /** @todo refactor */
         $subTypeId   = $this->userStatusMapper->getSubscriptionTypeId($userId);
         $subStatusId = $this->userStatusMapper->getSubscriptionStatusId($userId);
 
@@ -69,9 +70,6 @@ class SettingsController extends AbstractActionController
 
         // data source keys
         $dataSourceKeys = $this->dataSourceGlobalMapper->getAll(); // form for Ebay, Amazon, etc...
-
-        // current user keys
-//        $keys = $this->dataSourceKey->getKey($userId);
 
         $request = $this->getRequest();
 
@@ -89,6 +87,7 @@ class SettingsController extends AbstractActionController
                 if ($dataSourceGlobal = $this->dataSourceGlobalMapper->getSourceGlobalById($data['vendor'])) {
                     $user = $this->userMapper->getUserById($this->user);
 
+                    // set app key
                     $this->dataSourceKey->setKey($user, $dataSourceGlobal, $data['key']);
                 }
             }

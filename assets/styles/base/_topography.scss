@@ -1,6 +1,6 @@
 @import url('//fonts.googleapis.com/css?family=Raleway:400,300,700');
 @import url('//fonts.googleapis.com/css?family=Expletus+Sans:700');
-@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
 
 $grey: #607D8B;
 $orange: #FF5722;
@@ -26,5 +26,9 @@ $orange: #FF5722;
     &:hover {
       border-bottom: 1px solid $grey;
     }
+  }
+
+  .error-header {
+    color: #fff;
   }
 }

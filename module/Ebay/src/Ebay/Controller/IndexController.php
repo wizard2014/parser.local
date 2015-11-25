@@ -5,11 +5,14 @@ namespace Ebay\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
+use Zend\Authentication\AuthenticationService;
 
 use Ebay\Service\FindItems;
 use Ebay\Mapper\Category as CategoryMapper;
 use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
 use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
+use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
+use User\Mapper\UserStatus as UserStatusMapper;
 use Utility\Helper\Csrf\Csrf;
 
 class IndexController extends AbstractActionController
@@ -18,26 +21,30 @@ class IndexController extends AbstractActionController
     protected $categoryMapper;
     protected $dataSourceGlobalMapper;
     protected $dataSourceRegionalMapper;
+    protected $dataSourceKeyMapper;
+    protected $userStatusMapper;
+    protected $user;
     protected $session;
     protected $outputPath = './data/output/';
 
-    /**
-     * @param FindItems                $ebayFindingService
-     * @param CategoryMapper           $categoryMapper
-     * @param DataSourceGlobalMapper   $dataSourceGlobalMapper
-     * @param DataSourceRegionalMapper $dataSourceRegionalMapper
-     */
     public function __construct(
         FindItems                $ebayFindingService,
         CategoryMapper           $categoryMapper,
         DataSourceGlobalMapper   $dataSourceGlobalMapper,
-        DataSourceRegionalMapper $dataSourceRegionalMapper
+        DataSourceRegionalMapper $dataSourceRegionalMapper,
+        DataSourceKeyMapper      $dataSourceKeyMapper,
+        UserStatusMapper         $userStatusMapper
     ) {
         $this->ebayFindingService = $ebayFindingService;
 
         $this->categoryMapper           = $categoryMapper;
         $this->dataSourceGlobalMapper   = $dataSourceGlobalMapper;
         $this->dataSourceRegionalMapper = $dataSourceRegionalMapper;
+        $this->dataSourceKeyMapper      = $dataSourceKeyMapper;
+        $this->userStatusMapper         = $userStatusMapper;
+
+        $auth = new AuthenticationService();
+        $this->user = $auth->getIdentity();
     }
 
     public function indexAction()
@@ -61,6 +68,10 @@ class IndexController extends AbstractActionController
             if (!empty($errors)) {
                 $this->flashMessenger()->addMessage($errors);
             } elseif ($token) {
+                $region = $data['region'];
+                // get user app key if exists
+                $appId = $this->dataSourceKeyMapper->getKey($this->user, $region);
+
                 /**
                  * replace region id to Ebay global id
                  *
@@ -68,12 +79,20 @@ class IndexController extends AbstractActionController
                  */
                 $data['region'] = $this->dataSourceRegionalMapper->getPropertySet($data['region'], 'ebay_global_id');
 
-                $results = $this->ebayFindingService->findItems($data);
+                $results = $this->ebayFindingService->findItems($data, $appId);
 
-                // save result as XML
-                $xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
-                $this->arrayToXml($results, $xml);
-                $xml->asXML($this->outputPath . 'data.xml');
+                // if returns error
+                if (500 === $results) {
+                    $this->flashMessenger()->addMessage(['Invalid key, please check it out and add again.']);
+
+                    //change key status to Invalid
+                    $this->dataSourceKeyMapper->setInvalidKeyStatus($this->user, $region);
+                } else {
+                    // save result as XML
+                    $xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
+                    $this->arrayToXml($results, $xml);
+                    $xml->asXML($this->outputPath . 'data.xml');
+                }
             }
         }
 

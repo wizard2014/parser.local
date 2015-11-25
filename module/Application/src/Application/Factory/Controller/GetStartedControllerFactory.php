@@ -24,12 +24,11 @@ class GetStartedControllerFactory implements FactoryInterface
 
         $cache = $sm->get('memcached');
 
-        $mapper = [
-            'category'            => new CategoryMapper($em),
-            'dataSourceGlobal'    => new DataSourceGlobalMapper($em),
-            'dataSourceRegional'  => new DataSourceRegionalMapper($em),
-        ];
-
-        return new GetStartedController($mapper, $cache);
+        return new GetStartedController(
+            $cache,
+            new CategoryMapper($em),
+            new DataSourceGlobalMapper($em),
+            new DataSourceRegionalMapper($em)
+        );
     }
 }

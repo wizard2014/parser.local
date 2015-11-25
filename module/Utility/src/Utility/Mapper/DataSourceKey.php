@@ -49,52 +49,91 @@ class DataSourceKey
      * @param bool|true                        $isValid
      */
     public function setKey(
-        \User\Entity\User $user,
+        \User\Entity\User                $user,
         \Utility\Entity\DataSourceGlobal $dataSourceGlobal,
         $accessKey,
         $isValid = true
     ) {
+        $keyExists = $this->keyExists($user, $dataSourceGlobal);
+
         $entity = $this->getDataSourceKeyEntity();
 
-        $sourceKey = new $entity();
-        $sourceKey->setAccessKey($accessKey);
-        $sourceKey->setIsValid($isValid);
-        $sourceKey->setUser($user);
-        $sourceKey->setDataSourceGlobal($dataSourceGlobal);
+        // if app key if not exists
+        if (!$keyExists) {
+            // add new key
+            $sourceKey = new $entity();
+            $sourceKey->setAccessKey($accessKey);
+            $sourceKey->setIsValid($isValid);
+            $sourceKey->setUser($user);
+            $sourceKey->setDataSourceGlobal($dataSourceGlobal);
 
-        try {
             $this->persistFlush($sourceKey);
-        } catch (\Exception $e) {
-            // duplicate key
+        } else {
+            // update app key
+            $sourceKey = $this->em->getRepository($entity)->findOneBy([
+                'user'              => $user,
+                'dataSourceGlobal'  => $dataSourceGlobal,
+            ]);
+
+            $sourceKey->setAccessKey($accessKey);
+
+            $this->flush();
         }
     }
 
     /**
-     * Get Access Keys
-     *
-     * @param $userId
+     * @param $user
+     * @param $dataSourceGlobal
      *
      * @return array
      */
-    public function getKey($userId)
+    public function getKey($user, $dataSourceGlobal)
     {
         $entity = $this->getDataSourceKeyEntity();
 
-        $qb = $this->em->createQueryBuilder();
+        $key = $this->em->getRepository($entity)->findOneBy([
+            'user'              => $user,
+            'dataSourceGlobal'  => $dataSourceGlobal,
+            'isValid'           => true,
+        ]);
 
-        $qb
-            ->select('k')
-            ->from($entity, 'k')
-            ->where('k.user = ?1')
-            ->andWhere('k.isValid = ?2')
-//            ->groupBy('')
-//            ->orderBy('k.dataSourceGlobal', 'DESC')
-            ->setParameter(1, $userId)
-            ->setParameter(2, true);
+        return isset($key) ? $key->getAccessKey() : null;
+    }
 
-        $qs = $qb->getQuery()->getArrayResult();
+    /**
+     * @param $user
+     * @param $dataSourceGlobal
+     *
+     * @return bool
+     */
+    public function keyExists($user, $dataSourceGlobal)
+    {
+        $entity = $this->getDataSourceKeyEntity();
 
-        return $qs;
+        $key = $this->em->getRepository($entity)->findOneBy([
+            'user'              => $user,
+            'dataSourceGlobal'  => $dataSourceGlobal,
+        ]);
+
+        return isset($key) ? true : false;
+    }
+
+    /**
+     * @param $user
+     * @param $dataSourceGlobal
+     */
+    public function setInvalidKeyStatus($user, $dataSourceGlobal)
+    {
+        $entity = $this->getDataSourceKeyEntity();
+
+        $key = $this->em->getRepository($entity)->findOneBy([
+            'user'              => $user,
+            'dataSourceGlobal'  => $dataSourceGlobal,
+        ]);
+
+        $key->setIsValid(false);
+
+        $this->flush();
     }
 
     /**

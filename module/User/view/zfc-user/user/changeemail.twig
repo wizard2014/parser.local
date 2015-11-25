@@ -30,9 +30,15 @@
                     <h3>{{ translate('Change Email for %s')|format(zfcUserDisplayName()) }}</h3>
 
                     {% if status is same as(true) %}
-                        <div class="alert alert-success">{{ translate('Email address changed successfully.') }}</div>
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ translate('Email address changed successfully.') }}</strong>
+                        </div>
                     {% elseif status is same as(false) %}
-                        <div class="alert alert-error">{{ translate('Unable to update your email address. Please try again.') }}</div>
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ translate('Unable to update your email address. Please try again.') }}</strong>
+                        </div>
                     {% endif %}
 
                     {% set form = changeEmailForm %}

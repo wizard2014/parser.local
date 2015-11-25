@@ -26,6 +26,8 @@
                 if (data.token) {
                     token.val(data.token);
                 }
+
+                key.val('');
             })
             .fail(function() {
                 //ajaxFail();

@@ -7,24 +7,26 @@ use DTS\eBaySDK\Finding\Services as FindingServices;
 use DTS\eBaySDK\Finding\Types as TypesFinding;
 use DTS\eBaySDK\Finding\Enums as EnumsFinding;
 
+use Ebay\Options\ModuleOptions;
+
 class FindItems
 {
     protected $options;
     private $maxItemForPage = 100;
 
     /**
-     * @param $options
+     * @param ModuleOptions $options
      */
-    public function __construct($options)
+    public function __construct(ModuleOptions $options)
     {
         $this->options = $options;
     }
 
-    public function findItems(array $data)
+    public function findItems(array $data, $appId = null)
     {
         // create Finding service API
         $service = new FindingServices\FindingService([
-            'appId'      => $this->options->getAppId(),
+            'appId'      => $appId ? $appId : $this->options->getAppId(),
             'apiVersion' => $this->options->getFindingApiVersion(),
             'globalId'   => $data['region'] ?: 'EBAY-US',
         ]);
@@ -86,7 +88,11 @@ class FindItems
 //            EnumsFinding\OutputSelectorType::C_PICTUREURL_SUPER_SIZE,
         ];
 
-        $response = $service->findItemsAdvanced($request);
+        try {
+            $response = $service->findItemsAdvanced($request);
+        } catch (\Guzzle\Http\Exception\ServerErrorResponseException $e) {
+            return $e->getResponse()->getStatusCode();
+        }
 
         if (isset($response->errorMessage)) {
             return $response->errorMessage->error;
