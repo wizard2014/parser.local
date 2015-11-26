@@ -1,0 +1,52 @@
+.subscription {
+  .price-container {
+    margin-right: 10px;
+
+    background-color: #fff;
+
+    .price-header {
+      font-family: 'Expletus Sans', cursive;
+      font-size: 2.5em;
+      padding-top: .5em;
+      padding-bottom: .5em;
+      display: table-cell;
+      vertical-align: middle;
+      width: 1%;
+    }
+
+    .price-money {
+      padding-top: 1.2em;
+      padding-bottom: 1.2em;
+      font-size: 2em;
+      font-weight: bold;
+      color: #fff;
+      text-transform: uppercase;
+      background-color: #F0AD4E;
+    }
+
+    .price-limit-row,
+    .price-limit-request {
+      padding-top: .7em;
+      padding-bottom: .7em;
+    }
+
+    .price-row {
+      &:nth-of-type(even) {
+        background: #f8f8f8;
+      }
+
+      .price-row-value {
+        font-weight: bold;
+      }
+
+      .price-period {
+        font-size: 0.6em;
+        font-weight: normal;
+      }
+    }
+
+    .btn {
+      border-radius: 0;
+    }
+  }
+}

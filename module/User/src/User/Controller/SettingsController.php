@@ -2,6 +2,7 @@
 
 namespace User\Controller;
 
+use Utility\Mapper\SubscriptionPlan;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
@@ -12,6 +13,7 @@ use Utility\Mapper\AttributeValue as AttributeValueMapper;
 use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
 use User\Mapper\User as UserMapper;
 use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
+use Utility\Mapper\SubscriptionPlan as SubscriptionPlanMapper;
 use Utility\Helper\Csrf\Csrf;
 
 class SettingsController extends AbstractActionController
@@ -20,15 +22,17 @@ class SettingsController extends AbstractActionController
     protected $attributeValueMapper;
     protected $dataSourceGlobalMapper;
     protected $userMapper;
+    protected $subscriptionPlanMapper;
     protected $dataSourceKey;
     private $user;
 
     public function __construct(
-        UserStatusMapper $userStatusMapper,
-        AttributeValueMapper $attributeValueMapper,
-        DataSourceGlobalMapper $dataSourceGlobalMapper,
-        UserMapper $userMapper,
-        DataSourceKeyMapper $dataSourceKey
+        UserStatusMapper        $userStatusMapper,
+        AttributeValueMapper    $attributeValueMapper,
+        DataSourceGlobalMapper  $dataSourceGlobalMapper,
+        UserMapper              $userMapper,
+        SubscriptionPlan        $subscriptionPlanMapper,
+        DataSourceKeyMapper     $dataSourceKey
     )
     {
         $auth = new AuthenticationService();
@@ -38,6 +42,7 @@ class SettingsController extends AbstractActionController
         $this->attributeValueMapper   = $attributeValueMapper;
         $this->dataSourceGlobalMapper = $dataSourceGlobalMapper;
         $this->userMapper             = $userMapper;
+        $this->subscriptionPlanMapper = $subscriptionPlanMapper;
         $this->dataSourceKey          = $dataSourceKey;
     }
 
@@ -138,7 +143,11 @@ class SettingsController extends AbstractActionController
 
     public function subscriptionAction()
     {
-        return new ViewModel();
+        $plans = $this->subscriptionPlanMapper->getAllPlanes();
+
+        return new ViewModel([
+            'plans' => $plans,
+        ]);
     }
 
     public function statisticsAction()

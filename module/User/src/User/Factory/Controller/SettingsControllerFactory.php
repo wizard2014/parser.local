@@ -11,6 +11,7 @@ use Utility\Mapper\AttributeValue as AttributeValueMapper;
 use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
 use User\Mapper\User as UserMapper;
 use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
+use Utility\Mapper\SubscriptionPlan as SubscriptionPlanMapper;
 
 class SettingsControllerFactory implements FactoryInterface
 {
@@ -29,6 +30,7 @@ class SettingsControllerFactory implements FactoryInterface
             new AttributeValueMapper($em),
             new DataSourceGlobalMapper($em),
             new UserMapper($em),
+            new SubscriptionPlanMapper($em),
             new DataSourceKeyMapper($em)
         );
     }

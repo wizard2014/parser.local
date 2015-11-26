@@ -22,9 +22,59 @@
             </div>
 
             <div class="col col-sm-10">
+                <h3 class="text-center">Without own key</h3>
                 <div class="row">
                     <section class="subscription">
+                        {% for plan in plans.key_not_exists %}
+                            <div class="col col-md-4 col-sm-6 col-xs-12">
+                                <div class="price-container">
+                                    <section class="price-header text-center">{{ plan.subscriptionType }}</section>
+                                    <section class="price-body text-center">
+                                        <div class="price-row price-money">{{ plan.price }}
+                                            <span class="price-period">
+                                                {% if 'month' in plan.subscriptionType|lower %}
+                                                    /month
+                                                {% else %}
+                                                    /once
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="price-row price-limit-row"><span class="price-row-value">{{ plan.limitRowPerRequest }}</span> limit row per page</div>
+                                        <div class="price-row price-limit-request"><span class="price-row-value">{{ plan.limitRequestDaily }}</span> limit request daily</div>
+                                    </section>
 
+                                    <a href="#" class="btn btn-material-blue-grey btn-lg btn-block">Sign Up</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </section>
+                </div>
+
+                <h3 class="text-center">With own key</h3>
+                <div class="row">
+                    <section class="subscription">
+                        {% for plan in plans.key_exists %}
+                            <div class="col col-md-4 col-sm-6 col-xs-12">
+                                <div class="price-container">
+                                    <section class="price-header text-center">{{ plan.subscriptionType }}</section>
+                                    <section class="price-body text-center">
+                                        <div class="price-row price-money">{{ plan.price }}
+                                            <span class="price-period">
+                                                {% if 'month' in plan.subscriptionType|lower %}
+                                                    /month
+                                                {% else %}
+                                                    /once
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="price-row price-limit-row"><span class="price-row-value">{{ plan.limitRowPerRequest }}</span> limit row per page</div>
+                                        <div class="price-row price-limit-request"><span class="price-row-value">{{ plan.limitRequestDaily }}</span> limit request daily</div>
+                                    </section>
+
+                                    <a href="#" class="btn btn-material-deep-orange btn-lg btn-block">Sign Up</a>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </section>
                 </div>
             </div>
