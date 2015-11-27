@@ -7,6 +7,11 @@ $orange: #FF5722;
   color: #cc0000;
 }
 
+.label {
+  background: none;
+  padding-left: 0;
+}
+
 .form-place {
   padding: 10px;
 
@@ -16,9 +21,7 @@ $orange: #FF5722;
 
   .label {
     font-size: $font-size;
-    background: none;
     color: $orange;
-    padding-left: 0;
   }
 
   select, input[type="text"], input[type="number"] {
@@ -33,6 +36,7 @@ $orange: #FF5722;
 
   .check-text {
     font-size: $font-size;
+    color: #000;
   }
 
   .base-settings {

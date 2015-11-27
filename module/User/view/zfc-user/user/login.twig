@@ -36,25 +36,23 @@
     </div>
 {% endif %}
 
-<div class="form-group form-group-material-blue-grey{% if formElementErrors(form.get('identity')) and not hasInfo %} has-error{% endif %}">
-    <span class="sr-only">{{ formLabel(form.get('identity')) }}</span>
+<div class="form-group form-group-material-blue-grey label-floating{% if formElementErrors(form.get('identity')) and not hasInfo %} has-error{% endif %}">
+    <label for="identity" class="label control-label">Email</label>
     {{ formInput(form.get('identity').setAttributes({
         'class'      : 'form-control',
         'id'         : 'identity',
         'type'       : 'email',
         'autofocus'  : true,
         'required'   : true,
-        'placeholder': 'Email',
     })) }}
 </div>
 
-<div class="form-group form-group-material-blue-grey{% if formElementErrors(form.get('credential')) %} has-error{% endif %}">
-    <span class="sr-only">{{ formLabel(form.get('credential')) }}</span>
+<div class="form-group form-group-material-blue-grey label-floating{% if formElementErrors(form.get('credential')) %} has-error{% endif %}">
+    <label for="credential" class="label control-label">Password</label>
     {{ formInput(form.get('credential').setAttributes({
         'class'      : 'form-control',
         'id'         : 'credential',
         'required'   : true,
-        'placeholder': 'Password',
     })) }}
 </div>
 

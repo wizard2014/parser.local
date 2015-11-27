@@ -48,9 +48,9 @@
                         <div class="api-key-form hide">
                             {# @todo add form dinamic #}
                             <form action="{{ url('settings/default', {'action': 'profile'}) }}" method="post" class="form-inline api-key-form-item ebay-api-key-form">
-                                <div class="form-group form-group-material-blue-grey">
-                                    <label for="ebay-key-input" class="sr-only">Ebay AppID</label>
-                                    <input id="ebay-key-input" type="text" name="key" class="form-control access-key" placeholder="Enter Ebay AppID" required>
+                                <div class="form-group form-group-material-blue-grey label-floating">
+                                    <label for="ebay-key-input" class="label control-label">Ebay AppID</label>
+                                    <input id="ebay-key-input" type="text" name="key" class="form-control access-key" required>
                                 </div>
 
                                 <input type="hidden" name="vendor" class="vendor" value="1">

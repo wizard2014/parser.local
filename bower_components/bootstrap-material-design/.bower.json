@@ -1,6 +1,5 @@
 {
   "name": "bootstrap-material-design",
-  "version": "0.3.0",
   "homepage": "http://fezvrasta.github.io/bootstrap-material-design",
   "authors": [
     "Federico Zivolo <info@mywebexpression.com>"
@@ -43,16 +42,19 @@
   ],
   "license": "https://github.com/FezVrasta/bootstrap-material-design/blob/master/LICENSE.md",
   "dependencies": {
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.3.5",
+    "bootstrap-sass": "~3.3.5"
   },
-  "_release": "0.3.0",
+  "version": "0.5.0",
+  "_release": "0.5.0",
   "_resolution": {
     "type": "version",
-    "tag": "0.3.0",
-    "commit": "f40aa0a6e6b5fa19912f10b182f7fab4ab950861"
+    "tag": "0.5.0",
+    "commit": "83ab097123fecced139e724ce90ae0698753d2f8"
   },
   "_source": "git://github.com/FezVrasta/bootstrap-material-design.git",
-  "_target": "~0.3.0",
+  "_target": "~0.5.0",
   "_originalSource": "bootstrap-material-design",
   "_direct": true
 }

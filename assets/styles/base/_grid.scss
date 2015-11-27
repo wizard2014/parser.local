@@ -4,6 +4,7 @@ html {
 }
 
 body {
+  font-family: 'Roboto', sans-serif;
   margin-bottom: 40px;
   padding: 0;
   color: #222;
@@ -16,4 +17,15 @@ body {
 
 .row {
   margin: 0;
+}
+
+// remove outline
+input[type="button"] {
+  outline:none;
+}
+input[type="button"]::-moz-focus-inner {
+  border: 0;
+}
+.btn:focus {
+  outline: 0 !important;
 }

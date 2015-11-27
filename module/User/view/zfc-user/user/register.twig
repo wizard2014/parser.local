@@ -1,4 +1,4 @@
-{% set placeholders = ['Email', 'Password', 'Password Verify'] %}
+{% set placeholders = ['Email', 'Password', 'Password replay'] %}
 {% set counter = 0 %}
 
 <h1 class="text-center form-header">{{ translate('Register') }}</h1>
@@ -22,10 +22,9 @@
     {% endif %}
 
     {% for element in form %}
-
-        <div class="form-group form-group-material-blue-grey{% if formElementErrors(element) %} has-error{% endif %}">
+        <div class="form-group form-group-material-blue-grey label-floating{% if formElementErrors(element) %} has-error{% endif %}">
             {% if element is not instanceof('Zend\\Form\\Element\\Button') %}
-                <span class="sr-only">{{ formLabel(element) }}</span>
+                <label class="label control-label">{{ formLabel(element.setLabel(placeholders[counter])) }}</label>
             {% endif %}
 
             {% if element is instanceof('Zend\\Form\\Element\\Button') %}
@@ -36,7 +35,6 @@
                 {% if placeholders[counter] == 'Email' %}
                     {{ formInput(element.setAttributes({
                         'class'        : 'form-control',
-                        'placeholder'  : placeholders[counter],
                         'type'         : 'email',
                         'autocomplete' : 'off',
 
@@ -44,23 +42,21 @@
                 {% else %}
                     {{ formInput(element.setAttributes({
                         'class'         : 'form-control',
-                        'placeholder'   : placeholders[counter],
                         'autocomplete'  : 'off',
                     })) }}
-                {% endif %}
-
-                {% if formElementErrors(element) %}
-                    {{ formElementErrors()
-                    .setMessageOpenFormat('<p class="help-block">')
-                    .setMessageSeparatorString('</p><p class="help-block">')
-                    .setMessageCloseString('</p>')
-                    .render(element)|raw }}
                 {% endif %}
             {% endif %}
 
             {% set counter = counter + 1 %}
         </div>
 
+        {% if formElementErrors(element) %}
+            {{ formElementErrors()
+            .setMessageOpenFormat('<p class="help-block">')
+            .setMessageSeparatorString('</p><p class="help-block">')
+            .setMessageCloseString('</p>')
+            .render(element)|raw }}
+        {% endif %}
     {% endfor %}
 
     {% if (redirect) %}

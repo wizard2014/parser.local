@@ -50,7 +50,7 @@
                                 <div class="col col-sm-9">
                                     {# Button trigger modal #}
                                     <span class="category-list"></span>
-                                    <button type="button" class="btn btn-link mdi-content-add add-category" data-target="#modal" data-title="Select category or subcategory"></button>
+                                    <button type="button" class="btn btn-link fa fa-plus add-category" data-target="#modal" data-title="Select category or subcategory"></button>
                                 </div>
                             </div>
                         </div>
@@ -60,14 +60,14 @@
                             <form action="{{ url('ebay') }}" method="post" class="form">
                                 <div class="row">
                                     <div class="col col-sm-4">
-                                        <div class="form-group form-group-material-blue-grey">
-                                            <label for="keyword" class="label control-label">Keyword:</label>
-                                            <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1" placeholder="Enter keyword(s)">
+                                        <div class="form-group form-group-material-blue-grey label-floating">
+                                            <label for="keyword" class="label control-label">Enter keyword(s):</label>
+                                            <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1">
                                         </div>
                                     </div>
 
                                     <div class="col col-sm-2">
-                                        <div class="form-group form-group-material-blue-grey">
+                                        <div class="form-group form-group-material-blue-grey label-floating">
                                             <label class="label control-label" for="sortOrder">Sort Order: <span class="fa fa-asterisk"></span></label>
                                             <select name="sortOrder" id="sortOrder" class="form-control">
                                                 {% for sortOrder in ebaySourceGlobal['Sort Order'] %}
@@ -79,22 +79,22 @@
 
                                     <div class="col col-sm-2">
                                         <div class="row">
-                                            <div class="form-group form-group-material-blue-grey">
+                                            <div class="form-group form-group-material-blue-grey label-floating">
                                                 <label for="minPrice" class="label control-label">Min Price:</label>
-                                                <input type="number" name="minPrice" id="minPrice" class="form-control num-only" min="1" step="1" placeholder="5">
+                                                <input type="number" name="minPrice" id="minPrice" class="form-control num-only" min="1" step="1">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col col-sm-2">
-                                        <div class="form-group form-group-material-blue-grey">
+                                        <div class="form-group form-group-material-blue-grey label-floating">
                                             <label for="maxPrice" class="label control-label">Max Price:</label>
-                                            <input type="number" name="maxPrice" id="maxPrice" class="form-control num-only" min="1" step="1" placeholder="100">
+                                            <input type="number" name="maxPrice" id="maxPrice" class="form-control num-only" min="1" step="1">
                                         </div>
                                     </div>
 
                                     <div class="col col-sm-2">
-                                        <div class="form-group form-group-material-blue-grey">
+                                        <div class="form-group form-group-material-blue-grey label-floating">
                                             <label for="itemsQty" class="label control-label">Items qty: <span class="fa fa-asterisk"></span></label>
                                             <select name="itemsQty" id="itemsQty" class="form-control">
                                                 <option value="100">100</option>
@@ -108,13 +108,15 @@
 
                                 <div class="row">
                                     <div class="col col-sm-12">
-                                        <label class="label control-label">Listing Type:</label>
-                                        <div class="checkbox checkbox-material-blue-grey" id="listingType">
-                                            {% for listingType in ebaySourceGlobal['Listing Type'] %}
-                                                <label>
-                                                    <input type="checkbox" name="listingType[]" value="{{ listingType }}"> <span class="check-text">{{ listingType }}</span>
-                                                </label>
-                                            {% endfor %}
+                                        <div class="form-group form-group-material-blue-grey label-floating">
+                                            <label class="label control-label">Listing Type:</label>
+                                            <div class="checkbox checkbox-material-blue-grey" id="listingType">
+                                                {% for listingType in ebaySourceGlobal['Listing Type'] %}
+                                                    <label>
+                                                        <input type="checkbox" name="listingType[]" value="{{ listingType }}"> <span class="check-text">{{ listingType }}</span>
+                                                    </label>
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

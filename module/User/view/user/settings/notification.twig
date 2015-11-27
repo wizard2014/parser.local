@@ -29,7 +29,7 @@
                         <p>If you're not interested in receiving this content, please uncheck the box below to unsubscribe.</p>
 
                         <form action="{{ url('settings/default', {'action': 'notification'}) }}" method="post" class="notification-form" role="form">
-                            <div class="checkbox checkbox-material-blue-grey" id="listingType">
+                            <div class="checkbox checkbox-material-blue-grey label-floating" id="listingType">
                                 <label>
                                     <input class="notification-checkbox" type="checkbox" name="notification" {% if isEmailSubscriber %}{{ 'checked' }}{% endif %}> <span class="check-text">Subscribe to newsletters</span>
                                 </label>

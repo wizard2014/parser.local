@@ -15,8 +15,7 @@ var paths = {
 
 gulp.task('styles', function() {
     return gulp.src([
-        paths.bower  + '/bootstrap-material-design/dist/css/roboto.css',
-        paths.bower  + '/bootstrap-material-design/dist/css/material.css',
+        paths.bower  + '/bootstrap-material-design/dist/css/bootstrap-material-design.css',
         paths.bower  + '/bootstrap-material-design/dist/css/ripples.css',
         paths.assets + '/styles/app.scss'
     ])

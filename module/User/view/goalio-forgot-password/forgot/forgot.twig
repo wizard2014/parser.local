@@ -30,15 +30,14 @@
                     </div>
                 {% endif %}
 
-                <div class="form-group form-group-material-blue-grey{% if formElementErrors(form.get('email')) %} has-error{% endif %}">
-                    <span class="sr-only">{{ formLabel(form.get('email')) }}</span>
+                <div class="form-group form-group-material-blue-grey label-floating{% if formElementErrors(form.get('email')) %} has-error{% endif %}">
+                    <label for="email" class="label control-label">Email</label>
                     {{ formInput(form.get('email').setAttributes({
                         'class'      : 'form-control',
                         'id'         : 'email',
                         'type'       : 'email',
                         'autofocus'  : true,
                         'required'   : true,
-                        'placeholder': 'Email',
                     })) }}
                 </div>
 
