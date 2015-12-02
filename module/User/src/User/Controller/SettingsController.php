@@ -31,7 +31,7 @@ class SettingsController extends AbstractActionController
         AttributeValueMapper    $attributeValueMapper,
         DataSourceGlobalMapper  $dataSourceGlobalMapper,
         UserMapper              $userMapper,
-        SubscriptionPlan        $subscriptionPlanMapper,
+        SubscriptionPlanMapper  $subscriptionPlanMapper,
         DataSourceKeyMapper     $dataSourceKey
     )
     {
@@ -143,11 +143,7 @@ class SettingsController extends AbstractActionController
 
     public function subscriptionAction()
     {
-        $plans = $this->subscriptionPlanMapper->getAllPlanes();
-
-        return new ViewModel([
-            'plans' => $plans,
-        ]);
+        return new ViewModel();
     }
 
     public function statisticsAction()

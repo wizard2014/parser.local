@@ -106,9 +106,8 @@ return [
             \BjyAuthorize\Guard\Controller::class => [
                 ['controller' => 'Application\Controller\Index', 'action' => 'index', 'roles' => ['guest','user']],
                 ['controller' => 'Application\Controller\GetStarted', 'action' => ['index'], 'roles' => ['guest','user']],
+                ['controller' => 'Application\Controller\Price', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Application\Controller\GetStarted', 'action' => ['get-region', 'get-category'], 'roles' => ['user']],
-                ['controller' => 'ScnSocialAuth-User', 'action' => ['login', 'provider-login', 'provider-authenticate', 'register', 'logout'], 'roles' => ['guest','user']],
-                ['controller' => 'ScnSocialAuth-HybridAuth', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Index', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Console', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'HtUserRegistration', 'action' => ['verify-email'], 'roles' => ['guest','user']],
@@ -157,14 +156,7 @@ return [
                 ['route' => 'application', 'roles' => ['guest', 'user']],
                 ['route' => 'get-started', 'roles' => ['guest', 'user']],
                 ['route' => 'get-started/default', 'roles' => ['user']],
-                // social auth
-                ['route' => 'scn-social-auth-user', 'roles' => ['guest', 'user']],
-                ['route' => 'scn-social-auth-user/login', 'roles' => ['guest', 'user']],
-                ['route' => 'scn-social-auth-user/login/provider', 'roles' => ['guest', 'user']],
-                ['route' => 'scn-social-auth-user/authenticate/provider', 'roles' => ['guest', 'user']],
-                ['route' => 'scn-social-auth-user/register', 'roles' => ['guest', 'user']],
-                ['route' => 'scn-social-auth-user/logout', 'roles' => ['guest', 'user']],
-                ['route' => 'scn-social-auth-hauth', 'roles' => ['guest', 'user']],
+                ['route' => 'price', 'roles' => ['guest', 'user']],
                 // ebay
                 ['route' => 'ebay', 'roles' => ['guest', 'user']],
 //                ['route' => 'console', 'roles' => ['guest', 'user']],

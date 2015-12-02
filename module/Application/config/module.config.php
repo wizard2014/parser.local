@@ -1,11 +1,6 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
+
+ namespace Application;
 
 return [
     'router' => [
@@ -15,7 +10,7 @@ return [
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
-                        'controller' => 'Application\Controller\Index',
+                        'controller' => Controller\Index::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -29,9 +24,8 @@ return [
                 'options' => [
                     'route'    => '/application',
                     'defaults' => [
-                        '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        'controller' => Controller\Index::class,
+                        'action'     => 'index',
                     ],
                 ],
                 'may_terminate' => true,
@@ -56,7 +50,7 @@ return [
                 'options' => [
                     'route'    => '/get-started',
                     'defaults' => [
-                        'controller' => 'Application\Controller\GetStarted',
+                        'controller' => Controller\GetStarted::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -76,15 +70,26 @@ return [
                 ],
             ],
 
+            'price' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route'    => '/price',
+                    'defaults' => [
+                        'controller' => Controller\Price::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+
         ],
     ],
     'service_manager' => [
         'abstract_factories' => [
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-            'Zend\Log\LoggerAbstractServiceFactory',
+            \Zend\Cache\Service\StorageCacheAbstractServiceFactory::class,
+            \Zend\Log\LoggerAbstractServiceFactory::class,
         ],
         'factories' => [
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
         ],
     ],
     'translator' => [
@@ -99,10 +104,11 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            Controller\Index::class => Controller\IndexController::class,
         ],
         'factories' => [
-            'Application\Controller\GetStarted' => 'Application\Factory\Controller\GetStartedControllerFactory',
+            Controller\GetStarted::class => Factory\Controller\GetStartedControllerFactory::class,
+            Controller\Price::class => Factory\Controller\PriceControllerFactory::class,
         ],
     ],
     'view_manager' => [

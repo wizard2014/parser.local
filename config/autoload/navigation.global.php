@@ -11,6 +11,9 @@ $base = [
         'label' => 'Get started',
         'route' => 'get-started',
     ], [
+        'label' => 'Price',
+        'route' => 'price',
+    ], [
         'label'     => '<i class="fa fa-cogs"></i> <i class="fa fa-caret-down"></i>',
         'uri'       => '#',
         'wrapClass' => 'dropdown',         // class to <li>
