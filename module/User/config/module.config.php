@@ -1,4 +1,7 @@
 <?php
+
+namespace User;
+
 return [
     'router' => [
         'routes' => [
@@ -7,7 +10,7 @@ return [
                 'options' => [
                     'route'    => '/user/resend',
                     'defaults' => [
-                        'controller' => 'User\Controller\ReSend',
+                        'controller' => Controller\ReSend::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -17,7 +20,7 @@ return [
                 'options' => [
                     'route'    => '/user/settings',
                     'defaults' => [
-                        'controller' => 'User\Controller\Settings',
+                        'controller' => Controller\Settings::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -40,8 +43,8 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            'User\Controller\ReSend'    => 'User\Factory\Controller\ReSendControllerFactory',
-            'User\Controller\Settings'  => 'User\Factory\Controller\SettingsControllerFactory',
+            Controller\ReSend::class    => Factory\Controller\ReSendControllerFactory::class,
+            Controller\Settings::class  => Factory\Controller\SettingsControllerFactory::class,
         ],
     ],
 
@@ -49,7 +52,7 @@ return [
         'driver' => [
             // overriding zfc-user-doctrine-orm's config
             'zfcuser_entity' => [
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
                 'paths' => [__DIR__ . '/../src/User/Entity'],
             ],
@@ -63,7 +66,7 @@ return [
         'entity_resolver' => [
             'orm_default' => [
                 'resolvers' => [
-                    'ZfcUser\Entity\UserInterface' => 'User\Entity\User',
+                    \ZfcUser\Entity\UserInterface::class => Entity\User::class,
                 ]
             ]
         ],
@@ -71,20 +74,20 @@ return [
 
     'zfcuser' => [
         // telling ZfcUser to use our own class
-        'user_entity_class'       => 'User\Entity\User',
+        'user_entity_class'       => Entity\User::class,
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
     ],
 
     'bjyauthorize' => [
         // Using the authentication identity provider, which basically reads the roles from the auth service's identity
-        'identity_provider' => 'BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider',
+        'identity_provider' => \BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider::class,
 
         'role_providers'        => [
             // using an object repository (entity repository) to load all roles into our ACL
             'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => [
                 'object_manager'    => 'doctrine.entitymanager.orm_default',
-                'role_entity_class' => 'User\Entity\Role',
+                'role_entity_class' => Entity\Role::class,
             ],
         ],
     ],

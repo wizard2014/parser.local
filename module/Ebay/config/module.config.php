@@ -1,5 +1,7 @@
 <?php
 
+namespace Ebay;
+
 return [
     'router' => [
         'routes' => [
@@ -8,9 +10,8 @@ return [
                 'options' => [
                     'route'    => '/ebay',
                     'defaults' => [
-                        '__NAMESPACE__' => 'Ebay\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        'controller' => Controller\Index::class,
+                        'action'     => 'index',
                     ],
                 ],
                 'may_terminate' => true,
@@ -33,14 +34,14 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            'Ebay\Controller\Index'   => 'Ebay\Factory\Controller\IndexControllerFactory',
-            'Ebay\Controller\Console' => 'Ebay\Factory\Controller\ConsoleControllerFactory',
+            Controller\Index::class   => Factory\Controller\IndexControllerFactory::class,
+            Controller\Console::class => Factory\Controller\ConsoleControllerFactory::class,
         ],
     ],
     'service_manager'=> [
         'factories' => [
-            'Ebay\Service\Category'  => 'Ebay\Factory\Service\CategoryServiceFactory',
-            'Ebay\Service\FindItems' => 'Ebay\Factory\Service\FindItemsServiceFactory',
+            Service\Category::class  => Factory\Service\CategoryServiceFactory::class,
+            Service\FindItems::class => Factory\Service\FindItemsServiceFactory::class,
         ],
     ],
     'view_manager' => [
@@ -56,8 +57,8 @@ return [
                     'options' => [
                         'route'    => 'ebay-category',
                         'defaults' => [
-                            'controller' => 'Ebay\Controller\Console',
-                            'action' => 'index'
+                            'controller' => Controller\Console::class,
+                            'action'     => 'index'
                         ],
                     ],
                 ],
@@ -67,7 +68,7 @@ return [
     'doctrine' => [
         'driver' => [
             'ebay_entity' => [
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
                 'paths' => [__DIR__ . '/../src/Ebay/Entity'],
             ],

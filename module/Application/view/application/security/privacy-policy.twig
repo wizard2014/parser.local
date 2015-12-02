@@ -1,0 +1,54 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}{{ translate('Privacy Policy') }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col col-md-12">
+            <div class="container security">
+                <h1>Privacy Policy</h1>
+                <hr>
+
+                <p>Welcome to EXTROW (the "SERVICE"), owned and operated by Versover (the "PROPRIETOR").</p>
+                <h4>WHAT PERSONAL INFORMATION ABOUT CUSTOMERS DOES THE PROPRIETOR COLLECT?</h4>
+
+                <ol type="a">
+                    <li>Information You Give Us: The PROPRIETOR collects personal information when you join the EXTROW website.  We use the information that you provide for statistical purposes and to communicate with you;</li>
+                    <li>Automated Information: We receive and store certain types of information automatically whenever you interact with us. For instance, like many Web sites, we use "cookies," and we obtain certain types of information when your Web browser accesses www.extrow.com. PROPRIETOR automatically receives and records information on our server logs from your browser, including your IP address, cookie, and the page you request. PROPRIETOR receives IP addresses from all users because this information is automatically reported by your browser each time you view a web page;</li>
+                    <li>The only information collected regarding your associated eBay account(s) is that information which you explicitly give us such as user id, name, email address, etc. and information pulled from eBay such as current eBay listings that allow us to perform our duties.</li>
+                </ol>
+                <hr>
+
+                <h4>HOW DOES PROPRIETOR USE THE INFORMATION IT COLLECTS?</h4>
+                <p>PROPRIETOR uses information for the following general purposes: products and services provision, identification and authentication, services improvement, customer contact, research, and anonymous reporting.</p>
+                <hr>
+
+                <h4>DOES PROPRIETOR SHARE THE INFORMATION IT RECEIVES?</h4>
+                <p>We do not sell any information collected about you to others.</p>
+                <p>Protection of PROPRIETOR and Others: We release account and other personal information when we believe release is appropriate to comply with the law; enforce or apply our <a href="{{ url('security/default', {'action': 'terms-of-service'}) }}">Terms of Service</a> and other agreements; or protect the rights, property, or safety of PROPRIETOR, our users, or others. This does not include selling, renting, sharing, or otherwise disclosing personally identifiable information from customers for commercial purposes in violation of the commitments set forth in this Privacy Notice.</p>
+                <p>With Your Consent: Other than as set out above, you will receive notice when information about you might go to third parties, and you will have an opportunity to choose not to share the information.</p>
+                <hr>
+
+                <h4>HOW DO I REMOVE PERSONAL INFORMATION FROM THE SITE?</h4>
+                <p>Simply unsubscribe from SERVICE.  All personal information will be deleted within seven (7) days of account expiration.</p>
+                <hr>
+
+                <h4>WHAT ABOUT AGGREGATE OR NON-PERSONALLY IDENTIFABLE INFORMATION?</h4>
+                <p>PROPRIETOR aggregates (gathers up data across all user accounts) personal information and may disclose such information in a non-personally identifiable manner to advertisers and other third parties for their marketing, promotional, or other business purposes. However, in these situations, we do not disclose any information that could be used to identify you personally. For example, we may disclose to third parties information about how many people used our services in the last week, but we will not disclose who those people are. Certain information, such as your name, email address, password, are not disclosed to these third parties in a personally identifiable manner without your explicit consent.</p>
+                <hr>
+
+                <h4>CHILDREN</h4>
+                <p>PROPRIETOR does not provide the SERVICE to children. Since children cannot use eBay they are naturally not allowed to use this site.</p>
+                <hr>
+
+                <h4>CONDITION OF USE, NOTICES AND REVISIONS</h4>
+                <p>If you choose to visit the EXTROW or use the SERVICE, your visit and any dispute over privacy is subject to this Privacy Policy and our <a href="{{ url('security/default', {'action': 'terms-of-service'}) }}">Terms of Service</a> including limitations on damages, arbitration of disputes, and application of the law of the state of Texas. If you have any concern about privacy at SERVICE, please contact us with a thorough description, and we will try to resolve it.</p>
+                <hr>
+
+                <h4>CHANGE TO THIS PRIVACY POLICY</h4>
+                <p>Our Privacy Notice and the <a href="{{ url('security/default', {'action': 'terms-of-service'}) }}">Terms of Service</a> may change over time. We may e-mail periodic reminders of our notices and conditions but you should check our Web site frequently to see recent changes. Unless stated otherwise, our current Privacy Notice applies to all information that we have about you and your account.</p>
+                <p>We will notify you about significant changes in the way we treat personal information by sending a notice to the primary email address specified in your SERVICE account, if any, or by placing a prominent notice on our site.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

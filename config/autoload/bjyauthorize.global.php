@@ -108,6 +108,7 @@ return [
                 ['controller' => 'Application\Controller\GetStarted', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Application\Controller\Price', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Application\Controller\GetStarted', 'action' => ['get-region', 'get-category'], 'roles' => ['user']],
+                ['controller' => 'Application\Controller\Security', 'action' => ['index', 'privacy-policy', 'terms-of-service'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Index', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'Ebay\Controller\Console', 'action' => ['index'], 'roles' => ['guest','user']],
                 ['controller' => 'HtUserRegistration', 'action' => ['verify-email'], 'roles' => ['guest','user']],
@@ -157,6 +158,8 @@ return [
                 ['route' => 'get-started', 'roles' => ['guest', 'user']],
                 ['route' => 'get-started/default', 'roles' => ['user']],
                 ['route' => 'price', 'roles' => ['guest', 'user']],
+                ['route' => 'security', 'roles' => ['guest', 'user']],
+                ['route' => 'security/default', 'roles' => ['guest', 'user']],
                 // ebay
                 ['route' => 'ebay', 'roles' => ['guest', 'user']],
 //                ['route' => 'console', 'roles' => ['guest', 'user']],

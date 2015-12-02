@@ -1,5 +1,5 @@
 /**
- * Subscription
+ * Price
  */
 (function() {
     $('.price-header').matchHeight();

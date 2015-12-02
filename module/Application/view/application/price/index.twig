@@ -3,10 +3,10 @@
 {% block title %}{{ translate('Get Started') }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col col-md-12">
-        <div class="container">
-            <div class="togglebutton">
+    <div class="row">
+        <div class="col col-md-12">
+            <div class="container">
+                <div class="togglebutton">
                     <label>
                         <input class="toggle-checkbox" type="checkbox">
                         <span class="togglebutton-text price-block-without-key">Without own key</span>
@@ -17,7 +17,7 @@
                 <section class="price-block-without-key">
                     <h3 class="text-center">Without own key</h3>
                     <div class="row">
-                        <section class="subscription">
+                        <section class="price">
                             {% for plan in plans.key_not_exists %}
                                 <div class="col col-md-4 col-sm-6 col-xs-12">
                                     <div class="price-container">
@@ -47,7 +47,7 @@
                 <section class="price-block-with-key hide">
                     <h3 class="text-center">With own key</h3>
                     <div class="row">
-                        <section class="subscription">
+                        <section class="price">
                             {% for plan in plans.key_exists %}
                                 <div class="col col-md-4 col-sm-6 col-xs-12">
                                     <div class="price-container">
@@ -76,5 +76,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

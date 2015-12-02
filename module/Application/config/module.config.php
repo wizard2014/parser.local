@@ -1,6 +1,6 @@
 <?php
 
- namespace Application;
+namespace Application;
 
 return [
     'router' => [
@@ -81,6 +81,31 @@ return [
                 ],
             ],
 
+             'security' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route'    => '/security',
+                    'defaults' => [
+                        'controller' => Controller\Security::class,
+                        'action'     => 'index',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'default' => [
+                        'type'    => 'Segment',
+                        'options' => [
+                            'route'    => '[/:action]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ],
+                            'defaults' => [
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+
         ],
     ],
     'service_manager' => [
@@ -104,7 +129,8 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            Controller\Index::class => Controller\IndexController::class,
+            Controller\Index::class     => Controller\IndexController::class,
+            Controller\Security::class  => Controller\SecurityController::class,
         ],
         'factories' => [
             Controller\GetStarted::class => Factory\Controller\GetStartedControllerFactory::class,

@@ -2,7 +2,6 @@
 
 namespace User\Controller;
 
-use Utility\Mapper\SubscriptionPlan;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
