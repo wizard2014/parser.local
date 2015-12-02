@@ -5,7 +5,7 @@ return [
         'memcached' => [ //can be called directly via SM in the name of 'memcached'
               'adapter' => [
                   'name'     =>'memcached',
-                  'lifetime' => 86400,
+                  'lifetime' => 7200,
                   'options'  => [
                       'servers' => [
                           [
@@ -26,6 +26,19 @@ return [
                       'throw_exceptions' => false
                   ],
               ],
+        ],
+        'filesystem' => [
+            'adapter' => [
+                'name'    =>'filesystem', // filesystem, memory, apc are working
+                'options' => [
+                    'ttl' => 7200
+                ],
+            ],
+            'plugins' => [
+                'exception_handler' => [
+                    'throw_exceptions' => false
+                ],
+            ],
         ],
     ],
 ];

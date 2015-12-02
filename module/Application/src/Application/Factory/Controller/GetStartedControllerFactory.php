@@ -22,7 +22,11 @@ class GetStartedControllerFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
         $em = $sm->get(\Doctrine\ORM\EntityManager::class);
 
-        $cache = $sm->get('memcached');
+        try {
+            $cache = $sm->get('memcached');
+        } catch(\Exception $e) {
+            $cache = $sm->get('filesystem');
+        }
 
         return new GetStartedController(
             $cache,

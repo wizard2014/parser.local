@@ -19,8 +19,6 @@ return [
         'ZfcUser',
         'ZfcUserDoctrineORM',
         'ZfcTwig',
-        'ScnSocialAuth',
-        'ScnSocialAuthDoctrineORM',
         'GoalioMailService',
         'GoalioForgotPassword',
         'GoalioForgotPasswordDoctrineORM',

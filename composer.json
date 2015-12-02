@@ -18,7 +18,6 @@
         "dts/ebay-sdk-php": "0.*",
         "zf-commons/zfc-twig": "^1.2",
         "hrevert/ht-user-registration-doctrine-orm": "^0.0.1",
-        "socalnick/scn-social-auth-doctrine-orm": "1.5.0",
         "goalio/goalio-forgotpassword-doctrine-orm": "1.0.0"
     }
 }
