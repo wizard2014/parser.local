@@ -11,6 +11,7 @@ $grey: #607D8B;
   background: rgba(0,150,136,.6);
   visibility: hidden;
   opacity: 0;
+  z-index: 9000;
 
   svg {
     display: block;
@@ -20,7 +21,7 @@ $grey: #607D8B;
     left: 0;
     right: 0;
     margin: auto;
-    z-index: 10;
+    z-index: 9999;
 
     path {
       stroke: cyan;

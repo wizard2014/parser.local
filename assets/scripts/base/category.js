@@ -66,6 +66,35 @@
             '</span>'
         );
 
+        // if next category not exists hide plus btn
+        //var region = $('.input-region').val(),
+        //    loader   = $('.loader');
+        //
+        //$.ajax({
+        //    type: 'POST',
+        //    url : '/get-started/get-category',
+        //    data : { region: region, level: nextLevel, parentId: id },
+        //
+        //    beforeSend: function() {
+        //        loader.toggleClass('visible');
+        //    }
+        //})
+        //    .done(function(data) {
+        //        var categories = data.categoryList;
+        //
+        //        if (categories.length == 0) {
+        //            $('.add-category').addClass('hide');
+        //        }
+        //
+        //        $('#modal').modal('hide');
+        //    })
+        //    .fail(function() {
+        //        ajaxFail();
+        //    })
+        //    .always(function() {
+        //        loader.toggleClass('visible');
+        //    });
+
         $('#modal').modal('hide');
     });
 
@@ -162,6 +191,8 @@
                 $('.input-category').val(lastElem.data('category-id'));
                 $('.input-category-level').val(lastElem.data('level'));
             }
+
+            //$('.add-category').removeClass('hide');
         });
     });
 
