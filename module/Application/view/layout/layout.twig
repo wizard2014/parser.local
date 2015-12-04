@@ -52,10 +52,47 @@
                 {% block content %}{{ content|raw }}{% endblock %}
             </section>
 
+            <footer>
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-sm-3">
+                                <h4 class="text-uppercase">Quick Links</h4>
+                                <ul class="list-unstyled">
+                                    <li><a href="{{ url('home') }}">Home</a></li>
+                                    <li><a href="{{ url('get-started') }}">GetStarted</a></li>
+                                    <li><a href="{{ url('price') }}">Price</a></li>
+                                </ul>
+                            </div>
+                            <div class="col col-sm-3">
+                                <h4 class="text-uppercase">Company <small>(<a href="http://versover.com/" target="_blank">Versover</a>)</small></h4>
+                                <ul class="list-unstyled">
+                                    <li><a href="http://versover.com/about" target="_blank">About</a></li>
+                                    <li><a href="http://versover.com/contact" target="_blank">Contacts</a></li>
+                                </ul>
+                            </div>
+                            <div class="col col-sm-3">
+                                <h4 class="text-uppercase">Security</h4>
+                                <ul class="list-unstyled">
+                                    <li><a href="{{ url('security/default', {'action': 'privacy-policy'}) }}">Privacy Policy</a></li>
+                                    <li><a href="{{ url('security/default', {'action': 'terms-of-service'}) }}">Terms Of Service</a></li>
+                                </ul>
+                            </div>
+                            <div class="col col-sm-3">
+                                <h4 class="text-uppercase">Help</h4>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Feedback</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <p class="text-center">&copy; {{ 'now'|date('Y') }} by <a href="http://versover.com" target="_blank">Versover</a> {{ translate('All rights reserved.') }}</p>
+                </div>
+            </footer>
         </div> <!-- /container -->
-        <footer>
-            <p class="text-center">&copy; {{ 'now'|date('Y') }} by <a href="http://versover.com" target="_blank">Versover</a> {{ translate('All rights reserved.') }}</p>
-        </footer>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="{{ basePath() }}/js/app.js"></script>

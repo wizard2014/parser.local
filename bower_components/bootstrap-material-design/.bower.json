@@ -6,14 +6,10 @@
   ],
   "description": "Material Design theme for Bootstrap 3",
   "main": [
-    "dist/css/material.css",
+    "dist/css/bootstrap-material-design.css",
     "dist/js/material.js",
     "dist/css/ripples.css",
-    "dist/js/ripples.js",
-    "dist/fonts/Material-Design-Icons.eot",
-    "dist/fonts/Material-Design-Icons.svg",
-    "dist/fonts/Material-Design-Icons.ttf",
-    "dist/fonts/Material-Design-Icons.woff"
+    "dist/js/ripples.js"
   ],
   "ignore": [
     "test",
@@ -46,12 +42,12 @@
     "bootstrap": "~3.3.5",
     "bootstrap-sass": "~3.3.5"
   },
-  "version": "0.5.1",
-  "_release": "0.5.1",
+  "version": "0.5.2",
+  "_release": "0.5.2",
   "_resolution": {
     "type": "version",
-    "tag": "0.5.1",
-    "commit": "5560209a49b632bd03e22f430c486a498fbda722"
+    "tag": "v0.5.2",
+    "commit": "bfa9550e8d582bf442011e8eb6b04609bce781ee"
   },
   "_source": "git://github.com/FezVrasta/bootstrap-material-design.git",
   "_target": "~0.5.0",
