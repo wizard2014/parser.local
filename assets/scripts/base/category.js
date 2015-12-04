@@ -14,20 +14,18 @@
 
         var title = $(this).data('title');
 
-        $.ajax({
-            type: 'POST',
-            url : '/get-started/get-category',
-            data : { region: region, level: level, parentId: parentId },
-
-            beforeSend: function() {
+        // ajax call
+        var data = { region: region, level: level, parentId: parentId };
+        ajaxCall(
+            data,
+            function () { // beforeSend
                 loader.toggleClass('visible');
 
                 destination.empty();
                 modalTitle.empty();
-            }
-        })
-            .done(function(data) {
-                var categories = data.categoryList,
+            },
+            function (ajaxData) {
+                var categories = ajaxData.categoryList,
                     html       = '';
 
                 if (categories.length > 0) {
@@ -40,19 +38,14 @@
 
                     $('#modal').modal('show');
                 }
-            })
-            .fail(function() {
-                ajaxFail();
-            })
-            .always(function() {
-                loader.toggleClass('visible');
-            });
+        });
     });
 
     $(document).on('click', '.set-category', function() {
-        var id    = $(this).data('category-id'),
-            level = $('.input-category-level'), // level from hidden input
-            value = $(this).text();
+        var id     = $(this).data('category-id'),
+            level  = $('.input-category-level'), // level from hidden input
+            value  = $(this).text(),
+            region = $('.input-region').val();
 
         var nextLevel = parseInt(level.val()) + 1;
 
@@ -67,35 +60,21 @@
         );
 
         // if next category not exists hide plus btn
-        //var region = $('.input-region').val(),
-        //    loader   = $('.loader');
-        //
-        //$.ajax({
-        //    type: 'POST',
-        //    url : '/get-started/get-category',
-        //    data : { region: region, level: nextLevel, parentId: id },
-        //
-        //    beforeSend: function() {
-        //        loader.toggleClass('visible');
-        //    }
-        //})
-        //    .done(function(data) {
-        //        var categories = data.categoryList;
-        //
-        //        if (categories.length == 0) {
-        //            $('.add-category').addClass('hide');
-        //        }
-        //
-        //        $('#modal').modal('hide');
-        //    })
-        //    .fail(function() {
-        //        ajaxFail();
-        //    })
-        //    .always(function() {
-        //        loader.toggleClass('visible');
-        //    });
+        var data = { region: region, level: nextLevel, parentId: id };
+        ajaxCall(
+            data,
+            function() {
+                $('.loader').toggleClass('visible');
+            },
+            function (ajaxData) {
+                var categories = ajaxData.categoryList;
 
-        $('#modal').modal('hide');
+                if (categories.length == 0) {
+                    $('.add-category').addClass('hide');
+                }
+
+                $('#modal').modal('hide');
+            });
     });
 
     // edit current category
@@ -114,20 +93,18 @@
 
         var title = $(this).data('title');
 
-        $.ajax({
-            type: 'POST',
-            url : '/get-started/get-category',
-            data : { region: region, level: level, parentId: parentId },
-
-            beforeSend: function() {
+        // ajax call
+        var data = { region: region, level: level, parentId: parentId };
+        ajaxCall(
+            data,
+            function () { // beforeSend
                 loader.toggleClass('visible');
 
                 destination.empty();
                 modalTitle.empty();
-            }
-        })
-            .done(function(data) {
-                var categories = data.categoryList,
+            },
+            function (ajaxData) {
+                var categories = ajaxData.categoryList,
                     html       = '';
 
                 if (categories.length > 0) {
@@ -140,20 +117,15 @@
 
                     $('#modal').modal('show');
                 }
-            })
-            .fail(function() {
-                ajaxFail();
-            })
-            .always(function() {
-                loader.toggleClass('visible');
             });
     });
 
     $(document).on('click', '.replace-category', function() {
-        var id    = $(this).data('category-id'),
-            level = $(this).data('category-level'),
-            value = $(this).text(),
-            replace = $(this).data('replace-with');
+        var id      = $(this).data('category-id'),
+            level   = $(this).data('category-level'),
+            value   = $(this).text(),
+            replace = $(this).data('replace-with'),
+            region  = $('.input-region').val();
 
         var nextLevel = parseInt(level) + 1;
 
@@ -166,16 +138,32 @@
 
                 $(this).replaceWith(
                     '<span>' +
-                        '<button type="button" class="btn btn-link edit-category" data-level="' + level + '" data-category-id="' + id + '" data-target="#modal" data-title="Select category or subcategory">' + value + '</button>' +
+                        '<button type="button" class="btn btn-link edit-category" data-level="' + nextLevel + '" data-category-id="' + id + '" data-target="#modal" data-title="Select category or subcategory">' + value + '</button>' +
                         '<i class="fa fa-trash category-remove cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove"></i>' +
                     '</span>'
                 );
             }
         });
 
-        $('#modal').modal('hide');
-    });
+        // if next category not exists hide plus btn
+        var data = { region: region, level: nextLevel, parentId: id };
+        ajaxCall(
+            data,
+            function() {
+                $('.loader').toggleClass('visible');
+            },
+            function (ajaxData) {
+                var categories = ajaxData.categoryList;
 
+                if (categories.length == 0) {
+                    $('.add-category').addClass('hide');
+                } else {
+                    $('.add-category').removeClass('hide');
+                }
+
+                $('#modal').modal('hide');
+        });
+    });
 
     // remove category elements
     $(document).on('click', '.category-remove', function() {
@@ -192,9 +180,29 @@
                 $('.input-category-level').val(lastElem.data('level'));
             }
 
-            //$('.add-category').removeClass('hide');
+            $('.add-category').removeClass('hide');
         });
     });
+
+    // ajax call
+    function ajaxCall(data, beforeSend, callback) {
+        $.ajax({
+            type: 'POST',
+            url  : '/get-started/get-category',
+            data : data,
+
+            beforeSend: beforeSend
+        })
+            .done(function(data) {
+                callback(data);
+            })
+            .fail(function() {
+                ajaxFail();
+            })
+            .always(function() {
+                $('.loader').toggleClass('visible');
+            });
+    }
 
     // ajax call failed
     function ajaxFail() {
