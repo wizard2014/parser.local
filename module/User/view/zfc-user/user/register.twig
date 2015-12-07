@@ -9,7 +9,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col col-md-6 col-md-offset-3">
+        <div class="col col-md-6 col-md-offset-3 register-form">
             <h1 class="text-center form-header">{{ translate('Register') }}</h1>
 
             {% if (enableRegistration) %}
@@ -37,7 +37,10 @@
                         {% endif %}
 
                         {% if element is instanceof('Zend\\Form\\Element\\Button') %}
-                            {{ formButton(element.setAttribute('class', 'btn btn-material-blue-grey btn-lg btn-block submit-btn')) }}
+                            {{ formButton(element.setAttributes({
+                                'class': 'btn btn-raised btn-primary btn-lg btn-block submit-btn disabled',
+                                'disabled': true
+                            })) }}
                         {% elseif element is instanceof('Zend\\Form\\Element\\Captcha') %}
                             {{ formCaptcha(element) }}{{ formElementErrors(element) }}
                         {% else %}
@@ -74,6 +77,20 @@
 
                 {{ form().closeTag(form)|raw }}
 
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <p>To use this service, you must agree with our <a href="{{ url('security/default', {'action': 'terms-of-service'}) }}" target="_blank" data-toggle="tooltip" data-placement="bottom" title="New Tab">Terms of Service</a>.</p>
+                    </div>
+
+                    <div class="pull-right">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="agree-checkbox"> <span class="check-text">I agree</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <p>{{ translate('Already registered?') }} <a href="{{ url('zfcuser/login') }}">{{ translate('Sign in!') }}</a></p>
             {% else %}
                 <h3 class="text-center text-info">Registration is disabled</h3>
@@ -81,17 +98,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-    <script>
-        (function() {
-            var options = {};
-            options.ui = {
-                showVerdictsInsideProgressBar: true
-            };
-
-            $(':password:first').pwstrength(options);
-        })();
-    </script>
 {% endblock %}
