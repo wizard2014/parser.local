@@ -36,6 +36,7 @@ gulp.task('scripts', function() {
         paths.bower   + '/bootstrap-material-design/dist/js/material.js',
         paths.bower   + '/bootstrap-material-design/dist/js/ripples.js',
         paths.bower   + '/matchHeight/jquery.matchHeight.js',
+        paths.bower   + '/pwstrength-bootstrap/dist/pwstrength-bootstrap-1.2.9.js',
         paths.assets  + '/scripts/base/*.js',
         paths.assets  + '/scripts/validator/*.js',
         paths.assets  + '/scripts/init/*.js'

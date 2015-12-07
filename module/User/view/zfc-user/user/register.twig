@@ -82,3 +82,16 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script>
+        (function() {
+            var options = {};
+            options.ui = {
+                showVerdictsInsideProgressBar: true
+            };
+
+            $(':password:first').pwstrength(options);
+        })();
+    </script>
+{% endblock %}
