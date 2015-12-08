@@ -6,7 +6,6 @@ use RecursiveIteratorIterator;
 use Zend\Navigation\AbstractContainer;
 use Zend\Navigation\Page\AbstractPage;
 
-
 class CustomMenu extends Menu
 {
     /**
@@ -78,8 +77,8 @@ class CustomMenu extends Menu
         $onlyActive,
         $escapeLabels,
         $addClassToListItem,
-        $liActiveClass)
-    {
+        $liActiveClass
+    ) {
         $html = '';
 
         // find deepest active

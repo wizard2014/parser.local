@@ -34,7 +34,7 @@
                         {% if hasInfo %}
                             <h4>Confirm your email (<strong>{{ email }}</strong>).</h4>
                             <p>After you created your account we sent you a confirmation email. You need to check that out before you can sign in.</p>
-                            <p>If you didn't receive the email we can send you another one. <a class="btn btn-primary" href="{{ url('resend') }}">Resend</a></p>
+                            <p>If you didn't receive the email we can send you another one. <a class="btn btn-raised btn-primary" href="{{ url('resend') }}">Resend</a></p>
                         {% else %}
                             {{ formElementErrors()
                             .setMessageOpenFormat('<p>')
@@ -68,7 +68,7 @@
                     <input type="hidden" name="redirect" value="{{ redirect|e }}">
                 {% endif %}
 
-                {{ formButton(form.get('submit').setAttribute('class', 'btn btn-material-blue-grey btn-lg btn-block submit-btn')) }}
+                {{ formButton(form.get('submit').setAttribute('class', 'btn btn-raised btn-primary btn-lg btn-block submit-btn')) }}
 
                 {{ form().closeTag(form)|raw }}
 
