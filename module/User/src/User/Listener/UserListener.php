@@ -58,7 +58,8 @@ class UserListener extends AbstractListenerAggregate
      *
      * @return string
      */
-    protected function getTimeZone($ip) {
+    protected function getTimeZone($ip)
+    {
         $client = new Client('http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . $ip);
 
         try {
