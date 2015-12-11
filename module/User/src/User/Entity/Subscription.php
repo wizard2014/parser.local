@@ -82,9 +82,9 @@ class Subscription
     private $user;
 
     /**
-     * @var \User\Entity\SubscriptionScheme
+     * @var \Utility\Entity\SubscriptionScheme
      *
-     * @ORM\ManyToOne(targetEntity="User\Entity\SubscriptionScheme")
+     * @ORM\ManyToOne(targetEntity="Utility\Entity\SubscriptionScheme")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="subscription_scheme_id", referencedColumnName="id")
      * })
@@ -306,11 +306,11 @@ class Subscription
     /**
      * Set subscriptionScheme
      *
-     * @param \User\Entity\SubscriptionScheme $subscriptionScheme
+     * @param \Utility\Entity\SubscriptionScheme $subscriptionScheme
      *
      * @return Subscription
      */
-    public function setSubscriptionScheme(\User\Entity\SubscriptionScheme $subscriptionScheme = null)
+    public function setSubscriptionScheme(\Utility\Entity\SubscriptionScheme $subscriptionScheme = null)
     {
         $this->subscriptionScheme = $subscriptionScheme;
 
@@ -320,7 +320,7 @@ class Subscription
     /**
      * Get subscriptionScheme
      *
-     * @return \User\Entity\SubscriptionScheme
+     * @return \Utility\Entity\SubscriptionScheme
      */
     public function getSubscriptionScheme()
     {

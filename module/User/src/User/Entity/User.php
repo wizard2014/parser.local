@@ -135,7 +135,7 @@ class User implements UserInterface, ProviderInterface
      *
      * @param string $email
      *
-     * @return Users
+     * @return User
      */
     public function setEmail($email)
     {
@@ -159,7 +159,7 @@ class User implements UserInterface, ProviderInterface
      *
      * @param string $displayName
      *
-     * @return Users
+     * @return User
      */
     public function setDisplayName($displayName)
     {
