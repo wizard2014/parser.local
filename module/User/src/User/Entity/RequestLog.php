@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * RequestLog
  *
- * @ORM\Table(name="request_log", indexes={@ORM\Index(name="IDX_42152989A76ED395", columns={"user_id"}), @ORM\Index(name="IDX_42152989C61772EE", columns={"data_source_global_id"}), @ORM\Index(name="IDX_4215298918CFB4CA", columns={"data_source_regional_id"}), @ORM\Index(name="IDX_42152989B6596C08", columns={"subscription_type_id"}), @ORM\Index(name="IDX_42152989EF68FEC4", columns={"request_type_id"})})
+ * @ORM\Table(name="request_log", indexes={@ORM\Index(name="IDX_421529899A1887DC", columns={"subscription_id"})})
  * @ORM\Entity
  */
 class RequestLog
@@ -25,7 +25,7 @@ class RequestLog
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="request_time", type="datetime", nullable=false)
+     * @ORM\Column(name="request_time", type="datetimetz", nullable=false)
      */
     private $requestTime = 'now()';
 
@@ -37,54 +37,14 @@ class RequestLog
     private $qtyRows = '0';
 
     /**
-     * @var \User\Entity\User
+     * @var \User\Entity\Subscription
      *
-     * @ORM\ManyToOne(targetEntity="User\Entity\User")
+     * @ORM\ManyToOne(targetEntity="User\Entity\Subscription")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
      * })
      */
-    private $user;
-
-    /**
-     * @var \Utility\Entity\DataSourceGlobal
-     *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\DataSourceGlobal")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="data_source_global_id", referencedColumnName="id")
-     * })
-     */
-    private $dataSourceGlobal;
-
-    /**
-     * @var \Utility\Entity\DataSourceRegional
-     *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\DataSourceRegional")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="data_source_regional_id", referencedColumnName="id")
-     * })
-     */
-    private $dataSourceRegional;
-
-    /**
-     * @var \Utility\Entity\AttributeValue
-     *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\AttributeValue")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="subscription_type_id", referencedColumnName="id")
-     * })
-     */
-    private $subscriptionType;
-
-    /**
-     * @var \Utility\Entity\AttributeValue
-     *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\AttributeValue")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="request_type_id", referencedColumnName="id")
-     * })
-     */
-    private $requestType;
+    private $subscription;
 
     /**
      * Get id
@@ -145,122 +105,26 @@ class RequestLog
     }
 
     /**
-     * Set user
+     * Set subscription
      *
-     * @param \User\Entity\User $user
+     * @param \User\Entity\Subscription $subscription
      *
      * @return RequestLog
      */
-    public function setUser(\User\Entity\User $user = null)
+    public function setSubscription(\User\Entity\Subscription $subscription = null)
     {
-        $this->user = $user;
+        $this->subscription = $subscription;
 
         return $this;
     }
 
     /**
-     * Get user
+     * Get subscription
      *
-     * @return \User\Entity\User
+     * @return \User\Entity\Subscription
      */
-    public function getUser()
+    public function getSubscription()
     {
-        return $this->user;
-    }
-
-    /**
-     * Set dataSourceGlobal
-     *
-     * @param \Utility\Entity\DataSourceGlobal $dataSourceGlobal
-     *
-     * @return RequestLog
-     */
-    public function setDataSourceGlobal(\Utility\Entity\DataSourceGlobal $dataSourceGlobal = null)
-    {
-        $this->dataSourceGlobal = $dataSourceGlobal;
-
-        return $this;
-    }
-
-    /**
-     * Get dataSourceGlobal
-     *
-     * @return \Utility\Entity\DataSourceGlobal
-     */
-    public function getDataSourceGlobal()
-    {
-        return $this->dataSourceGlobal;
-    }
-
-    /**
-     * Set dataSourceRegional
-     *
-     * @param \Utility\Entity\DataSourceRegional $dataSourceRegional
-     *
-     * @return RequestLog
-     */
-    public function setDataSourceRegional(\Utility\Entity\DataSourceRegional $dataSourceRegional = null)
-    {
-        $this->dataSourceRegional = $dataSourceRegional;
-
-        return $this;
-    }
-
-    /**
-     * Get dataSourceRegional
-     *
-     * @return \Utility\Entity\DataSourceRegional
-     */
-    public function getDataSourceRegional()
-    {
-        return $this->dataSourceRegional;
-    }
-
-    /**
-     * Set subscriptionType
-     *
-     * @param \Utility\Entity\AttributeValue $subscriptionType
-     *
-     * @return RequestLog
-     */
-    public function setSubscriptionType(\Utility\Entity\AttributeValue $subscriptionType = null)
-    {
-        $this->subscriptionType = $subscriptionType;
-
-        return $this;
-    }
-
-    /**
-     * Get subscriptionType
-     *
-     * @return \Utility\Entity\AttributeValue
-     */
-    public function getSubscriptionType()
-    {
-        return $this->subscriptionType;
-    }
-
-    /**
-     * Set requestType
-     *
-     * @param \Utility\Entity\AttributeValue $requestType
-     *
-     * @return RequestLog
-     */
-    public function setRequestType(\Utility\Entity\AttributeValue $requestType = null)
-    {
-        $this->requestType = $requestType;
-
-        return $this;
-    }
-
-    /**
-     * Get requestType
-     *
-     * @return \Utility\Entity\AttributeValue
-     */
-    public function getRequestType()
-    {
-        return $this->requestType;
+        return $this->subscription;
     }
 }

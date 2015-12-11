@@ -17,7 +17,7 @@ class User
     protected $userEntity = \User\Entity\User::class;
 
     /**
-     * {@inheritdoc}
+     * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {

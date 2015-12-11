@@ -7,32 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SubscriptionPlan
  *
- * @ORM\Table(name="subscription_plan", uniqueConstraints={@ORM\UniqueConstraint(name="subscription_plan_unique", columns={"data_source_global_id", "subscription_type_id", "is_key_owner"})}, indexes={@ORM\Index(name="IDX_EA664B63C61772EE", columns={"data_source_global_id"}), @ORM\Index(name="IDX_EA664B63B6596C08", columns={"subscription_type_id"})})
+ * @ORM\Table(name="subscription_plan", indexes={@ORM\Index(name="IDX_EA664B6357C6BADE", columns={"subscription_scheme_id"})})
  * @ORM\Entity
  */
 class SubscriptionPlan
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="subscription_plan_id_seq", allocationSize=1, initialValue=1)
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="subscription_type", type="string", length=50, nullable=true)
-     */
-    private $subscriptionType;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="is_key_owner", type="boolean", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $isKeyOwner = false;
 
@@ -51,65 +36,30 @@ class SubscriptionPlan
     private $limitRequestDaily = '0';
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="date_creation", type="datetimetz", nullable=false)
      */
-    private $price = '0';
+    private $dateCreation = 'now()';
 
     /**
-     * @var \Utility\Entity\DataSourceGlobal
+     * @var \DateTime
      *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\DataSourceGlobal")
+     * @ORM\Column(name="date_modification", type="datetimetz", nullable=false)
+     */
+    private $dateModification = 'now()';
+
+    /**
+     * @var \Utility\Entity\SubscriptionScheme
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Utility\Entity\SubscriptionScheme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="data_source_global_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="subscription_scheme_id", referencedColumnName="id")
      * })
      */
-    private $dataSourceGlobal;
-
-    /**
-     * @var \Utility\Entity\AttributeValue
-     *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\AttributeValue")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="subscription_type_id", referencedColumnName="id")
-     * })
-     */
-    private $subscriptionType2;
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set subscriptionType
-     *
-     * @param string $subscriptionType
-     *
-     * @return SubscriptionPlan
-     */
-    public function setSubscriptionType($subscriptionType)
-    {
-        $this->subscriptionType = $subscriptionType;
-
-        return $this;
-    }
-
-    /**
-     * Get subscriptionType
-     *
-     * @return string
-     */
-    public function getSubscriptionType()
-    {
-        return $this->subscriptionType;
-    }
+    private $subscriptionScheme;
 
     /**
      * Set isKeyOwner
@@ -184,74 +134,74 @@ class SubscriptionPlan
     }
 
     /**
-     * Set price
+     * Set dateCreation
      *
-     * @param string $price
+     * @param \DateTime $dateCreation
      *
      * @return SubscriptionPlan
      */
-    public function setPrice($price)
+    public function setDateCreation($dateCreation)
     {
-        $this->price = $price;
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }
 
     /**
-     * Get price
+     * Get dateCreation
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getPrice()
+    public function getDateCreation()
     {
-        return $this->price;
+        return $this->dateCreation;
     }
 
     /**
-     * Set dataSourceGlobal
+     * Set dateModification
      *
-     * @param \Utility\Entity\DataSourceGlobal $dataSourceGlobal
+     * @param \DateTime $dateModification
      *
      * @return SubscriptionPlan
      */
-    public function setDataSourceGlobal(\Utility\Entity\DataSourceGlobal $dataSourceGlobal = null)
+    public function setDateModification($dateModification)
     {
-        $this->dataSourceGlobal = $dataSourceGlobal;
+        $this->dateModification = $dateModification;
 
         return $this;
     }
 
     /**
-     * Get dataSourceGlobal
+     * Get dateModification
      *
-     * @return \Utility\Entity\DataSourceGlobal
+     * @return \DateTime
      */
-    public function getDataSourceGlobal()
+    public function getDateModification()
     {
-        return $this->dataSourceGlobal;
+        return $this->dateModification;
     }
 
     /**
-     * Set subscriptionType2
+     * Set subscriptionScheme
      *
-     * @param \Utility\Entity\AttributeValue $subscriptionType2
+     * @param \Utility\Entity\SubscriptionScheme $subscriptionScheme
      *
      * @return SubscriptionPlan
      */
-    public function setSubscriptionType2(\Utility\Entity\AttributeValue $subscriptionType2 = null)
+    public function setSubscriptionScheme(\Utility\Entity\SubscriptionScheme $subscriptionScheme)
     {
-        $this->subscriptionType2 = $subscriptionType2;
+        $this->subscriptionScheme = $subscriptionScheme;
 
         return $this;
     }
 
     /**
-     * Get subscriptionType2
+     * Get subscriptionScheme
      *
-     * @return \Utility\Entity\AttributeValue
+     * @return \Utility\Entity\SubscriptionScheme
      */
-    public function getSubscriptionType2()
+    public function getSubscriptionScheme()
     {
-        return $this->subscriptionType2;
+        return $this->subscriptionScheme;
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Subscription
  *
- * @ORM\Table(name="subscription", indexes={@ORM\Index(name="IDX_A3C664D3A76ED395", columns={"user_id"}), @ORM\Index(name="IDX_A3C664D3C61772EE", columns={"data_source_global_id"}), @ORM\Index(name="IDX_A3C664D3B6596C08", columns={"subscription_type_id"}), @ORM\Index(name="IDX_A3C664D35948C201", columns={"subscription_status_id"})})
+ * @ORM\Table(name="subscription", indexes={@ORM\Index(name="IDX_A3C664D3A76ED395", columns={"user_id"}), @ORM\Index(name="IDX_A3C664D357C6BADE", columns={"subscription_scheme_id"}), @ORM\Index(name="IDX_A3C664D35948C201", columns={"subscription_status_id"})})
  * @ORM\Entity
  */
 class Subscription
@@ -23,39 +23,53 @@ class Subscription
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="subscription_type", type="string", length=50, nullable=true)
-     */
-    private $subscriptionType;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="subscription_status", type="string", length=50, nullable=true)
-     */
-    private $subscriptionStatus;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_creation", type="datetime", nullable=false)
+     * @ORM\Column(name="date_creation", type="datetimetz", nullable=false)
      */
     private $dateCreation = 'now()';
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_activation", type="datetime", nullable=false)
+     * @ORM\Column(name="date_activation", type="datetimetz", nullable=false)
      */
     private $dateActivation = 'now()';
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_expiration", type="datetime", nullable=false)
+     * @ORM\Column(name="date_expiration", type="datetimetz", nullable=false)
      */
     private $dateExpiration = '1 mon';
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_blocked", type="boolean", nullable=false)
+     */
+    private $isBlocked = false;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="request_counter_total", type="integer", nullable=false)
+     */
+    private $requestCounterTotal = '0';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="request_counter_daily", type="integer", nullable=false)
+     */
+    private $requestCounterDaily = '0';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_start_counter", type="datetimetz", nullable=false)
+     */
+    private $dateStartCounter = 'now()';
 
     /**
      * @var \User\Entity\User
@@ -68,24 +82,14 @@ class Subscription
     private $user;
 
     /**
-     * @var \Utility\Entity\DataSourceGlobal
+     * @var \User\Entity\SubscriptionScheme
      *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\DataSourceGlobal")
+     * @ORM\ManyToOne(targetEntity="User\Entity\SubscriptionScheme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="data_source_global_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="subscription_scheme_id", referencedColumnName="id")
      * })
      */
-    private $dataSourceGlobal;
-
-    /**
-     * @var \Utility\Entity\AttributeValue
-     *
-     * @ORM\ManyToOne(targetEntity="Utility\Entity\AttributeValue")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="subscription_type_id", referencedColumnName="id")
-     * })
-     */
-    private $subscriptionType2;
+    private $subscriptionScheme;
 
     /**
      * @var \Utility\Entity\AttributeValue
@@ -95,7 +99,7 @@ class Subscription
      *   @ORM\JoinColumn(name="subscription_status_id", referencedColumnName="id")
      * })
      */
-    private $subscriptionStatus2;
+    private $subscriptionStatus;
 
     /**
      * Get id
@@ -105,54 +109,6 @@ class Subscription
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set subscriptionType
-     *
-     * @param string $subscriptionType
-     *
-     * @return Subscription
-     */
-    public function setSubscriptionType($subscriptionType)
-    {
-        $this->subscriptionType = $subscriptionType;
-
-        return $this;
-    }
-
-    /**
-     * Get subscriptionType
-     *
-     * @return string
-     */
-    public function getSubscriptionType()
-    {
-        return $this->subscriptionType;
-    }
-
-    /**
-     * Set subscriptionStatus
-     *
-     * @param string $subscriptionStatus
-     *
-     * @return Subscription
-     */
-    public function setSubscriptionStatus($subscriptionStatus)
-    {
-        $this->subscriptionStatus = $subscriptionStatus;
-
-        return $this;
-    }
-
-    /**
-     * Get subscriptionStatus
-     *
-     * @return string
-     */
-    public function getSubscriptionStatus()
-    {
-        return $this->subscriptionStatus;
     }
 
     /**
@@ -228,6 +184,102 @@ class Subscription
     }
 
     /**
+     * Set isBlocked
+     *
+     * @param boolean $isBlocked
+     *
+     * @return Subscription
+     */
+    public function setIsBlocked($isBlocked)
+    {
+        $this->isBlocked = $isBlocked;
+
+        return $this;
+    }
+
+    /**
+     * Get isBlocked
+     *
+     * @return boolean
+     */
+    public function getIsBlocked()
+    {
+        return $this->isBlocked;
+    }
+
+    /**
+     * Set requestCounterTotal
+     *
+     * @param integer $requestCounterTotal
+     *
+     * @return Subscription
+     */
+    public function setRequestCounterTotal($requestCounterTotal)
+    {
+        $this->requestCounterTotal = $requestCounterTotal;
+
+        return $this;
+    }
+
+    /**
+     * Get requestCounterTotal
+     *
+     * @return integer
+     */
+    public function getRequestCounterTotal()
+    {
+        return $this->requestCounterTotal;
+    }
+
+    /**
+     * Set requestCounterDaily
+     *
+     * @param integer $requestCounterDaily
+     *
+     * @return Subscription
+     */
+    public function setRequestCounterDaily($requestCounterDaily)
+    {
+        $this->requestCounterDaily = $requestCounterDaily;
+
+        return $this;
+    }
+
+    /**
+     * Get requestCounterDaily
+     *
+     * @return integer
+     */
+    public function getRequestCounterDaily()
+    {
+        return $this->requestCounterDaily;
+    }
+
+    /**
+     * Set dateStartCounter
+     *
+     * @param \DateTime $dateStartCounter
+     *
+     * @return Subscription
+     */
+    public function setDateStartCounter($dateStartCounter)
+    {
+        $this->dateStartCounter = $dateStartCounter;
+
+        return $this;
+    }
+
+    /**
+     * Get dateStartCounter
+     *
+     * @return \DateTime
+     */
+    public function getDateStartCounter()
+    {
+        return $this->dateStartCounter;
+    }
+
+    /**
      * Set user
      *
      * @param \User\Entity\User $user
@@ -252,74 +304,50 @@ class Subscription
     }
 
     /**
-     * Set dataSourceGlobal
+     * Set subscriptionScheme
      *
-     * @param \Utility\Entity\DataSourceGlobal $dataSourceGlobal
+     * @param \User\Entity\SubscriptionScheme $subscriptionScheme
      *
      * @return Subscription
      */
-    public function setDataSourceGlobal(\Utility\Entity\DataSourceGlobal $dataSourceGlobal = null)
+    public function setSubscriptionScheme(\User\Entity\SubscriptionScheme $subscriptionScheme = null)
     {
-        $this->dataSourceGlobal = $dataSourceGlobal;
+        $this->subscriptionScheme = $subscriptionScheme;
 
         return $this;
     }
 
     /**
-     * Get dataSourceGlobal
+     * Get subscriptionScheme
      *
-     * @return \Utility\Entity\DataSourceGlobal
+     * @return \User\Entity\SubscriptionScheme
      */
-    public function getDataSourceGlobal()
+    public function getSubscriptionScheme()
     {
-        return $this->dataSourceGlobal;
+        return $this->subscriptionScheme;
     }
 
     /**
-     * Set subscriptionType2
+     * Set subscriptionStatus
      *
-     * @param \Utility\Entity\AttributeValue $subscriptionType2
+     * @param \Utility\Entity\AttributeValue $subscriptionStatus
      *
      * @return Subscription
      */
-    public function setSubscriptionType2(\Utility\Entity\AttributeValue $subscriptionType2 = null)
+    public function setSubscriptionStatus(\Utility\Entity\AttributeValue $subscriptionStatus = null)
     {
-        $this->subscriptionType2 = $subscriptionType2;
+        $this->subscriptionStatus = $subscriptionStatus;
 
         return $this;
     }
 
     /**
-     * Get subscriptionType2
+     * Get subscriptionStatus
      *
      * @return \Utility\Entity\AttributeValue
      */
-    public function getSubscriptionType2()
+    public function getSubscriptionStatus()
     {
-        return $this->subscriptionType2;
-    }
-
-    /**
-     * Set subscriptionStatus2
-     *
-     * @param \Utility\Entity\AttributeValue $subscriptionStatus2
-     *
-     * @return Subscription
-     */
-    public function setSubscriptionStatus2(\Utility\Entity\AttributeValue $subscriptionStatus2 = null)
-    {
-        $this->subscriptionStatus2 = $subscriptionStatus2;
-
-        return $this;
-    }
-
-    /**
-     * Get subscriptionStatus2
-     *
-     * @return \Utility\Entity\AttributeValue
-     */
-    public function getSubscriptionStatus2()
-    {
-        return $this->subscriptionStatus2;
+        return $this->subscriptionStatus;
     }
 }

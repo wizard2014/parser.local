@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * StructureCategoryEbay
  *
- * @ORM\Table(name="structure_category_ebay", uniqueConstraints={@ORM\UniqueConstraint(name="category_unique", columns={"data_source_regional_id", "category_id"})}, indexes={@ORM\Index(name="idx_category_level", columns={"category_level"}), @ORM\Index(name="idx_data_source_regional_id", columns={"data_source_regional_id"}), @ORM\Index(name="idx_category_parent_id", columns={"category_parent_id"})})
+ * @ORM\Table(name="structure_category_ebay", uniqueConstraints={@ORM\UniqueConstraint(name="category_unique", columns={"data_source_regional_id", "category_id"})}, indexes={@ORM\Index(name="idx_data_source_regional_id", columns={"data_source_regional_id"}), @ORM\Index(name="idx_category_parent_id", columns={"category_parent_id"}), @ORM\Index(name="idx_category_level", columns={"category_level"})})
  * @ORM\Entity
  */
 class StructureCategoryEbay
@@ -49,6 +49,20 @@ class StructureCategoryEbay
      * @ORM\Column(name="category_name", type="string", length=255, nullable=false)
      */
     private $categoryName;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_creation", type="datetimetz", nullable=false)
+     */
+    private $dateCreation = 'now()';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_modification", type="datetimetz", nullable=false)
+     */
+    private $dateModification = 'now()';
 
     /**
      * @var \Utility\Entity\DataSourceRegional
@@ -164,6 +178,54 @@ class StructureCategoryEbay
     public function getCategoryName()
     {
         return $this->categoryName;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     *
+     * @return StructureCategoryEbay
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     *
+     * @return StructureCategoryEbay
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
     }
 
     /**
