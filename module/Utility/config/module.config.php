@@ -1,10 +1,17 @@
 <?php
 
+namespace Utility;
+
 return [
+    'service_manager'=> [
+        'factories' => [
+            Service\DataSourceService::class  => Factory\Service\DataSourceServiceFactory::class,
+        ],
+    ],
     'doctrine' => [
         'driver' => [
             'utility_entity' => [
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
                 'paths' => [__DIR__ . '/../src/Utility/Entity'],
             ],
@@ -17,9 +24,9 @@ return [
     ],
     'zfctwig' => [
         'extensions' => [
-            'Utility\Extension\Instance',
-            'Utility\Extension\Md5',
-            'Twig_Extension_Debug',
+            Extension\Instance::class,
+            Extension\Md5::class,
+            \Twig_Extension_Debug::class,
         ],
         'environment_options' => [
             'debug' => true
@@ -27,7 +34,7 @@ return [
     ],
     'view_helpers' => [
         'invokables' => [
-            'CustomMenu' => 'Utility\View\Helper\CustomMenu',
+            'CustomMenu' => View\Helper\CustomMenu::class,
         ],
     ],
 ];

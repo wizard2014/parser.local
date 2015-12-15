@@ -39,16 +39,16 @@ class SubscriptionScheme
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_creation", type="datetimetz", nullable=false)
+     * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
      */
-    private $dateCreation = 'now()';
+    private $dateCreation;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_modification", type="datetimetz", nullable=false)
+     * @ORM\Column(name="date_modification", type="datetimetz", nullable=true)
      */
-    private $dateModification = 'now()';
+    private $dateModification;
 
     /**
      * @var \Utility\Entity\DataSourceGlobal

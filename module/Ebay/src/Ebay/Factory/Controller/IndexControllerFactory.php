@@ -6,10 +6,10 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Ebay\Controller\IndexController;
-use Ebay\Mapper\Category as CategoryMapper;
-use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
-use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
-use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
+use Ebay\Mapper\CategoryMapper;
+use Utility\Mapper\DataSourceGlobalMapper;
+use Utility\Mapper\DataSourceRegionalMapper;
+use Utility\Mapper\DataSourceKeyMapper;
 use User\Mapper\UserStatus as UserStatusMapper;
 
 class IndexControllerFactory implements FactoryInterface

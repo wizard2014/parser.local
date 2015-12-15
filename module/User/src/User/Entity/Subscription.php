@@ -25,23 +25,23 @@ class Subscription
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_creation", type="datetimetz", nullable=false)
+     * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
      */
-    private $dateCreation = 'now()';
+    private $dateCreation;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_activation", type="datetimetz", nullable=false)
+     * @ORM\Column(name="date_activation", type="datetimetz", nullable=true)
      */
-    private $dateActivation = 'now()';
+    private $dateActivation;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_expiration", type="datetimetz", nullable=false)
+     * @ORM\Column(name="date_expiration", type="datetimetz", nullable=true)
      */
-    private $dateExpiration = '1 mon';
+    private $dateExpiration;
 
     /**
      * @var boolean
@@ -67,9 +67,9 @@ class Subscription
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_start_counter", type="datetimetz", nullable=false)
+     * @ORM\Column(name="date_start_counter", type="datetimetz", nullable=true)
      */
-    private $dateStartCounter = 'now()';
+    private $dateStartCounter;
 
     /**
      * @var \User\Entity\User

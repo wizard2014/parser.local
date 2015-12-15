@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class DataSourceRegional
+class DataSourceRegionalMapper
 {
     /**
      * @var EntityManagerInterface
@@ -60,40 +60,38 @@ class DataSourceRegional
 
     /**
      * @param        $dataSourceGlobalId
-     * @param string $selectLang
-     * @param string $vendor
+     * @param string $lang
      *
      * @return array
      */
-    public function getDataByRegion($dataSourceGlobalId, $selectLang, $vendor)
+    public function getDataByRegion($dataSourceGlobalId, $lang)
     {
         $entity  = $this->getDataSourceRegionalEntity();
 
         $regions = $this->em->getRepository($entity)->findAll();
 
-        $result  = $this->getRegionResult($dataSourceGlobalId, $selectLang, $vendor, $regions);
+        $result  = $this->getRegionResult($dataSourceGlobalId, $lang, $regions);
 
         return $result;
     }
 
     /**
      * @param           $dataSourceGlobalId
-     * @param           $selectLang
-     * @param           $vendor
+     * @param           $lang
      * @param           $regions
      * @param bool|true $fullResult
      *
      * @return array
      */
-    protected function getRegionResult($dataSourceGlobalId, $selectLang, $vendor, $regions, $fullResult = true)
+    protected function getRegionResult($dataSourceGlobalId, $lang, $regions, $fullResult = true)
     {
         $result = [];
 
         foreach ($regions as $region) {
-            $language                  = $region->getPropertySet()[strtolower($vendor) . '_language'];
+            $language                  = strtolower($region->getLang());
             $currentDataSourceGlobalId = $region->getDataSourceGlobal()->getId();
 
-            if ($currentDataSourceGlobalId === $dataSourceGlobalId && strpos($language, $selectLang) !== false) {
+            if ($currentDataSourceGlobalId === $dataSourceGlobalId && strpos($language, $lang) !== false) {
                 if ($fullResult) {
                     $result[] = $region;
                 } else {

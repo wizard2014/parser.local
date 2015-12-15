@@ -4,9 +4,9 @@ namespace Ebay\Factory\Service;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-
 use Ebay\Options\ModuleOptions;
-use Ebay\Service\Category as CategoryService;
+use Ebay\Service\CategoryService;
+use Ebay\Mapper\CategoryMapper;
 
 class CategoryServiceFactory implements FactoryInterface
 {
@@ -17,8 +17,11 @@ class CategoryServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $options = new ModuleOptions($serviceLocator->get('Config')['application_options']);
+        $em = $serviceLocator->get(\Doctrine\ORM\EntityManager::class);
 
-        return new CategoryService($options);
+        return new CategoryService(
+            new ModuleOptions($serviceLocator->get('Config')['application_options']),
+            new CategoryMapper($em)
+        );
     }
 }

@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class DataSourceKey
+class DataSourceKeyMapper
 {
     /**
      * @var EntityManagerInterface
@@ -17,7 +17,7 @@ class DataSourceKey
     protected $dataSourceKeyEntity = \Utility\Entity\DataSourceKey::class;
 
     /**
-     * {@inheritdoc}
+     * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {

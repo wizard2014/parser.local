@@ -6,7 +6,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Ebay\Options\ModuleOptions;
-use Ebay\Service\FindItems as FindItemsService;
+use Ebay\Service\FindItemsService;
 
 class FindItemsServiceFactory implements FactoryInterface
 {

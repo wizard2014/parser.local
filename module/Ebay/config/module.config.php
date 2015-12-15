@@ -40,8 +40,8 @@ return [
     ],
     'service_manager'=> [
         'factories' => [
-            Service\Category::class  => Factory\Service\CategoryServiceFactory::class,
-            Service\FindItems::class => Factory\Service\FindItemsServiceFactory::class,
+            Service\CategoryService::class  => Factory\Service\CategoryServiceFactory::class,
+            Service\FindItemsService::class => Factory\Service\FindItemsServiceFactory::class,
         ],
     ],
     'view_manager' => [

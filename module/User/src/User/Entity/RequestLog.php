@@ -25,9 +25,9 @@ class RequestLog
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="request_time", type="datetimetz", nullable=false)
+     * @ORM\Column(name="request_time", type="datetimetz", nullable=true)
      */
-    private $requestTime = 'now()';
+    private $requestTime;
 
     /**
      * @var integer

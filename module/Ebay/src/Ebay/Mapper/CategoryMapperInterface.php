@@ -2,7 +2,7 @@
 
 namespace Ebay\Mapper;
 
-interface CategoryInterface
+interface CategoryMapperInterface
 {
     /**
      * @return \Ebay\Entity\StructureCategoryEbay
@@ -24,11 +24,13 @@ interface CategoryInterface
     public function getAllCategories();
 
     /**
+     * Get the ids of the categories
+     *
      * @param $dataSourceRegional
      * @param $level
      * @param $categoryId
      *
-     * @return \Ebay\Entity\StructureCategoryEbay
+     * @return array
      */
     public function getCategory($dataSourceRegional, $level, $categoryId);
 }

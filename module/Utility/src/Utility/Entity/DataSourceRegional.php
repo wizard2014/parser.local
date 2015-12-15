@@ -32,6 +32,13 @@ class DataSourceRegional
     /**
      * @var string
      *
+     * @ORM\Column(name="lang", type="string", length=50, nullable=false)
+     */
+    private $lang;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="url", type="string", length=255, nullable=false)
      */
     private $url;
@@ -85,6 +92,30 @@ class DataSourceRegional
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * Set lang
+     *
+     * @param string $lang
+     *
+     * @return DataSourceRegional
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+
+        return $this;
+    }
+
+    /**
+     * Get lang
+     *
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
     }
 
     /**

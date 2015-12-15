@@ -9,7 +9,7 @@ use DTS\eBaySDK\Finding\Enums as EnumsFinding;
 
 use Ebay\Options\ModuleOptions;
 
-class FindItems
+class FindItemsService
 {
     protected $options;
     private $maxItemForPage = 100;

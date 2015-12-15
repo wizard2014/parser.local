@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class DataSourceGlobal
+class DataSourceGlobalMapper
 {
     /**
      * @var EntityManagerInterface
@@ -85,7 +85,7 @@ class DataSourceGlobal
 
         $dataSourceGlobal = $this->em->getRepository($entity)->findOneBy(['name' => $name]);
 
-        return $dataSourceGlobal->getId();
+        return isset($dataSourceGlobal) ?  $dataSourceGlobal->getId() : null;
     }
 
     /**

@@ -15,9 +15,9 @@ class UserStatus
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_registration", type="datetimetz", nullable=false)
+     * @ORM\Column(name="date_registration", type="datetimetz", nullable=true)
      */
-    private $dateRegistration = 'now()';
+    private $dateRegistration;
 
     /**
      * @var boolean

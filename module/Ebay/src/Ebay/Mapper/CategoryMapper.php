@@ -4,12 +4,17 @@ namespace Ebay\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class Category implements CategoryInterface
+class CategoryMapper implements CategoryMapperInterface
 {
     /**
      * @var EntityManagerInterface
      */
     protected $em;
+
+    /**
+     * @var array
+     */
+    protected $categories = [];
 
     /**
      * @var \Ebay\Entity\StructureCategoryEbay
@@ -53,9 +58,7 @@ class Category implements CategoryInterface
     }
 
     /**
-     * Get the ids of the categories
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllCategoriesId()
     {
@@ -85,26 +88,41 @@ class Category implements CategoryInterface
     }
 
     /**
-     * Set Ebay category
+     * Add category
      *
-     * @param $categoryLevel
-     * @param $categoryName
-     * @param $categoryId
-     * @param $categoryParentId
-     * @param $region
+     * categoryLevel, categoryName, categoryId, categoryParentId, region
+     *
+     * @param $category
      */
-    public function setCategory($categoryLevel, $categoryName, $categoryId, $categoryParentId, $region)
+    public function add($category)
     {
+        $this->categories[] = $category;
+    }
+
+    /**
+     * Save Category
+     *
+     * @return bool
+     */
+    public function save()
+    {
+        if (empty($this->categories)) {
+            return false;
+        }
+
         $entity = $this->getCategoryEntity();
 
-        $category = new $entity();
-        $category->setCategoryLevel($categoryLevel);
-        $category->setCategoryName($categoryName);
-        $category->setCategoryId($categoryId);
-        $category->setCategoryParentId($categoryParentId);
-        $category->setDataSourceRegional($region);
+        foreach ($this->categories as $category) {
+            $newCategory = new $entity();
 
-        $this->persist($category);
+            $newCategory->exchangeArray($category);
+
+            $this->persist($newCategory);
+        }
+
+        $this->flush();
+
+        return true;
     }
 
     /**
@@ -206,16 +224,16 @@ class Category implements CategoryInterface
      *
      * @return array
      */
-    protected function prepareArrayResult(array $data)
-    {
-        $result = [];
-
-        foreach ($data as $i => $item) {
-            $result[$i]['id']    = $item->getCategoryId();
-            $result[$i]['level'] = $item->getCategoryLevel();
-            $result[$i]['name']  = $item->getCategoryName();
-        }
-
-        return $result;
-    }
+//    protected function prepareArrayResult(array $data)
+//    {
+//        $result = [];
+//
+//        foreach ($data as $i => $item) {
+//            $result[$i]['id']    = $item->getCategoryId();
+//            $result[$i]['level'] = $item->getCategoryLevel();
+//            $result[$i]['name']  = $item->getCategoryName();
+//        }
+//
+//        return $result;
+//    }
 }
