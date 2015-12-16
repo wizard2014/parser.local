@@ -68,7 +68,7 @@ class CategoryMapper implements CategoryMapperInterface
 
         if (!empty($categories)) {
             foreach ($categories as $category) {
-                $result[$category->getCategoryId()] = true;
+                $result[$category->getDataSourceRegional()->getId()][$category->getCategoryId()] = true;
             }
         }
 

@@ -19,6 +19,10 @@ class ConsoleController extends AbstractActionController
      */
     protected $dataSourceService;
 
+    /**
+     * @param CategoryService   $categoryService
+     * @param DataSourceService $dataSourceService
+     */
     public function __construct(
         CategoryService     $categoryService,
         DataSourceService   $dataSourceService
@@ -72,7 +76,8 @@ class ConsoleController extends AbstractActionController
                 $newCategory['categoryName']        = $category->CategoryName;
                 $newCategory['dataSourceRegional']  = $region;
 
-                $this->categoryService->add($newCategory, $currentCategories);
+                // new category and current categories for some region
+                $this->categoryService->add($newCategory, $currentCategories[$region->getId()]);
             }
         }
 
