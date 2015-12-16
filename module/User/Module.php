@@ -8,7 +8,6 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Authentication\AuthenticationService;
-
 use User\Listener\UserListener;
 
 class Module implements AutoloaderProviderInterface

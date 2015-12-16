@@ -4,7 +4,6 @@ namespace Ebay\Factory\Controller;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-
 use Ebay\Controller\ConsoleController;
 
 class ConsoleControllerFactory implements FactoryInterface

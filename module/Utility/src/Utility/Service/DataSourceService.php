@@ -6,7 +6,7 @@ use Utility\Mapper\DataSourceKeyMapper;
 use Utility\Mapper\DataSourceGlobalMapper;
 use Utility\Mapper\DataSourceRegionalMapper;
 
-class DataSourceService
+class DataSourceService implements DataSourceServiceInterface
 {
     /**
      * @var DataSourceKeyMapper
@@ -39,12 +39,7 @@ class DataSourceService
     }
 
     /**
-     * Get list of regions
-     *
-     * @param $vendor
-     * @param $lang
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getRegions($vendor, $lang = 'en')
     {
@@ -53,5 +48,21 @@ class DataSourceService
         $regions = $this->dataSourceRegionalMapper->getDataByRegion($dataSourceGlobalId, $lang);
 
         return $regions;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilterSet($vendor)
+    {
+        return $this->dataSourceGlobalMapper->getSourceGlobalByName(strtolower($vendor));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEbayFilterSet()
+    {
+        return $this->getFilterSet('ebay');
     }
 }

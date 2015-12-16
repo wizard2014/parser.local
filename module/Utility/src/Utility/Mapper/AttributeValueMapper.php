@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class AttributeValueMapper
+class AttributeValueMapper implements AttributeValueMapperInterface
 {
     /**
      * @var EntityManagerInterface

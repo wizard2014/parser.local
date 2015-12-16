@@ -5,8 +5,6 @@ namespace User\Listener;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
-use Zend\Http\PhpEnvironment\Request as PhpEnvironment;
-use Zend\Http\Client;
 use Zend\Mvc\Controller\Plugin\FlashMessenger;
 
 class UserListener extends AbstractListenerAggregate
@@ -33,63 +31,12 @@ class UserListener extends AbstractListenerAggregate
      */
     public function onRegisterPost(Event $e)
     {
-        $sm     = $e->getTarget()->getServiceManager();
-        $em     = $sm->get('doctrine.entitymanager.orm_default');
-        $user   = $e->getParam('user');
-        $userId = $user->getId();
-
-        $ip = $this->getUserIp();
-        $timezone = (int)$this->getTimeZone($ip);
-
-        $currentUser = $em->find(\User\Entity\UserStatus::class, $userId);
-        $currentUser->setTimezone($timezone);
-
-        $em->flush();
+        $user = $e->getParam('user');
 
         // add message to flashMessenger
         $userEmail = $user->getEmail();
 
         $flashMessenger = new FlashMessenger();
         $flashMessenger->addMessage($userEmail . '|info', 'zfcuser-login-form');
-    }
-
-    /**
-     * @param $ip
-     *
-     * @return string
-     */
-    protected function getTimeZone($ip)
-    {
-        $client = new Client('http://getcitydetails.geobytes.com/GetCityDetails?fqcn=' . $ip);
-
-        try {
-            $response = $client->send();
-            $data     = json_decode($response->getBody(), true);
-        } catch (\Exception $e) {
-            $data['geobytestimezone'] = 0;
-        }
-
-        return $data['geobytestimezone'];
-    }
-
-    /**
-     * Get User IP
-     *
-     * @return string
-     */
-    private function getUserIp()
-    {
-        $environment = new PhpEnvironment();
-
-        if (!empty($environment->getServer('HTTP_CLIENT_IP'))) {
-            $ip = $environment->getServer('HTTP_CLIENT_IP');
-        } elseif (!empty($environment->getServer('HTTP_X_FORWARDED_FOR'))) {
-            // Check for the Proxy User
-            $ip = $environment->getServer('HTTP_X_FORWARDED_FOR');
-        } else {
-            $ip = $environment->getServer('REMOTE_ADDR');
-        }
-
-        return $ip;
     }
 }

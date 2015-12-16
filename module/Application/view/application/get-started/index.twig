@@ -70,7 +70,7 @@
                                         <div class="form-group form-group-material-blue-grey label-floating">
                                             <label class="label control-label" for="sortOrder">Sort Order: <span class="fa fa-asterisk"></span></label>
                                             <select name="sortOrder" id="sortOrder" class="form-control">
-                                                {% for sortOrder in ebaySourceGlobal['Sort Order'] %}
+                                                {% for sortOrder in ebayFilterSet['Sort Order'] %}
                                                     <option value="{{ sortOrder }}">{{ sortOrder }}</option>
                                                 {% endfor %}
                                             </select>
@@ -112,7 +112,7 @@
                                         <div class="form-group form-group-material-blue-grey label-floating">
                                             <label class="label control-label">Listing Type:</label>
                                             <div class="checkbox checkbox-material-blue-grey" id="listingType">
-                                                {% for listingType in ebaySourceGlobal['Listing Type'] %}
+                                                {% for listingType in ebayFilterSet['Listing Type'] %}
                                                     <label>
                                                         <input type="checkbox" name="listingType[]" value="{{ listingType }}"> <span class="check-text">{{ listingType }}</span>
                                                     </label>

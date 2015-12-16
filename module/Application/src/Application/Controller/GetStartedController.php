@@ -6,32 +6,46 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
-
-use Ebay\Mapper\Category as CategoryMapper;
-use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
-use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
+use Ebay\Service\CategoryService;
+use Utility\Service\DataSourceService;
 use Utility\Helper\Csrf\Csrf;
 
 class GetStartedController extends AbstractActionController
 {
+    /**
+     * @var $cache
+     */
     protected $cache;
-    protected $session;
-    protected $categoryMapper;
-    protected $dataSourceGlobalMapper;
-    protected $dataSourceRegionalMapper;
+
+    /**
+     * @var CategoryService
+     */
+    protected $categoryService;
+
+    /**
+     * @var DataSourceService
+     */
+    protected $dataSourceService;
+
+    /**
+     * @var int|null
+     */
     protected $user;
 
+    /**
+     * @param                   $cache
+     * @param CategoryService   $categoryService
+     * @param DataSourceService $dataSourceService
+     */
     public function __construct(
         $cache,
-        CategoryMapper           $categoryMapper,
-        DataSourceGlobalMapper   $dataSourceGlobalMapper,
-        DataSourceRegionalMapper $dataSourceRegionalMapper
+        CategoryService     $categoryService,
+        DataSourceService   $dataSourceService
     ) {
         $this->cache  = $cache;
 
-        $this->categoryMapper           = $categoryMapper;
-        $this->dataSourceGlobalMapper   = $dataSourceGlobalMapper;
-        $this->dataSourceRegionalMapper = $dataSourceRegionalMapper;
+        $this->categoryService   = $categoryService;
+        $this->dataSourceService = $dataSourceService;
 
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
@@ -40,10 +54,10 @@ class GetStartedController extends AbstractActionController
     public function indexAction()
     {
         // get eBay Sort Order & Listing Type
-        $ebayDataSourceGlobalEbay = $this->dataSourceGlobalMapper->getSourceGlobalByName('eBay');
+        $ebayFilterSet = $this->dataSourceService->getEbayFilterSet();
 
         return new ViewModel([
-            'ebaySourceGlobal' => $ebayDataSourceGlobalEbay,
+            'ebayFilterSet'    => $ebayFilterSet,
             'flashMessages'    => $this->flashMessenger()->getMessages(),
             'token'            => Csrf::generate(),
         ]);
@@ -54,8 +68,10 @@ class GetStartedController extends AbstractActionController
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
-            $ebayId                 = $this->dataSourceGlobalMapper->getIdByName('eBay');
-            $ebayDataSourceRegional = $this->dataSourceRegionalMapper->getRegions($ebayId, 'en', 'ebay'); // ebay in english
+//            $ebayId                 = $this->dataSourceGlobalMapper->getIdByName('eBay');
+//            $ebayDataSourceRegional = $this->dataSourceRegionalMapper->getRegions($ebayId, 'en', 'ebay'); // ebay in english
+
+            $ebayDataSourceRegional = $this->dataSourceService->getRegions('ebay'); // ebay in english
 
             return new JsonModel([
                 'ebaySourceRegional' => $ebayDataSourceRegional,

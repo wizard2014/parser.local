@@ -4,11 +4,7 @@ namespace Application\Factory\Controller;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-
 use Application\Controller\GetStartedController;
-use Ebay\Mapper\Category as CategoryMapper;
-use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
-use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
 
 class GetStartedControllerFactory implements FactoryInterface
 {
@@ -20,7 +16,9 @@ class GetStartedControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $sm = $serviceLocator->getServiceLocator();
-        $em = $sm->get(\Doctrine\ORM\EntityManager::class);
+
+        $categoryService   = $sm->get(\Ebay\Service\CategoryService::class);
+        $dataSourceService = $sm->get(\Utility\Service\DataSourceService::class);
 
         try {
             $cache = $sm->get('memcached');
@@ -28,11 +26,6 @@ class GetStartedControllerFactory implements FactoryInterface
             $cache = $sm->get('filesystem');
         }
 
-        return new GetStartedController(
-            $cache,
-            new CategoryMapper($em),
-            new DataSourceGlobalMapper($em),
-            new DataSourceRegionalMapper($em)
-        );
+        return new GetStartedController($cache, $categoryService, $dataSourceService);
     }
 }

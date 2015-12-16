@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class SubscriptionPlanMapper
+class SubscriptionPlanMapper implements SubscriptionPlanMapperInterface
 {
     /**
      * @var EntityManagerInterface

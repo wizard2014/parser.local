@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class DataSourceRegionalMapper
+class DataSourceRegionalMapper implements DataSourceRegionalMapperInterface
 {
     /**
      * @var EntityManagerInterface
@@ -42,18 +42,17 @@ class DataSourceRegionalMapper
 
     /**
      * @param        $dataSourceGlobalId
-     * @param string $selectLang
-     * @param string $vendor
+     * @param string $lang
      *
      * @return array
      */
-    public function getRegions($dataSourceGlobalId, $selectLang, $vendor)
+    public function getRegions($dataSourceGlobalId, $lang)
     {
         $entity  = $this->getDataSourceRegionalEntity();
 
         $regions = $this->em->getRepository($entity)->findAll();
 
-        $result  = $this->getRegionResult($dataSourceGlobalId, $selectLang, $vendor, $regions, false);
+        $result  = $this->getRegionResult($dataSourceGlobalId, $lang, $regions, false);
 
         return $result;
     }

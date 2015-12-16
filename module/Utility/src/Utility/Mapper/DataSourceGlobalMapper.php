@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class DataSourceGlobalMapper
+class DataSourceGlobalMapper implements DataSourceGlobalMapperInterface
 {
     /**
      * @var EntityManagerInterface

@@ -36,7 +36,8 @@
                         'autofocus'  : true,
                         'required'   : true,
                     })) }}
-
+                </div>
+                <div>
                     {% if formElementErrors(form.get('newCredential')) %}
                         {{ formElementErrors()
                         .setMessageOpenFormat('<p class="help-block">')
@@ -56,6 +57,9 @@
                         'required'   : true,
                     })) }}
 
+
+                </div>
+                <div>
                     {% if formElementErrors(form.get('newCredentialVerify')) %}
                         {{ formElementErrors()
                         .setMessageOpenFormat('<p class="help-block">')
@@ -65,7 +69,7 @@
                     {% endif %}
                 </div>
 
-                {{ formButton(form.get('submit').setAttributes({'class': 'btn btn-material-blue-grey btn-lg btn-block submit-btn'})) }}
+                {{ formButton(form.get('submit').setAttributes({'class': 'btn btn-raised btn-primary btn-lg btn-block submit-btn'})) }}
 
                 {{ form().closeTag(form)|raw }}
 

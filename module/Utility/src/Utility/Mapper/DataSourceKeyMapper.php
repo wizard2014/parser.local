@@ -4,7 +4,7 @@ namespace Utility\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class DataSourceKeyMapper
+class DataSourceKeyMapper implements DataSourceKeyMapperInterface
 {
     /**
      * @var EntityManagerInterface

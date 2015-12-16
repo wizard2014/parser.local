@@ -58,7 +58,9 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get all categoryId group by region
+     *
+     * @return array
      */
     public function getAllCategoriesId()
     {
@@ -224,16 +226,16 @@ class CategoryMapper implements CategoryMapperInterface
      *
      * @return array
      */
-//    protected function prepareArrayResult(array $data)
-//    {
-//        $result = [];
-//
-//        foreach ($data as $i => $item) {
-//            $result[$i]['id']    = $item->getCategoryId();
-//            $result[$i]['level'] = $item->getCategoryLevel();
-//            $result[$i]['name']  = $item->getCategoryName();
-//        }
-//
-//        return $result;
-//    }
+    protected function prepareArrayResult(array $data)
+    {
+        $result = [];
+
+        foreach ($data as $i => $item) {
+            $result[$i]['id']    = $item->getCategoryId();
+            $result[$i]['level'] = $item->getCategoryLevel();
+            $result[$i]['name']  = $item->getCategoryName();
+        }
+
+        return $result;
+    }
 }
