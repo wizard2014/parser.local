@@ -41,35 +41,19 @@ class DataSourceRegionalMapper implements DataSourceRegionalMapperInterface
     }
 
     /**
-     * @param        $dataSourceGlobalId
-     * @param string $lang
+     * @param               $dataSourceGlobalId
+     * @param string|array  $lang
+     * @param bool          $fullResult
      *
      * @return array
      */
-    public function getRegions($dataSourceGlobalId, $lang)
+    public function getDataByRegion($dataSourceGlobalId, $lang, $fullResult)
     {
         $entity  = $this->getDataSourceRegionalEntity();
 
         $regions = $this->em->getRepository($entity)->findAll();
 
-        $result  = $this->getRegionResult($dataSourceGlobalId, $lang, $regions, false);
-
-        return $result;
-    }
-
-    /**
-     * @param        $dataSourceGlobalId
-     * @param string $lang
-     *
-     * @return array
-     */
-    public function getDataByRegion($dataSourceGlobalId, $lang)
-    {
-        $entity  = $this->getDataSourceRegionalEntity();
-
-        $regions = $this->em->getRepository($entity)->findAll();
-
-        $result  = $this->getRegionResult($dataSourceGlobalId, $lang, $regions);
+        $result  = $this->getRegionResult($dataSourceGlobalId, $lang, $regions, $fullResult);
 
         return $result;
     }
@@ -90,7 +74,7 @@ class DataSourceRegionalMapper implements DataSourceRegionalMapperInterface
             $language                  = strtolower($region->getLang());
             $currentDataSourceGlobalId = $region->getDataSourceGlobal()->getId();
 
-            if ($currentDataSourceGlobalId === $dataSourceGlobalId && strpos($language, $lang) !== false) {
+            if ($currentDataSourceGlobalId === $dataSourceGlobalId && $this->strposa($language, $lang) !== false) {
                 if ($fullResult) {
                     $result[] = $region;
                 } else {
@@ -178,5 +162,29 @@ class DataSourceRegionalMapper implements DataSourceRegionalMapperInterface
     {
         $this->em->remove($entity);
         $this->em->flush();
+    }
+
+    /**
+     * Using an array as needles in strpos
+     *
+     * @param     $haystack
+     * @param     $needle
+     * @param int $offset
+     *
+     * @return bool
+     */
+    protected function strposa($haystack, $needle, $offset = 0)
+    {
+        if (!is_array($needle)) {
+            $needle = [$needle];
+        }
+
+        foreach ($needle as $query) {
+            if (strpos($haystack, $query, $offset) !== false) {
+                return true; // stop on first true result
+            }
+        }
+
+        return false;
     }
 }

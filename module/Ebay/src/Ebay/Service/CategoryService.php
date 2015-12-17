@@ -119,6 +119,24 @@ class CategoryService
     }
 
     /**
+     * @param $dataSourceRegional
+     * @param $categoryLevel
+     * @param $categoryParentId
+     *
+     * @return array
+     */
+    public function getCategory($dataSourceRegional, $categoryLevel, $categoryParentId)
+    {
+        if (!empty($categoryParentId)) {
+            $categories = $this->categoryMapper->getCategory($dataSourceRegional, $categoryLevel, $categoryParentId);
+        } else {
+            $categories = $this->categoryMapper->getMainCategory($dataSourceRegional, $categoryLevel);
+        }
+
+        return $categories;
+    }
+
+    /**
      * @param $categoryName
      *
      * @return bool

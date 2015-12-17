@@ -18,10 +18,9 @@ class IndexControllerFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
 
         $categoryService    = $sm->get(\Ebay\Service\CategoryService::class);
-        $ebayFindingService = $sm->get(\Ebay\Service\FindItems::class);
+        $ebayFindingService = $sm->get(\Ebay\Service\FindItemsService::class);
+        $dataSourceService  = $sm->get(\Utility\Service\DataSourceService::class);
 
-        return new IndexController(
-            $ebayFindingService
-        );
+        return new IndexController($categoryService, $ebayFindingService, $dataSourceService);
     }
 }

@@ -6,7 +6,6 @@ use DTS\eBaySDK\Constants;
 use DTS\eBaySDK\Finding\Services as FindingServices;
 use DTS\eBaySDK\Finding\Types as TypesFinding;
 use DTS\eBaySDK\Finding\Enums as EnumsFinding;
-
 use Ebay\Options\ModuleOptions;
 
 class FindItemsService

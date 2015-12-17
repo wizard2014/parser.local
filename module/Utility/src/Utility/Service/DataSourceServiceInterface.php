@@ -5,14 +5,13 @@ namespace Utility\Service;
 interface DataSourceServiceInterface
 {
     /**
-     * Get list of regions
-     *
-     * @param $vendor
-     * @param $lang
+     * @param string        $vendor
+     * @param string|array  $lang
+     * @param bool          $fullResult
      *
      * @return array
      */
-    public function getRegions($vendor, $lang);
+    public function getRegions($vendor, $lang, $fullResult);
 
     /**
      * Get filters by vendor

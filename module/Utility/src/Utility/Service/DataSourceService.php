@@ -41,11 +41,11 @@ class DataSourceService implements DataSourceServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getRegions($vendor, $lang = 'en')
+    public function getRegions($vendor, $lang = 'en', $fullResult = true)
     {
         $dataSourceGlobalId = $this->dataSourceGlobalMapper->getIdByName($vendor);
 
-        $regions = $this->dataSourceRegionalMapper->getDataByRegion($dataSourceGlobalId, $lang);
+        $regions = $this->dataSourceRegionalMapper->getDataByRegion($dataSourceGlobalId, $lang, $fullResult);
 
         return $regions;
     }

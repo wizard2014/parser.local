@@ -4,44 +4,48 @@ namespace Ebay\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\View\Model\JsonModel;
 use Zend\Authentication\AuthenticationService;
-
-use Ebay\Service\FindItems;
-use Ebay\Mapper\Category as CategoryMapper;
-use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
-use Utility\Mapper\DataSourceRegional as DataSourceRegionalMapper;
-use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
-use User\Mapper\UserStatus as UserStatusMapper;
+use Ebay\Service\CategoryService;
+use Ebay\Service\FindItemsService;
+use Utility\Service\DataSourceService;
 use Utility\Helper\Csrf\Csrf;
 
 class IndexController extends AbstractActionController
 {
-    protected $ebayFindingService;
-    protected $categoryMapper;
-    protected $dataSourceGlobalMapper;
-    protected $dataSourceRegionalMapper;
-    protected $dataSourceKeyMapper;
-    protected $userStatusMapper;
+    /**
+     * @var CategoryService
+     */
+    protected $categoryService;
+
+    /**
+     * @var FindItemsService
+     */
+    protected $findItemsService;
+
+    /**
+     * @var DataSourceService
+     */
+    protected $dataSourceService;
+
+    /**
+     * @var int|null
+     */
     protected $user;
-    protected $session;
     protected $outputPath = './data/output/';
 
+    /**
+     * @param CategoryService   $categoryService
+     * @param FindItemsService  $findItemsService
+     * @param DataSourceService $dataSourceService
+     */
     public function __construct(
-        FindItems                $ebayFindingService,
-        CategoryMapper           $categoryMapper,
-        DataSourceGlobalMapper   $dataSourceGlobalMapper,
-        DataSourceRegionalMapper $dataSourceRegionalMapper,
-        DataSourceKeyMapper      $dataSourceKeyMapper,
-        UserStatusMapper         $userStatusMapper
+        CategoryService   $categoryService,
+        FindItemsService  $findItemsService,
+        DataSourceService $dataSourceService
     ) {
-        $this->ebayFindingService = $ebayFindingService;
-
-        $this->categoryMapper           = $categoryMapper;
-        $this->dataSourceGlobalMapper   = $dataSourceGlobalMapper;
-        $this->dataSourceRegionalMapper = $dataSourceRegionalMapper;
-        $this->dataSourceKeyMapper      = $dataSourceKeyMapper;
-        $this->userStatusMapper         = $userStatusMapper;
+        $this->categoryService   = $categoryService;
+        $this->findItemsService  = $findItemsService;
+        $this->dataSourceService = $dataSourceService;
 
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();

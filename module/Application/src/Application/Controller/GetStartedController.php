@@ -68,10 +68,7 @@ class GetStartedController extends AbstractActionController
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
-//            $ebayId                 = $this->dataSourceGlobalMapper->getIdByName('eBay');
-//            $ebayDataSourceRegional = $this->dataSourceRegionalMapper->getRegions($ebayId, 'en', 'ebay'); // ebay in english
-
-            $ebayDataSourceRegional = $this->dataSourceService->getRegions('ebay'); // ebay in english
+            $ebayDataSourceRegional = $this->dataSourceService->getRegions('ebay', 'en', false); // ebay in english
 
             return new JsonModel([
                 'ebaySourceRegional' => $ebayDataSourceRegional,
@@ -88,11 +85,7 @@ class GetStartedController extends AbstractActionController
         if ($request->isXmlHttpRequest()) {
             $data = $request->getPost();
 
-            if (!empty($data['parentId'])) {
-                $categories = $this->categoryMapper->getCategory($data['region'], $data['level'], $data['parentId']);
-            } else {
-                $categories = $this->categoryMapper->getMainCategory($data['region'], $data['level']);
-            }
+            $categories = $this->categoryService->getCategory($data['region'], $data['level'], $data['parentId']);
 
             return new JsonModel([
                 'categoryList' => $categories,
