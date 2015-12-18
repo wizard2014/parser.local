@@ -67,30 +67,28 @@ class IndexController extends AbstractActionController
             });
 
             // validate form data
-            $errors = $this->validate($data);
+            $errors = $this->dataSourceService->validate('ebay', $data);
+            // validate category
+            if (!isset($errors['region']) && !empty($categoryValid = $this->categoryService->validate($data))) {
+                $errors['category'] = $categoryValid;
+            }
 
             if (!empty($errors)) {
                 $this->flashMessenger()->addMessage($errors);
             } elseif ($token) {
-                $region = $data['region'];
                 // get user app key if exists
-                $appId = $this->dataSourceKeyMapper->getKey($this->user, $region);
+                $appId = $this->dataSourceService->getKey($this->user, $data['region']);
 
-                /**
-                 * replace region id to Ebay global id
-                 *
-                 * @todo Change solution
-                 */
-                $data['region'] = $this->dataSourceRegionalMapper->getPropertySet($data['region'], 'ebay_global_id');
+                $data['ebay_global_id'] = $this->dataSourceService->getEbayGlobalId($data['region']);
 
-                $results = $this->ebayFindingService->findItems($data, $appId);
+                $results = $this->findItemsService->findItems($data, $appId);
 
                 // if returns error
                 if (500 === $results) {
                     $this->flashMessenger()->addMessage(['Invalid key, please check it out and add again.']);
 
                     //change key status to Invalid
-                    $this->dataSourceKeyMapper->setInvalidKeyStatus($this->user, $region);
+                    $this->dataSourceService->setInvalidKey($this->user, $data['region']);
                 } else {
                     // save result as XML
                     $xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
@@ -122,45 +120,5 @@ class IndexController extends AbstractActionController
                 $xmlData->addChild("$key", htmlspecialchars("$value"));
             }
         }
-    }
-
-    /**
-     * @param $data
-     *
-     * @return array
-     */
-    protected function validate($data)
-    {
-        $errors = [];
-
-        if (!empty($data['minPrice']) && !is_numeric($data['minPrice'])) {
-            $errors[] = '[Min Price] should be a number.';
-        }
-
-        if (!empty($data['maxPrice']) && !is_numeric($data['maxPrice'])) {
-            $errors[] = '[Max Price] should be a number.';
-        }
-
-        if (!$this->dataSourceGlobalMapper->sortOrderExists('eBay', $data['sortOrder'])) {
-            $errors[] = 'Invalid [Sort Order].';
-        }
-
-        if (!empty($data['listingType']) && !$this->dataSourceGlobalMapper->listingTypeExists('eBay', $data['listingType'])) {
-            $errors[] = 'Invalid [Listing Type].';
-        }
-
-        if (!in_array($data['itemsQty'], [100, /*10000, 50000, 100000*/])) { // uncomment in future
-            $errors[] = 'Invalid [Items qty].';
-        }
-
-        if ($this->dataSourceGlobalMapper->regionExists($data['region'])) {
-            if (!$this->categoryMapper->categoryExists($data['region'], $data['category'])) {
-                $errors[] = 'Invalid [Category].';
-            }
-        } else {
-            $errors[] = 'Invalid [Region].';
-        }
-
-        return $errors;
     }
 }

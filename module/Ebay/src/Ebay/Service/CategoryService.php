@@ -137,6 +137,22 @@ class CategoryService
     }
 
     /**
+     * @param array $data
+     *
+     * @return bool
+     */
+    public function validate($data)
+    {
+        $categoryValid = $this->categoryMapper->categoryExists($data['region'], $data['category']);
+
+        if ($categoryValid) {
+            return '';
+        }
+
+        return 'Invalid [Category].';
+    }
+
+    /**
      * @param $categoryName
      *
      * @return bool

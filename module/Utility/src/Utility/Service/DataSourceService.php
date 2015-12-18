@@ -65,4 +65,73 @@ class DataSourceService implements DataSourceServiceInterface
     {
         return $this->getFilterSet('ebay');
     }
+
+    /**
+     * @param $user
+     * @param $region
+     *
+     * @return array
+     */
+    public function getKey($user, $region)
+    {
+        return $this->dataSourceKeyMapper->getKey($user, $region);
+    }
+
+    /**
+     * @param $dataSourceGlobalId
+     *
+     * @return string
+     */
+    public function getEbayGlobalId($dataSourceGlobalId)
+    {
+        return $this->dataSourceRegionalMapper->getPropertySet($dataSourceGlobalId, 'ebay_global_id');
+    }
+
+    /**
+     * Set user invalid key
+     *
+     * @param $user
+     * @param $dataSourceGlobalId
+     */
+    public function setInvalidKey($user, $dataSourceGlobalId)
+    {
+        $this->dataSourceKeyMapper->setInvalidKeyStatus($user, $dataSourceGlobalId);
+    }
+
+    /**
+     * @param $vendor
+     * @param $data
+     *
+     * @return array
+     */
+    public function validate($vendor, $data)
+    {
+        $errors = [];
+
+        if (!empty($data['minPrice']) && !is_numeric($data['minPrice'])) {
+            $errors['minPrice'] = '[Min Price] should be a number.';
+        }
+
+        if (!empty($data['maxPrice']) && !is_numeric($data['maxPrice'])) {
+            $errors['maxPrice'] = '[Max Price] should be a number.';
+        }
+
+        if (!$this->dataSourceGlobalMapper->sortOrderExists($vendor, $data['sortOrder'])) {
+            $errors['sortOrder'] = 'Invalid [Sort Order].';
+        }
+
+        if (!empty($data['listingType']) && !$this->dataSourceGlobalMapper->listingTypeExists($vendor, $data['listingType'])) {
+            $errors['listingType'] = 'Invalid [Listing Type].';
+        }
+
+        if (!in_array($data['itemsQty'], [100, /*10000, 50000, 100000*/])) { // uncomment in future
+            $errors['itemsQty'] = 'Invalid [Items qty].';
+        }
+
+        if (!$this->dataSourceGlobalMapper->regionExists($data['region'])) {
+            $errors['region'] = 'Invalid [Region].';
+        }
+
+        return $errors;
+    }
 }

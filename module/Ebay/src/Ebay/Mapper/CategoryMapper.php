@@ -137,10 +137,14 @@ class CategoryMapper implements CategoryMapperInterface
     {
         $entity = $this->getCategoryEntity();
 
-        $category = $this->em->getRepository($entity)->findBy([
-            'dataSourceRegional' => $dataSourceRegional,
-            'categoryId'         => $categoryId,
-        ]);
+        try {
+            $category = $this->em->getRepository($entity)->findBy([
+                'dataSourceRegional' => $dataSourceRegional,
+                'categoryId'         => $categoryId,
+            ]);
+        } catch (\Exception $e) {
+            return false;
+        }
 
         return (bool)$category;
     }

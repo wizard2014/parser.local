@@ -27,7 +27,7 @@ class FindItemsService
         $service = new FindingServices\FindingService([
             'appId'      => $appId ? $appId : $this->options->getAppId(),
             'apiVersion' => $this->options->getFindingApiVersion(),
-            'globalId'   => $data['region'] ?: 'EBAY-US',
+            'globalId'   => $data['ebay_global_id'] ?: 'EBAY-US',
         ]);
 
         // Create the request object
