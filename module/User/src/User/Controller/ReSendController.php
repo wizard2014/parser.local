@@ -23,8 +23,7 @@ class ReSendController extends AbstractActionController
         UserMapper $mapper,
         UserRegistrationMapperInterface $userRegistrationMapper,
         MailerInterface $mailer
-    )
-    {
+    ) {
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
 

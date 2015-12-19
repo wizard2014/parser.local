@@ -22,8 +22,8 @@ class ReSendControllerFactory implements FactoryInterface
 
         return new ReSendController(
             new UserMapper($em),
-            $sm->get('HtUserRegistration\UserRegistrationMapper'),
-            $sm->get('HtUserRegistration\Mailer\Mailer')
+            $sm->get(\HtUserRegistration\UserRegistrationMapper::class),
+            $sm->get(\HtUserRegistration\Mailer\Mailer::class)
         );
     }
 }

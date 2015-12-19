@@ -4,7 +4,7 @@ namespace User\Mapper;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserStatus
+class UserStatusMapper implements UserStatusMapperInterface
 {
     /**
      * @var EntityManagerInterface

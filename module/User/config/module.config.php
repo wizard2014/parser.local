@@ -47,6 +47,11 @@ return [
             Controller\Settings::class  => Factory\Controller\SettingsControllerFactory::class,
         ],
     ],
+    'service_manager'=> [
+        'factories' => [
+            Service\UserService::class  => Factory\Service\UserServiceFactory::class,
+        ],
+    ],
 
     'doctrine' => [
         'driver' => [

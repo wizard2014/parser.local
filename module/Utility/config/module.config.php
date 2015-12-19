@@ -5,7 +5,9 @@ namespace Utility;
 return [
     'service_manager'=> [
         'factories' => [
-            Service\DataSourceService::class  => Factory\Service\DataSourceServiceFactory::class,
+            Service\DataSourceService::class        => Factory\Service\DataSourceServiceFactory::class,
+            Service\SubscriptionPlanService::class  => Factory\Service\SubscriptionPlanServiceFactory::class,
+            Service\AttributeValueService::class    => Factory\Service\AttributeValueServiceFactory::class,
         ],
     ],
     'doctrine' => [

@@ -6,53 +6,65 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
-
-use User\Mapper\UserStatus as UserStatusMapper;
-use Utility\Mapper\AttributeValue as AttributeValueMapper;
-use Utility\Mapper\DataSourceGlobal as DataSourceGlobalMapper;
-use User\Mapper\User as UserMapper;
-use Utility\Mapper\DataSourceKey as DataSourceKeyMapper;
-use Utility\Mapper\SubscriptionPlan as SubscriptionPlanMapper;
+use User\Service\UserService;
+use Utility\Service\DataSourceService;
+use Utility\Service\SubscriptionPlanService;
+use Utility\Service\AttributeValueService;
 use Utility\Helper\Csrf\Csrf;
 
 class SettingsController extends AbstractActionController
 {
-    protected $userStatusMapper;
-    protected $attributeValueMapper;
-    protected $dataSourceGlobalMapper;
-    protected $userMapper;
-    protected $subscriptionPlanMapper;
-    protected $dataSourceKey;
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * @var DataSourceService
+     */
+    protected $dataSourceService;
+
+    /**
+     * @var SubscriptionPlanService
+     */
+    protected $subscriptionPlanService;
+
+    /**
+     * @var AttributeValueService
+     */
+    protected $attributeValueService;
+
+    /**
+     * @var int|null
+     */
     private $user;
 
+    /**
+     * @param UserService             $userService
+     * @param DataSourceService       $dataSourceService
+     * @param SubscriptionPlanService $subscriptionPlanService
+     * @param AttributeValueService   $attributeValueService
+     */
     public function __construct(
-        UserStatusMapper        $userStatusMapper,
-        AttributeValueMapper    $attributeValueMapper,
-        DataSourceGlobalMapper  $dataSourceGlobalMapper,
-        UserMapper              $userMapper,
-        SubscriptionPlanMapper  $subscriptionPlanMapper,
-        DataSourceKeyMapper     $dataSourceKey
-    )
-    {
+        UserService             $userService,
+        DataSourceService       $dataSourceService,
+        SubscriptionPlanService $subscriptionPlanService,
+        AttributeValueService   $attributeValueService
+    ) {
+        $this->userService              = $userService;
+        $this->dataSourceService        = $dataSourceService;
+        $this->subscriptionPlanService  = $subscriptionPlanService;
+        $this->attributeValueService    = $attributeValueService;
+
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
-
-        $this->userStatusMapper       = $userStatusMapper;
-        $this->attributeValueMapper   = $attributeValueMapper;
-        $this->dataSourceGlobalMapper = $dataSourceGlobalMapper;
-        $this->userMapper             = $userMapper;
-        $this->subscriptionPlanMapper = $subscriptionPlanMapper;
-        $this->dataSourceKey          = $dataSourceKey;
     }
 
     public function indexAction()
     {
-        $userId = $this->user;
+        $redirect = $this->userService->getRedirectRule($this->user);
 
-        $isFreeUser     = $this->userStatusMapper->isFreeSubUser($userId);
-        $isActiveUser   = $this->userStatusMapper->isActiveUser($userId);
-
-        if ($isFreeUser || !$isActiveUser) {
+        if (!$redirect) {
             return $this->redirect()->toRoute('settings/default', ['action' => 'subscription']);
         }
 
