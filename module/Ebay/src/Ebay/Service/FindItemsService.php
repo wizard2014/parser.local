@@ -8,7 +8,7 @@ use DTS\eBaySDK\Finding\Types as TypesFinding;
 use DTS\eBaySDK\Finding\Enums as EnumsFinding;
 use Ebay\Options\ModuleOptions;
 
-class FindItemsService
+class FindItemsService implements FindItemsServiceInterface
 {
     protected $options;
     private $maxItemForPage = 100;
@@ -21,6 +21,9 @@ class FindItemsService
         $this->options = $options;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function findItems(array $data, $appId = null)
     {
         // create Finding service API

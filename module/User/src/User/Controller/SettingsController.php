@@ -75,7 +75,9 @@ class SettingsController extends AbstractActionController
     {
         $userId = $this->user;
 
-        $memberSince = $this->userStatusMapper->getMemberSince($userId);
+        $userInfo = $this->userService->getUserInfo($userId);
+
+        var_dump($userInfo); exit;
 
         /** @todo refactor */
         $subTypeId   = $this->userStatusMapper->getSubscriptionTypeId($userId);
@@ -126,7 +128,7 @@ class SettingsController extends AbstractActionController
     {
         $userId = $this->user;
 
-        $isEmailSubscriber = $this->userStatusMapper->isEmailSubscriber($userId);
+        $isEmailSubscriber = $this->userService->isEmailSubscriber($userId);
 
         $request = $this->getRequest();
 
@@ -134,11 +136,7 @@ class SettingsController extends AbstractActionController
             $token = $request->getPost('token');
 
             if (isset($token) && Csrf::valid($token)) {
-                if ($isEmailSubscriber) {
-                    $this->userStatusMapper->unsubscribe($userId);
-                } else {
-                    $this->userStatusMapper->subscribe($userId);
-                }
+                $this->userService->changeSubscription($userId, $isEmailSubscriber);
             }
 
             return new JsonModel([

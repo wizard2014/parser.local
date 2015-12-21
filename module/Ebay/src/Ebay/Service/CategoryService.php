@@ -8,7 +8,7 @@ use DTS\eBaySDK\Trading\Types;
 use Ebay\Options\ModuleOptions;
 use Ebay\Mapper\CategoryMapper;
 
-class CategoryService
+class CategoryService implements CategoryServiceInterface
 {
     /**
      * @var ModuleOptions
@@ -33,9 +33,7 @@ class CategoryService
     }
 
     /**
-     * @param int $region
-     *
-     * @return array|Types\CategoryType[]|Types\ErrorType
+     * {@inheritdoc}
      */
     public function getCategoryList($region = 0 /* EBAY-US */)
     {
@@ -74,10 +72,7 @@ class CategoryService
     }
 
     /**
-     * @param $category
-     * @param $currentCategories
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function add($category, $currentCategories)
     {
@@ -93,7 +88,7 @@ class CategoryService
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function save()
     {
@@ -101,7 +96,7 @@ class CategoryService
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getCurrentCategoriesId()
     {
@@ -109,9 +104,7 @@ class CategoryService
     }
 
     /**
-     * @param $region
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getEbaySiteId($region)
     {
@@ -119,11 +112,7 @@ class CategoryService
     }
 
     /**
-     * @param $dataSourceRegional
-     * @param $categoryLevel
-     * @param $categoryParentId
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getCategory($dataSourceRegional, $categoryLevel, $categoryParentId)
     {
@@ -137,9 +126,7 @@ class CategoryService
     }
 
     /**
-     * @param array $data
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function validate($data)
     {

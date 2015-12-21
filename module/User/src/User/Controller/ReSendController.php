@@ -5,7 +5,7 @@ namespace User\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
-use User\Mapper\User as UserMapper;
+use User\Mapper\UserMapper;
 use HtUserRegistration\Mapper\UserRegistrationMapperInterface;
 use HtUserRegistration\Mailer\MailerInterface;
 

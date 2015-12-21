@@ -25,7 +25,7 @@ class UserMapper implements UserMapperInterface
     }
 
     /**
-     * @return \User\Entity\User
+     * {@inheritdoc}
      */
     public function getUserEntity()
     {
@@ -33,7 +33,7 @@ class UserMapper implements UserMapperInterface
     }
 
     /**
-     * @param \User\Entity\User $userEntity
+     * {@inheritdoc}
      */
     public function setUserEntity($userEntity)
     {
@@ -41,9 +41,7 @@ class UserMapper implements UserMapperInterface
     }
 
     /**
-     * @param $userId
-     *
-     * @return \User\Entity\User
+     * {@inheritdoc}
      */
     public function getUserById($userId)
     {
@@ -55,9 +53,7 @@ class UserMapper implements UserMapperInterface
     }
 
     /**
-     * @param $userEmail
-     *
-     * @return \ZfcUser\Entity\UserInterface
+     * {@inheritdoc}
      */
     public function getUserByEmail($userEmail)
     {
@@ -69,9 +65,7 @@ class UserMapper implements UserMapperInterface
     }
 
     /**
-     * @param $userEmail
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function userExists($userEmail)
     {

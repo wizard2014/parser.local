@@ -25,7 +25,7 @@ class UserStatusMapper implements UserStatusMapperInterface
     }
 
     /**
-     * @return \User\Entity\UserStatus
+     * {@inheritdoc}
      */
     public function getUserStatusEntity()
     {
@@ -33,7 +33,7 @@ class UserStatusMapper implements UserStatusMapperInterface
     }
 
     /**
-     * @param \User\Entity\UserStatus $userStatusEntity
+     * {@inheritdoc}
      */
     public function setUserStatusEntity($userStatusEntity)
     {
@@ -41,23 +41,19 @@ class UserStatusMapper implements UserStatusMapperInterface
     }
 
     /**
-     * @param $userId
-     *
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getMemberSince($userId)
     {
         $entity = $this->getUserStatusEntity();
 
-        $date = $this->em->find($entity, $userId)->getRegistrationDate();
+        $date = $this->em->find($entity, $userId)->getDateRegistration();
 
         return $date;
     }
 
     /**
-     * @param $userId
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isEmailSubscriber($userId)
     {
@@ -69,11 +65,43 @@ class UserStatusMapper implements UserStatusMapperInterface
     }
 
     /**
-     * Set email Subscriber
-     *
-     * @param $userId
-     *
-     * @return bool
+     * {@inheritdoc}
+     */
+    public function getQtyTotalFree($userId)
+    {
+        $entity = $this->getUserStatusEntity();
+
+        $qtyTotalFree = $this->em->find($entity, $userId)->getQtyTotalFree();
+
+        return $qtyTotalFree;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getQtyTotalSubscriber($userId)
+    {
+        $entity = $this->getUserStatusEntity();
+
+        $qtyTotalSubscr = $this->em->find($entity, $userId)->getQtyTotalSubscr();
+
+        return $qtyTotalSubscr;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getQtyTotal($userId)
+    {
+        $entity = $this->getUserStatusEntity();
+
+        $qtyTotal = $this->em->find($entity, $userId)->getQtyTotal();
+
+        return $qtyTotal;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function subscribe($userId)
     {
@@ -89,11 +117,7 @@ class UserStatusMapper implements UserStatusMapperInterface
     }
 
     /**
-     * Unset email Subscriber
-     *
-     * @param $userId
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function unsubscribe($userId)
     {
@@ -109,56 +133,29 @@ class UserStatusMapper implements UserStatusMapperInterface
     }
 
     /**
-     * @param $userId
-     *
-     * @return int
+     * {@inheritdoc}
      */
-    public function getSubscriptionTypeId($userId)
+    public function getUserInfo($userId)
     {
         $entity = $this->getUserStatusEntity();
 
-        $user = $this->em->find($entity, $userId);
+        $qb = $this->em->createQueryBuilder();
 
-        return $user->getSubscriptionType2()->getId();
-    }
+        $qb
+            ->select('
+                us.dateRegistration,
+                us.isEmailSubscriber,
+                us.qtyTotalFree,
+                us.qtyTotalSubscr,
+                us.qtyTotal
+                ')
+            ->from($entity, 'us')
+            ->where('us.user = :user')
+            ->setParameter('user', $userId);
 
-    /**
-     * @param $userId
-     *
-     * @return int
-     */
-    public function getSubscriptionStatusId($userId)
-    {
-        $entity = $this->getUserStatusEntity();
+        $result = $qb->getQuery()->getSingleResult();
 
-        $user = $this->em->find($entity, $userId);
-
-        return $user->getSubscriptionStatus2()->getId();
-    }
-
-
-    /**
-     * @param $userId
-     *
-     * @return bool
-     */
-    public function isFreeSubUser($userId)
-    {
-        $subTypeId = $this->getSubscriptionTypeId($userId);
-
-        return (bool) ($subTypeId === 1);// Free account
-    }
-
-    /**
-     * @param $userId
-     *
-     * @return bool
-     */
-    public function isActiveUser($userId)
-    {
-        $subStatusId = $this->getSubscriptionStatusId($userId);
-
-        return (bool) ($subStatusId === 7) || ($subStatusId === 10); // Active or In Progress account
+        return $result;
     }
 
     /**

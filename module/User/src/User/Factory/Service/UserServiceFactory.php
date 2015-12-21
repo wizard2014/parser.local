@@ -7,6 +7,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use User\Service\UserService;
 use User\Mapper\UserMapper;
 use User\Mapper\UserStatusMapper;
+use User\Mapper\SubscriptionMapper;
 
 class UserServiceFactory implements FactoryInterface
 {
@@ -21,7 +22,8 @@ class UserServiceFactory implements FactoryInterface
 
         return new UserService(
             new UserMapper($em),
-            new UserStatusMapper($em)
+            new UserStatusMapper($em),
+            new SubscriptionMapper($em)
         );
     }
 }

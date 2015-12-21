@@ -4,8 +4,9 @@ namespace User\Service;
 
 use User\Mapper\UserMapper;
 use User\Mapper\UserStatusMapper;
+use User\Mapper\SubscriptionMapper;
 
-class UserService
+class UserService implements UserServiceInterface
 {
     /**
      * @var UserMapper
@@ -18,26 +19,32 @@ class UserService
     protected $userStatusMapper;
 
     /**
-     * @param UserMapper       $userMapper
-     * @param UserStatusMapper $userStatusMapper
+     * @var SubscriptionMapper
+     */
+    protected $subscriptionMapper;
+
+    /**
+     * @param UserMapper         $userMapper
+     * @param UserStatusMapper   $userStatusMapper
+     * @param SubscriptionMapper $subscriptionMapper
      */
     public function __construct(
-        UserMapper       $userMapper,
-        UserStatusMapper $userStatusMapper
+        UserMapper          $userMapper,
+        UserStatusMapper    $userStatusMapper,
+        SubscriptionMapper  $subscriptionMapper
     ) {
-        $this->userMapper       = $userMapper;
-        $this->userStatusMapper = $userStatusMapper;
+        $this->userMapper         = $userMapper;
+        $this->userStatusMapper   = $userStatusMapper;
+        $this->subscriptionMapper = $subscriptionMapper;
     }
 
     /**
-     * @param $userId
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function getRedirectRule($userId)
     {
-        $isFreeUser     = $this->userStatusMapper->isFreeSubUser($userId);
-        $isActiveUser   = $this->userStatusMapper->isActiveUser($userId);
+        $isFreeUser     = $this->subscriptionMapper->isFreeSubUser($userId);
+        $isActiveUser   = $this->subscriptionMapper->isActiveUser($userId);
 
         if ($isFreeUser || !$isActiveUser) {
             return false;
@@ -46,9 +53,37 @@ class UserService
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUserInfo($userId)
     {
-        $memberSince = $this->userStatusMapper->getMemberSince($userId);
+        $userInfo = [];
 
+        $userInfo['user']                   = $this->userStatusMapper->getUserInfo($userId);
+        $userInfo['subscr']['subSchemeId']  = $this->subscriptionMapper->getSubscriptionSchemeId($userId);
+        $userInfo['subscr']['subStatusId']  = $this->subscriptionMapper->getSubscriptionStatusId($userId);
+
+        return $userInfo;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmailSubscriber($userId)
+    {
+        return $this->userStatusMapper->isEmailSubscriber($userId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function changeSubscription($userId, $isEmailSubscriber)
+    {
+        if ($isEmailSubscriber) {
+            $this->userStatusMapper->unsubscribe($userId);
+        } else {
+            $this->userStatusMapper->subscribe($userId);
+        }
     }
 }

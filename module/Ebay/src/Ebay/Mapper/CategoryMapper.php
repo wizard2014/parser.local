@@ -58,9 +58,7 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * Get all categoryId group by region
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllCategoriesId()
     {
@@ -78,9 +76,7 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * Check category exists
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function categoriesExists()
     {
@@ -90,11 +86,7 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * Add category
-     *
-     * categoryLevel, categoryName, categoryId, categoryParentId, region
-     *
-     * @param $category
+     * {@inheritdoc}
      */
     public function add($category)
     {
@@ -102,9 +94,7 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * Save Category
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function save()
     {
@@ -128,10 +118,7 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * @param $dataSourceRegional
-     * @param $categoryId
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function categoryExists($dataSourceRegional, $categoryId)
     {
@@ -150,10 +137,7 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * @param $dataSourceRegional
-     * @param $categoryLevel
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getMainCategory($dataSourceRegional, $categoryLevel)
     {
@@ -168,11 +152,7 @@ class CategoryMapper implements CategoryMapperInterface
     }
 
     /**
-     * @param $dataSourceRegional
-     * @param $categoryLevel
-     * @param $categoryParentId
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getCategory($dataSourceRegional, $categoryLevel, $categoryParentId)
     {
