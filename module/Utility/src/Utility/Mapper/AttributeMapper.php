@@ -39,4 +39,16 @@ class AttributeMapper implements AttributeMapperInterface
     {
         $this->attributeEntity = $attributeEntity;
     }
+
+    /**
+     * @return array
+     */
+    public function getAllAttribute()
+    {
+        $entity = $this->getAttributeEntity();
+
+        $attributes = $this->em->getRepository($entity)->findAll();
+
+        return $attributes;
+    }
 }

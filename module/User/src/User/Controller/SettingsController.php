@@ -8,8 +8,8 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
 use User\Service\UserService;
 use Utility\Service\DataSourceService;
-use Utility\Service\SubscriptionPlanService;
-use Utility\Service\AttributeValueService;
+use Utility\Service\SubscriptionService;
+use Utility\Service\AttributeService;
 use Utility\Helper\Csrf\Csrf;
 
 class SettingsController extends AbstractActionController
@@ -25,14 +25,14 @@ class SettingsController extends AbstractActionController
     protected $dataSourceService;
 
     /**
-     * @var SubscriptionPlanService
+     * @var SubscriptionService
      */
-    protected $subscriptionPlanService;
+    protected $subscriptionService;
 
     /**
-     * @var AttributeValueService
+     * @var AttributeService
      */
-    protected $attributeValueService;
+    protected $attributeService;
 
     /**
      * @var int|null
@@ -40,21 +40,21 @@ class SettingsController extends AbstractActionController
     private $user;
 
     /**
-     * @param UserService             $userService
-     * @param DataSourceService       $dataSourceService
-     * @param SubscriptionPlanService $subscriptionPlanService
-     * @param AttributeValueService   $attributeValueService
+     * @param UserService         $userService
+     * @param DataSourceService   $dataSourceService
+     * @param SubscriptionService $subscriptionService
+     * @param AttributeService    $attributeService
      */
     public function __construct(
         UserService             $userService,
         DataSourceService       $dataSourceService,
-        SubscriptionPlanService $subscriptionPlanService,
-        AttributeValueService   $attributeValueService
+        SubscriptionService     $subscriptionService,
+        AttributeService        $attributeService
     ) {
         $this->userService              = $userService;
         $this->dataSourceService        = $dataSourceService;
-        $this->subscriptionPlanService  = $subscriptionPlanService;
-        $this->attributeValueService    = $attributeValueService;
+        $this->subscriptionService      = $subscriptionService;
+        $this->attributeService         = $attributeService;
 
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
@@ -75,19 +75,15 @@ class SettingsController extends AbstractActionController
     {
         $userId = $this->user;
 
+        /**
+         * @todo change solution
+         */
         $userInfo = $this->userService->getUserInfo($userId);
+        $userInfo['subInfo']['subScheme'] = $this->attributeService->getAttributeValueById($userInfo['subInfo']['subScheme']);
+        $userInfo['subInfo']['subStatus'] = $this->attributeService->getAttributeValueById($userInfo['subInfo']['subStatus']);
 
-        var_dump($userInfo); exit;
-
-        /** @todo refactor */
-        $subTypeId   = $this->userStatusMapper->getSubscriptionTypeId($userId);
-        $subStatusId = $this->userStatusMapper->getSubscriptionStatusId($userId);
-
-        $subType    = $this->attributeValueMapper->getAttributeValueById($subTypeId);
-        $subStatus  = $this->attributeValueMapper->getAttributeValueById($subStatusId);
-
-        // data source keys
-        $dataSourceKeys = $this->dataSourceGlobalMapper->getAll(); // form for Ebay, Amazon, etc...
+        // [1 = > 'Ebay'...]
+        $vendors = $this->dataSourceService->getVendors(); // form for Ebay, Amazon, etc...
 
         $request = $this->getRequest();
 
@@ -102,11 +98,11 @@ class SettingsController extends AbstractActionController
                     $value = trim(strip_tags($value));
                 });
 
-                if ($dataSourceGlobal = $this->dataSourceGlobalMapper->getSourceGlobalById($data['vendor'])) {
-                    $user = $this->userMapper->getUserById($this->user);
+                if ($dataSourceGlobal = $this->dataSourceService->getSourceGlobalById($data['vendor'])) {
+                    $user = $this->userService->getUser($this->user);
 
                     // set app key
-                    $this->dataSourceKey->setKey($user, $dataSourceGlobal, $data['key']);
+                    $this->dataSourceService->setKey($user, $dataSourceGlobal, $data['key']);
                 }
             }
 
@@ -116,11 +112,9 @@ class SettingsController extends AbstractActionController
         }
 
         return new ViewModel([
-            'memberSince'    => $memberSince,
-            'subType'        => $subType,
-            'subStatus'      => $subStatus,
-            'dataSourceKeys' => $dataSourceKeys,
-            'token'          => Csrf::generate(),
+            'userInfo' => $userInfo,
+            'vendors'  => $vendors,
+            'token'    => Csrf::generate(),
         ]);
     }
 

@@ -41,6 +41,14 @@ class UserService implements UserServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function getUser($id)
+    {
+        return $this->userMapper->getUserById($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getRedirectRule($userId)
     {
         $isFreeUser     = $this->subscriptionMapper->isFreeSubUser($userId);
@@ -60,9 +68,9 @@ class UserService implements UserServiceInterface
     {
         $userInfo = [];
 
-        $userInfo['user']                   = $this->userStatusMapper->getUserInfo($userId);
-        $userInfo['subscr']['subSchemeId']  = $this->subscriptionMapper->getSubscriptionSchemeId($userId);
-        $userInfo['subscr']['subStatusId']  = $this->subscriptionMapper->getSubscriptionStatusId($userId);
+        $userInfo['userInfo']              = $this->userStatusMapper->getUserInfo($userId);
+        $userInfo['subInfo']['subScheme']  = $this->subscriptionMapper->getSubscriptionSchemeId($userId);
+        $userInfo['subInfo']['subStatus']  = $this->subscriptionMapper->getSubscriptionStatusId($userId);
 
         return $userInfo;
     }

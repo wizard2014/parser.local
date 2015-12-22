@@ -45,7 +45,7 @@ class DataSourceGlobalMapper implements DataSourceGlobalMapperInterface
      *
      * @return array
      */
-    public function getAll()
+    public function getAllVendor()
     {
         $result = [];
 
@@ -63,7 +63,7 @@ class DataSourceGlobalMapper implements DataSourceGlobalMapperInterface
     /**
      * @param $id
      *
-     * @return \Utility\Entity\DataSourceGlobal
+     * @return object
      */
     public function getSourceGlobalById($id)
     {

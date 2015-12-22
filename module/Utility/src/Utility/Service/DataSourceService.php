@@ -67,6 +67,24 @@ class DataSourceService implements DataSourceServiceInterface
     }
 
     /**
+     * @return array
+     */
+    public function getVendors()
+    {
+        return $this->dataSourceGlobalMapper->getAllVendor();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return object
+     */
+    public function getSourceGlobalById($id)
+    {
+        return $this->dataSourceGlobalMapper->getSourceGlobalById($id);
+    }
+
+    /**
      * @param $user
      * @param $region
      *
@@ -75,6 +93,17 @@ class DataSourceService implements DataSourceServiceInterface
     public function getKey($user, $region)
     {
         return $this->dataSourceKeyMapper->getKey($user, $region);
+    }
+
+    /**
+     * @param           $user
+     * @param           $dataSourceGlobal
+     * @param           $accessKey
+     * @param bool|true $isValid
+     */
+    public function setKey($user, $dataSourceGlobal, $accessKey, $isValid = true)
+    {
+        $this->dataSourceKeyMapper->setKey($user, $dataSourceGlobal, $accessKey, $isValid);
     }
 
     /**

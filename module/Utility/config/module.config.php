@@ -6,8 +6,8 @@ return [
     'service_manager'=> [
         'factories' => [
             Service\DataSourceService::class        => Factory\Service\DataSourceServiceFactory::class,
-            Service\SubscriptionPlanService::class  => Factory\Service\SubscriptionPlanServiceFactory::class,
-            Service\AttributeValueService::class    => Factory\Service\AttributeValueServiceFactory::class,
+            Service\SubscriptionService::class      => Factory\Service\SubscriptionServiceFactory::class,
+            Service\AttributeService::class         => Factory\Service\AttributeServiceFactory::class,
         ],
     ],
     'doctrine' => [

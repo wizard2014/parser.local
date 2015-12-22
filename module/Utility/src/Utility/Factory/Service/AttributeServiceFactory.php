@@ -4,22 +4,22 @@ namespace Utility\Factory\Service;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Utility\Service\AttributeValueService;
+use Utility\Service\AttributeService;
 use Utility\Mapper\AttributeMapper;
 use Utility\Mapper\AttributeValueMapper;
 
-class AttributeValueServiceFactory implements FactoryInterface
+class AttributeServiceFactory implements FactoryInterface
 {
     /**
      * @param ServiceLocatorInterface $serviceLocator
      *
-     * @return AttributeValueService
+     * @return AttributeService
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $em = $serviceLocator->get(\Doctrine\ORM\EntityManager::class);
 
-        return new AttributeValueService(
+        return new AttributeService(
             new AttributeMapper($em),
             new AttributeValueMapper($em)
         );

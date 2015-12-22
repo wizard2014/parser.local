@@ -4,22 +4,24 @@ namespace Utility\Factory\Service;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Utility\Service\SubscriptionPlanService;
+use Utility\Service\SubscriptionService;
 use Utility\Mapper\SubscriptionPlanMapper;
+use Utility\Mapper\SubscriptionSchemeMapper;
 
-class SubscriptionPlanServiceFactory implements FactoryInterface
+class SubscriptionServiceFactory implements FactoryInterface
 {
     /**
      * @param ServiceLocatorInterface $serviceLocator
      *
-     * @return SubscriptionPlanMapper
+     * @return SubscriptionService
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $em = $serviceLocator->get(\Doctrine\ORM\EntityManager::class);
 
-        return new SubscriptionPlanService(
-            new SubscriptionPlanMapper($em)
+        return new SubscriptionService(
+            new SubscriptionPlanMapper($em),
+            new SubscriptionSchemeMapper($em)
         );
     }
 }

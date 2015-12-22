@@ -27,13 +27,13 @@
                         <h3><i class="fa fa-user"></i> <strong>{{ zfcUserDisplayName() }}</strong></h3>
                         {# user info #}
                         <p><i class="fa fa-envelope"></i> <a href="{{ url('zfcuser/changeemail') }}">{{ zfcUserIdentity().getEmail() }}</a></p>
-                        <p><i class="fa fa-clock-o"></i> Member since {{ memberSince|date('M d, Y') }}</p>
+                        <p><i class="fa fa-clock-o"></i> Member since {{ userInfo.userInfo.dateRegistration|date('M d, Y') }}</p>
 
-                        {% if subType != 'Free' %}
-                            <p><i class="fa fa-bar-chart"></i> Subscription type {{ subType }}</p>
-                            <p><i class="fa fa-battery-half"></i> Subscription status {{ subStatus }}</p>
+                        {% if userInfo.subInfo.subType != 'Free' %}
+                            <p><i class="fa fa-bar-chart"></i> Subscription type {{ userInfo.subInfo.subType }}</p>
+                            <p><i class="fa fa-battery-half"></i> Subscription status {{ userInfo.subInfo.subStatus }}</p>
                         {% else %}
-                            <p><i class="fa fa-bar-chart"></i> Subscription type <a href="{{ url('settings/default', {'action': 'subscription'}) }}">{{ subType }}</a></p>
+                            <p><i class="fa fa-bar-chart"></i> Subscription type <a href="{{ url('settings/default', {'action': 'subscription'}) }}">{{ userInfo.subInfo.subType }}</a></p>
                         {% endif %}
 
                         <p><i class="fa fa-key"></i> <a href="{{ url('zfcuser/changepassword') }}">Change password</a></p>

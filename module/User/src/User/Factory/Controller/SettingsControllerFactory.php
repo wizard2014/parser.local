@@ -20,8 +20,8 @@ class SettingsControllerFactory implements FactoryInterface
         return new SettingsController(
             $sm->get(\User\Service\UserService::class),
             $sm->get(\Utility\Service\DataSourceService::class),
-            $sm->get(\Utility\Service\SubscriptionPlanService::class),
-            $sm->get(\Utility\Service\AttributeValueService::class)
+            $sm->get(\Utility\Service\SubscriptionService::class),
+            $sm->get(\Utility\Service\AttributeService::class)
         );
     }
 }

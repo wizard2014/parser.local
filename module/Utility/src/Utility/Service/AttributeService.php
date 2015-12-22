@@ -5,7 +5,7 @@ namespace Utility\Service;
 use Utility\Mapper\AttributeMapper;
 use Utility\Mapper\AttributeValueMapper;
 
-class AttributeValueService implements AttributeValueServiceInterface
+class AttributeService implements AttributeServiceInterface
 {
     /**
      * @var AttributeMapper
@@ -27,5 +27,15 @@ class AttributeValueService implements AttributeValueServiceInterface
     ) {
         $this->attributeMapper      = $attributeMapper;
         $this->attributeValueMapper = $attributeValueMapper;
+    }
+
+    public function getAllAttribute()
+    {
+        return $this->attributeMapper->getAllAttribute();
+    }
+
+    public function getAttributeValueById($id)
+    {
+        return $this->attributeValueMapper->getAttributeValueById($id);
     }
 }

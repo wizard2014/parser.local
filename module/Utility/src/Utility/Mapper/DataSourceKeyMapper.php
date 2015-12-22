@@ -41,18 +41,16 @@ class DataSourceKeyMapper implements DataSourceKeyMapperInterface
     }
 
     /**
-     * Set Access Key
-     *
      * @param \User\Entity\User                $user
      * @param \Utility\Entity\DataSourceGlobal $dataSourceGlobal
      * @param                                  $accessKey
-     * @param bool|true                        $isValid
+     * @param                                  $isValid
      */
     public function setKey(
         \User\Entity\User                $user,
         \Utility\Entity\DataSourceGlobal $dataSourceGlobal,
         $accessKey,
-        $isValid = true
+        $isValid
     ) {
         $keyExists = $this->keyExists($user, $dataSourceGlobal);
 

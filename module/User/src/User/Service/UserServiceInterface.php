@@ -5,6 +5,13 @@ namespace User\Service;
 interface UserServiceInterface
 {
     /**
+     * @param $id
+     *
+     * @return object|\User\Entity\User
+     */
+    public function getUser($id);
+
+    /**
      * @param $userId
      *
      * @return bool
