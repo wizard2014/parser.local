@@ -53,6 +53,22 @@ class SubscriptionSchemeMapper implements SubscriptionSchemeMapperInterface
     }
 
     /**
+     * Get all subscription plans by vendor
+     *
+     * @param $dataSourceGlobalId
+     *
+     * @return array
+     */
+    public function getAllSubscriptionPlanesByDataSourceGlobal($dataSourceGlobalId)
+    {
+        $entity = $this->getSubscriptionScheme();
+
+        $schemes = $this->em->getRepository($entity)->findBy(['dataSourceGlobal' => $dataSourceGlobalId]);
+
+        return $schemes;
+    }
+
+    /**
      * @param $subscriptionTypeId
      *
      * @return object

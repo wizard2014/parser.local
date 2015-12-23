@@ -57,4 +57,38 @@ class SubscriptionService implements SubscriptionServiceInterface
     {
         return $this->subscriptionSchemeMapper->getSubscriptionType($subscriptionTypeId);
     }
+
+    /**
+     * @param array $dataSourceGlobalIds
+     *
+     * @return array
+     */
+    public function getPlans($dataSourceGlobalIds = [])
+    {
+        $plans = [];
+
+        $subSchemes = $this->subscriptionSchemeMapper->getAllSubscriptionPlanesByDataSourceGlobal($dataSourceGlobalIds);
+
+        foreach ($subSchemes as $scheme) {
+            $subPlans = $this->subscriptionPlanMapper->getPlansBySubscriptionScheme($scheme->getId());
+
+            foreach ($subPlans as $plan) {
+                $currentPlan = [
+                    'id'                 => $scheme->getId(),
+                    'title'              => $scheme->getSubscriptionType(),
+                    'price'              => $scheme->getPrice(),
+                    'limitRowPerRequest' => $plan->getLimitRowPerRequest(),
+                    'limitRequestDaily'  => $plan->getLimitRequestDaily(),
+                ];
+
+                if ($plan->getIsKeyOwner()) {
+                    $plans[$scheme->getDataSourceGlobal()->getName()]['withKey'][]   = $currentPlan;
+                } else {
+                    $plans[$scheme->getDataSourceGlobal()->getName()]['withoutKey'][] = $currentPlan;
+                }
+            }
+        }
+
+        return $plans;
+    }
 }

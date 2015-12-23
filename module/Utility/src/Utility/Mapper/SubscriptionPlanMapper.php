@@ -45,23 +45,22 @@ class SubscriptionPlanMapper implements SubscriptionPlanMapperInterface
      *
      * @return array
      */
-    public function getAllPlanes()
+    public function getAllSubscriptionPlanes()
     {
-        $result = [];
-
         $entity = $this->getSubscriptionPlan();
 
         $plans = $this->em->getRepository($entity)->findAll();
 
-        foreach ($plans as $plan) {
-            if ($plan->getIsKeyOwner()) {
-                $result['key_exists'][] = $plan;
-            } else {
-                $result['key_not_exists'][] = $plan;
-            }
-        }
+        return $plans;
+    }
 
-        return $result;
+    public function getPlansBySubscriptionScheme($subscriptionSchemeId)
+    {
+        $entity = $this->getSubscriptionPlan();
+
+        $plans = $this->em->getRepository($entity)->findBy(['subscriptionScheme' => $subscriptionSchemeId]);
+
+        return  $plans;
     }
 
     /**

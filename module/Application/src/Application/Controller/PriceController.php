@@ -4,21 +4,38 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-
-use Utility\Mapper\SubscriptionPlan as SubscriptionPlanMapper;
+use Utility\Service\SubscriptionService;
+use Utility\Service\DataSourceService;
 
 class PriceController extends AbstractActionController
 {
-    protected $subscriptionPlanMapper;
+    /**
+     * @var SubscriptionService
+     */
+    protected $subscriptionService;
 
-    public function __construct(SubscriptionPlanMapper $subscriptionPlanMapper)
-    {
-        $this->subscriptionPlanMapper = $subscriptionPlanMapper;
+    /**
+     * @var DataSourceService
+     */
+    protected $dataSourceService;
+
+    /**
+     * @param SubscriptionService $subscriptionService
+     * @param DataSourceService   $dataSourceService
+     */
+    public function __construct(
+        SubscriptionService $subscriptionService,
+        DataSourceService   $dataSourceService
+    ) {
+        $this->subscriptionService = $subscriptionService;
+        $this->dataSourceService   = $dataSourceService;
     }
 
     public function indexAction()
     {
-        $plans = $this->subscriptionPlanMapper->getAllPlanes();
+        $allVendors = $this->dataSourceService->getVendors();
+
+        $plans = $this->subscriptionService->getPlans(array_flip($allVendors));
 
         return new ViewModel([
             'plans' => $plans,
