@@ -5,7 +5,7 @@ var gulp         = require('gulp'),
     uglify       = require('gulp-uglify'),
     sass         = require('gulp-sass'),
     minifyCss    = require('gulp-minify-css'),
-    //sourcemaps = require('gulp-sourcemaps')
+    sourcemaps   = require('gulp-sourcemaps'),
     autoprefixer = require('gulp-autoprefixer');;
 
 var paths = {
@@ -28,9 +28,9 @@ gulp.task('styles', function() {
             cascade: false
         }))
         .pipe(concat('app.css'))
-        //.pipe(sourcemaps.init())
+        .pipe(sourcemaps.init())
         .pipe(minifyCss())
-        //.pipe(sourcemaps.write())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public/css'));
 });
 
