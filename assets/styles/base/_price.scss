@@ -1,3 +1,5 @@
+$orange: #FF5722;
+
 .price {
   .price-container {
     margin-right: 10px;
@@ -21,7 +23,7 @@
       font-weight: bold;
       color: #fff;
       text-transform: uppercase;
-      background-color: #F0AD4E;
+      background-color: $orange;
     }
 
     .price-limit-row,

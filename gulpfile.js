@@ -15,11 +15,14 @@ var paths = {
 
 gulp.task('styles', function() {
     return gulp.src([
-        paths.bower  + '/bootstrap-material-design/dist/css/bootstrap-material-design.css',
-        paths.bower  + '/bootstrap-material-design/dist/css/ripples.css',
+        paths.bower + '/bootstrap/dist/css/bootstrap.css',
+        paths.bower + '/bootstrap-material-design/sass/bootstrap-material-design.scss',
+        paths.bower + '/bootstrap-material-design/sass/ripples.scss',
         paths.assets + '/styles/app.scss'
     ])
-        .pipe(sass())
+        .pipe(sass({
+            includePaths: paths.bower + '/bootstrap-sass/assets/stylesheets'
+        }))
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false
@@ -33,8 +36,11 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
     return gulp.src([
-        paths.bower   + '/bootstrap-material-design/dist/js/material.js',
-        paths.bower   + '/bootstrap-material-design/dist/js/ripples.js',
+        paths.bower   + '/jquery/dist/jquery.js',
+        paths.bower   + '/bootstrap-sass/assets/javascripts/bootstrap-sprockets.js',
+        paths.bower   + '/bootstrap-sass/assets/javascripts/bootstrap.js',
+        paths.bower   + '/bootstrap-material-design/scripts/material.js',
+        paths.bower   + '/bootstrap-material-design/scripts/ripples.js',
         paths.bower   + '/matchHeight/jquery.matchHeight.js',
         paths.bower   + '/pwstrength-bootstrap/dist/pwstrength-bootstrap-1.2.9.js',
         paths.assets  + '/scripts/base/*.js',
