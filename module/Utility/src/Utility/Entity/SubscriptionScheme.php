@@ -3,6 +3,7 @@
 namespace Utility\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * SubscriptionScheme
@@ -39,6 +40,7 @@ class SubscriptionScheme
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
      */
     private $dateCreation;
@@ -46,6 +48,7 @@ class SubscriptionScheme
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="date_modification", type="datetimetz", nullable=true)
      */
     private $dateModification;

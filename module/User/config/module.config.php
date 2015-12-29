@@ -54,6 +54,14 @@ return [
     ],
 
     'doctrine' => [
+        'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+                    // listeners
+                    \Gedmo\Timestampable\TimestampableListener::class,
+                ],
+            ],
+        ],
         'driver' => [
             // overriding zfc-user-doctrine-orm's config
             'zfcuser_entity' => [

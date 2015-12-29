@@ -66,6 +66,14 @@ return [
         ],
     ],
     'doctrine' => [
+        'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+                    // listeners
+                    \Gedmo\Timestampable\TimestampableListener::class,
+                ],
+            ],
+        ],
         'driver' => [
             'ebay_entity' => [
                 'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,

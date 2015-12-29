@@ -4,6 +4,7 @@ namespace Ebay\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Utility\Entity\Traits\ArraySerializableTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * StructureCategoryEbay
@@ -56,6 +57,7 @@ class StructureCategoryEbay
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
      */
     private $dateCreation;
@@ -69,14 +71,6 @@ class StructureCategoryEbay
      * })
      */
     private $dataSourceRegional;
-
-    /**
-     * Set default date
-     */
-    public function __construct()
-    {
-        $this->dateCreation = new \DateTime();
-    }
 
     /**
      * Get id

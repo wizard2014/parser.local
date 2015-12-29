@@ -3,6 +3,7 @@
 namespace User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * RequestLog
@@ -25,6 +26,7 @@ class RequestLog
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="request_time", type="datetimetz", nullable=true)
      */
     private $requestTime;

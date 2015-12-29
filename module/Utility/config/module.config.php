@@ -11,6 +11,14 @@ return [
         ],
     ],
     'doctrine' => [
+         'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+                    // listeners
+                    \Gedmo\Timestampable\TimestampableListener::class,
+                ],
+            ],
+        ],
         'driver' => [
             'utility_entity' => [
                 'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,

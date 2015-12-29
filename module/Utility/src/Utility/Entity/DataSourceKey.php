@@ -3,6 +3,7 @@
 namespace Utility\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * DataSourceKey
@@ -31,6 +32,7 @@ class DataSourceKey
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
      */
     private $dateCreation;
@@ -38,6 +40,7 @@ class DataSourceKey
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="date_modification", type="datetimetz", nullable=true)
      */
     private $dateModification;

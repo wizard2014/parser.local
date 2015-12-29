@@ -3,6 +3,7 @@
 namespace User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * UserStatus
@@ -15,6 +16,7 @@ class UserStatus
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="date_registration", type="datetimetz", nullable=true)
      */
     private $dateRegistration;

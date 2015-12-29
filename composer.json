@@ -18,6 +18,7 @@
         "dts/ebay-sdk-php": "0.*",
         "zf-commons/zfc-twig": "^1.2",
         "hrevert/ht-user-registration-doctrine-orm": "^0.0.1",
-        "goalio/goalio-forgotpassword-doctrine-orm": "1.0.0"
+        "goalio/goalio-forgotpassword-doctrine-orm": "1.0.0",
+        "gedmo/doctrine-extensions": "^2.4"
     }
 }
