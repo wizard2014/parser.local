@@ -16,8 +16,11 @@
                 {% set form = registerForm %}
                 {% do form.prepare() %}
 
-                {% do form.setAttribute('action', url('zfcuser/register')) %}
-                {% do form.setAttribute('class', 'form') %}
+                {% do form.setAttributes({
+                    'action': url('zfcuser/register'),
+                    'id'    : 'register-form',
+                    'class' : 'form'
+                }) %}
 
                 {{ form().openTag(form)|raw }}
 
@@ -31,7 +34,7 @@
                 {% endif %}
 
                 {% for element in form %}
-                    <div class="form-group form-group-material-blue-grey label-floating{% if formElementErrors(element) %} has-error{% endif %}">
+                    <div class="form-group label-floating{% if formElementErrors(element) %} has-error{% endif %}">
                         {% if element is not instanceof('Zend\\Form\\Element\\Button') %}
                             <label class="label control-label">{{ formLabel(element.setLabel(placeholders[counter])) }}</label>
                         {% endif %}
