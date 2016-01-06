@@ -1,12 +1,8 @@
 <h2>Reset password</h2>
-<p>
-    <?php echo $this->translate('You have received this email because you initiated to reset your password with us. To continue with the process, please click the link below:'); ?>
-</p>
+<p>You have received this email because you initiated to reset your password with us. To continue with the process, please click the link below:</p>
 
-<?php $link = $this->serverUrl($this->url('zfcuser/resetpassword', ['userId' => $this->record->getUserId(), 'token' => $this->record->getRequestKey()]
-)); ?>
-
-<a href="<?php echo $link ?>"><?php echo $link; ?></a>
+<?php $link = $this->serverUrl($this->url('zfcuser/resetpassword', ['userId' => $this->record->getUserId(), 'token' => $this->record->getRequestKey()])); ?>
+<p><a href="<?php echo $link ?>">Reset</a></p>
 
 <hr>
 
