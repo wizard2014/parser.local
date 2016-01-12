@@ -3,7 +3,7 @@
 namespace Utility\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Utility\Entity\Traits\TimestampableTrait;
 
 /**
  * SubscriptionPlan
@@ -13,6 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class SubscriptionPlan
 {
+    use TimestampableTrait;
+
     /**
      * @var boolean
      *
@@ -35,22 +37,6 @@ class SubscriptionPlan
      * @ORM\Column(name="limit_request_daily", type="integer", nullable=false)
      */
     private $limitRequestDaily = '0';
-
-    /**
-     * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="date_modification", type="datetimetz", nullable=true)
-     */
-    private $dateModification;
 
     /**
      * @var \Utility\Entity\SubscriptionScheme
@@ -134,54 +120,6 @@ class SubscriptionPlan
     public function getLimitRequestDaily()
     {
         return $this->limitRequestDaily;
-    }
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     *
-     * @return SubscriptionPlan
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     *
-     * @return SubscriptionPlan
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
     }
 
     /**

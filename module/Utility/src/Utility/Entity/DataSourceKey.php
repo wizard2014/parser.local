@@ -3,7 +3,7 @@
 namespace Utility\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Utility\Entity\Traits\TimestampableTrait;
 
 /**
  * DataSourceKey
@@ -13,6 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DataSourceKey
 {
+    use TimestampableTrait;
+
     /**
      * @var string
      *
@@ -28,22 +30,6 @@ class DataSourceKey
      * @ORM\Column(name="is_valid", type="boolean", nullable=false)
      */
     private $isValid = true;
-
-    /**
-     * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="date_modification", type="datetimetz", nullable=true)
-     */
-    private $dateModification;
 
     /**
      * @var \User\Entity\User
@@ -115,54 +101,6 @@ class DataSourceKey
     public function getIsValid()
     {
         return $this->isValid;
-    }
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     *
-     * @return DataSourceKey
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     *
-     * @return DataSourceKey
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Utility\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Utility\Entity\Traits\TimestampableTrait;
 
 /**
  * SubscriptionScheme
@@ -13,6 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class SubscriptionScheme
 {
+    use TimestampableTrait;
+
     /**
      * @var integer
      *
@@ -36,22 +38,6 @@ class SubscriptionScheme
      * @ORM\Column(name="price", type="decimal", precision=10, scale=0, nullable=false)
      */
     private $price = '0';
-
-    /**
-     * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="date_creation", type="datetimetz", nullable=true)
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="date_modification", type="datetimetz", nullable=true)
-     */
-    private $dateModification;
 
     /**
      * @var \Utility\Entity\DataSourceGlobal
@@ -129,54 +115,6 @@ class SubscriptionScheme
     public function getPrice()
     {
         return $this->price;
-    }
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     *
-     * @return SubscriptionScheme
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     *
-     * @return SubscriptionScheme
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
     }
 
     /**
