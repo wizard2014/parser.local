@@ -67,6 +67,18 @@ class UserMapper implements UserMapperInterface
     /**
      * {@inheritdoc}
      */
+    public function getUserEmail($userId)
+    {
+        $entity = $this->getUserEntity();
+
+        $userEmail = $this->em->find($entity, $userId)->getEmail();
+
+        return $userEmail;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function userExists($userEmail)
     {
         return (bool)count((array)$this->getUserByEmail($userEmail));

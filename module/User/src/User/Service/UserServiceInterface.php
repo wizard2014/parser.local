@@ -37,4 +37,11 @@ interface UserServiceInterface
      * @param $isEmailSubscriber
      */
     public function changeSubscription($userId, $isEmailSubscriber);
+
+    /**
+     * @param $userId
+     *
+     * @return string
+     */
+    public function getEmail($userId);
 }

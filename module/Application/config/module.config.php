@@ -134,7 +134,7 @@ return [
         ],
         'factories' => [
             Controller\GetStarted::class => Factory\Controller\GetStartedControllerFactory::class,
-            Controller\Price::class => Factory\Controller\PriceControllerFactory::class,
+            Controller\Price::class      => Factory\Controller\PriceControllerFactory::class,
         ],
     ],
     'view_manager' => [

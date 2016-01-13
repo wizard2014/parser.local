@@ -4,6 +4,7 @@ namespace User\Service;
 
 use User\Mapper\UserMapper;
 use User\Mapper\UserStatusMapper;
+use User\Mapper\UserFileMapper;
 use User\Mapper\SubscriptionMapper;
 
 class UserService implements UserServiceInterface
@@ -19,6 +20,11 @@ class UserService implements UserServiceInterface
     protected $userStatusMapper;
 
     /**
+     * @var UserFileMapper
+     */
+    protected $userFileMapper;
+
+    /**
      * @var SubscriptionMapper
      */
     protected $subscriptionMapper;
@@ -26,15 +32,18 @@ class UserService implements UserServiceInterface
     /**
      * @param UserMapper         $userMapper
      * @param UserStatusMapper   $userStatusMapper
+     * @param UserFileMapper     $userFileMapper
      * @param SubscriptionMapper $subscriptionMapper
      */
     public function __construct(
         UserMapper          $userMapper,
         UserStatusMapper    $userStatusMapper,
+        UserFileMapper      $userFileMapper,
         SubscriptionMapper  $subscriptionMapper
     ) {
         $this->userMapper         = $userMapper;
         $this->userStatusMapper   = $userStatusMapper;
+        $this->userFileMapper     = $userFileMapper;
         $this->subscriptionMapper = $subscriptionMapper;
     }
 
@@ -93,5 +102,13 @@ class UserService implements UserServiceInterface
         } else {
             $this->userStatusMapper->subscribe($userId);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEmail($userId)
+    {
+        return $this->userMapper->getUserEmail($userId);
     }
 }

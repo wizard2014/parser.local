@@ -29,6 +29,13 @@ interface UserMapperInterface
     public function getUserByEmail($userEmail);
 
     /**
+     * @param $userId
+     *
+     * @return string
+     */
+    public function getUserEmail($userId);
+
+    /**
      * @param $userEmail
      *
      * @return bool

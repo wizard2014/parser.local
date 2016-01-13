@@ -8,10 +8,14 @@ use Zend\Authentication\AuthenticationService;
 use Ebay\Service\CategoryService;
 use Ebay\Service\FindItemsService;
 use Utility\Service\DataSourceService;
+use User\Service\UserService;
 use Utility\Helper\Csrf\Csrf;
+use Utility\Helper\Xml\Xml;
 
 class IndexController extends AbstractActionController
 {
+    const VENDOR = 'ebay';
+
     /**
      * @var CategoryService
      */
@@ -27,25 +31,29 @@ class IndexController extends AbstractActionController
      */
     protected $dataSourceService;
 
+    protected $userService;
+
     /**
      * @var int|null
      */
     protected $user;
-    protected $outputPath = './data/output/';
 
     /**
      * @param CategoryService   $categoryService
      * @param FindItemsService  $findItemsService
      * @param DataSourceService $dataSourceService
+     * @param UserService       $userService
      */
     public function __construct(
         CategoryService   $categoryService,
         FindItemsService  $findItemsService,
-        DataSourceService $dataSourceService
+        DataSourceService $dataSourceService,
+        UserService       $userService
     ) {
         $this->categoryService   = $categoryService;
         $this->findItemsService  = $findItemsService;
         $this->dataSourceService = $dataSourceService;
+        $this->userService       = $userService;
 
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
@@ -87,38 +95,21 @@ class IndexController extends AbstractActionController
                 if (500 === $results) {
                     $this->flashMessenger()->addMessage(['Invalid key, please check it out and add again.']);
 
-                    //change key status to Invalid
+                    // change key status to Invalid
                     $this->dataSourceService->setInvalidKey($this->user, $data['region']);
                 } else {
-                    // save result as XML
-                    $xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
-                    $this->arrayToXml($results, $xml);
-                    $xml->asXML($this->outputPath . 'data.xml');
+                    $path     = md5($this->userService->getEmail($this->user)) . '/' . self::VENDOR;
+                    $filename = self::VENDOR . uniqid('_');
+
+                    // save data into db
+                    // todo
+
+                    // save data into file
+                    Xml::saveAsXml($results, $path, $filename);
                 }
             }
         }
 
         return $this->redirect()->toRoute('get-started');
-    }
-
-    /**
-     * @param $data
-     * @param $xmlData
-     */
-    protected function arrayToXml($data, &$xmlData)
-    {
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                if (is_numeric($key)) {
-                    $key = 'item' . $key; // dealing with <0/>..<n/> issues
-                }
-
-                $subnode = $xmlData->addChild($key);
-
-                $this->arrayToXml($value, $subnode);
-            } else {
-                $xmlData->addChild("$key", htmlspecialchars("$value"));
-            }
-        }
     }
 }
