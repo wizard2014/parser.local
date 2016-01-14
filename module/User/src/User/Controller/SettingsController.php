@@ -144,6 +144,17 @@ class SettingsController extends AbstractActionController
         ]);
     }
 
+    public function downloadAction()
+    {
+        $regions = $this->dataSourceService->getRegions(
+            $this->dataSourceService->getVendors()
+        );
+
+//        $userFiles = $this->userService->getUserFies($this->user, $regions);
+
+        return new ViewModel();
+    }
+
     public function subscriptionAction()
     {
         return new ViewModel();

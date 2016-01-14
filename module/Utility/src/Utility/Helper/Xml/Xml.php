@@ -12,6 +12,8 @@ class Xml
      * @param $data
      * @param $path
      * @param $filename
+     *
+     * @return bool
      */
     public static function saveAsXml($data, $path, $filename)
     {
@@ -23,7 +25,11 @@ class Xml
             mkdir(self::$basePath . $path, 0777, true);
         }
 
-        $xml->asXML(self::$basePath . $path . '/' . $filename . '.xml');
+        try {
+            return $xml->asXML(self::$basePath . $path . '/' . $filename . '.xml');
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

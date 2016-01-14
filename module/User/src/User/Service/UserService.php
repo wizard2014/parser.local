@@ -111,4 +111,21 @@ class UserService implements UserServiceInterface
     {
         return $this->userMapper->getUserEmail($userId);
     }
+
+
+    public function getUserFies($user, $dataSourceGlobal)
+    {
+        return $this->userFileMapper->getFies($user, $dataSourceGlobal);
+    }
+
+    /**
+     * @param $user
+     * @param $dataSourceGlobal
+     * @param $path
+     * @param $filename
+     */
+    public function saveFileData($user, $dataSourceGlobal, $path, $filename)
+    {
+        $this->userFileMapper->saveFileData($user, $dataSourceGlobal, $path, $filename);
+    }
 }

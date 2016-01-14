@@ -31,6 +31,9 @@ class IndexController extends AbstractActionController
      */
     protected $dataSourceService;
 
+    /**
+     * @var UserService
+     */
     protected $userService;
 
     /**
@@ -89,10 +92,10 @@ class IndexController extends AbstractActionController
 
                 $data['ebay_global_id'] = $this->dataSourceService->getEbayGlobalId($data['region']);
 
-                $results = $this->findItemsService->findItems($data, $appId);
+                $resultData = $this->findItemsService->findItems($data, $appId);
 
                 // if returns error
-                if (500 === $results) {
+                if (500 === $resultData) {
                     $this->flashMessenger()->addMessage(['Invalid key, please check it out and add again.']);
 
                     // change key status to Invalid
@@ -101,11 +104,16 @@ class IndexController extends AbstractActionController
                     $path     = md5($this->userService->getEmail($this->user)) . '/' . self::VENDOR;
                     $filename = self::VENDOR . uniqid('_');
 
-                    // save data into db
-                    // todo
-
                     // save data into file
-                    Xml::saveAsXml($results, $path, $filename);
+                    if (true === Xml::saveAsXml($resultData, $path, $filename)) {
+                        // if success save into db
+                        $this->userService->saveFileData(
+                            $this->userService->getUser($this->user),
+                            $this->dataSourceService->getSourceGlobalById($data['region']),
+                            $path,
+                            $filename
+                        );
+                    }
                 }
             }
         }

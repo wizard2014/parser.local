@@ -41,21 +41,38 @@ class UserFileMapper implements UserFileMapperInterface
     }
 
     /**
-     * @param $user
-     * @param $dataSourceGlobal
-     *
-     * @return object
+     * {@inheritdoc}
      */
     public function getFies($user, $dataSourceGlobal)
     {
         $entity = $this->getUserFileEntity();
 
         $files = $this->em->getRepository($entity)->find([
-            'user' => $user,
-            'dataSourceGlobal' => $dataSourceGlobal
+            'user'             => $user,
+            'dataSourceGlobal' => $dataSourceGlobal,
         ]);
 
         return $files;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function saveFileData(
+        \User\Entity\User $user,
+        \Utility\Entity\DataSourceGlobal $dataSourceGlobal,
+        $path,
+        $filename
+    ) {
+        $entity = $this->getUserFileEntity();
+        $newFileData = new $entity();
+
+        $newFileData->setUser($user);
+        $newFileData->setDataSourceGlobal($dataSourceGlobal);
+        $newFileData->setPathFile($path);
+        $newFileData->setNameFile($filename);
+
+        $this->persistFlush($newFileData);
     }
 
     /**
