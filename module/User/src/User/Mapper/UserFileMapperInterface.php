@@ -13,6 +13,13 @@ interface UserFileMapperInterface
     public function getFies($user, $dataSourceGlobal);
 
     /**
+     * @param $user
+     *
+     * @return int
+     */
+    public function getNotDownloadedFilesCount($user);
+
+    /**
      * @param \User\Entity\User                $user
      * @param \Utility\Entity\DataSourceGlobal $dataSourceGlobal
      * @param                                  $path

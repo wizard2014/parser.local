@@ -11,6 +11,7 @@ use Utility\Service\DataSourceService;
 use Utility\Service\SubscriptionService;
 use Utility\Service\AttributeService;
 use Utility\Helper\Csrf\Csrf;
+use Utility\Helper\Xml\Xml;
 
 class SettingsController extends AbstractActionController
 {
@@ -146,13 +147,43 @@ class SettingsController extends AbstractActionController
 
     public function downloadAction()
     {
-        $regions = $this->dataSourceService->getRegions(
-            $this->dataSourceService->getVendors()
+        $vendors = $this->dataSourceService->getVendors();
+
+        $userFiles = $this->userService->getUserFies($this->user, array_flip($vendors));
+
+        return new ViewModel([
+            'userFiles' => $userFiles
+        ]);
+    }
+
+    public function getFileAction()
+    {
+        $path = $this->params()->fromQuery('file');
+
+        if (empty($path)) {
+            return $this->redirect()->toRoute('settings/default', ['action' => 'download']);
+        }
+
+        // get file if exists
+
+        // show save dialog
+        $data = Xml::getAsXml($path);
+
+        // if data is false
+        // set false message
+
+        $response = $this->getEvent()->getResponse();
+        $response->getHeaders()->addHeaders([
+                'Content-Type'          => 'text/xml',
+                'Content-Disposition'   => 'attachment;filename="' . end(explode('/', $path)) . '.xml"',
+            ]
         );
 
-//        $userFiles = $this->userService->getUserFies($this->user, $regions);
+        $response->setContent($data);
 
-        return new ViewModel();
+        // increment download counter
+
+        return $response;
     }
 
     public function subscriptionAction()

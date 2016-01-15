@@ -51,13 +51,6 @@ class UserFile
      */
     private $qtyDownloaded = '0';
 
-    public function __construct()
-    {
-        if (is_null($this->dateExpiration)) {
-            $this->dateExpiration = (new \DateTime())->modify('+1 month');
-        }
-    }
-
     /**
      * @var \User\Entity\User
      *
@@ -81,6 +74,13 @@ class UserFile
      * })
      */
     private $dataSourceGlobal;
+
+    public function __construct()
+    {
+        if (is_null($this->dateExpiration)) {
+            $this->dateExpiration = (new \DateTime())->modify('+1 month');
+        }
+    }
 
     /**
      * Set nameFile

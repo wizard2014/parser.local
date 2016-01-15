@@ -112,10 +112,25 @@ class UserService implements UserServiceInterface
         return $this->userMapper->getUserEmail($userId);
     }
 
-
+    /**
+     * @param $user
+     * @param $dataSourceGlobal
+     *
+     * @return object
+     */
     public function getUserFies($user, $dataSourceGlobal)
     {
         return $this->userFileMapper->getFies($user, $dataSourceGlobal);
+    }
+
+    /**
+     * @param $user
+     *
+     * @return int
+     */
+    public function getNotDownloadedFilesCount($user)
+    {
+        return $this->userFileMapper->getNotDownloadedFilesCount($user);
     }
 
     /**

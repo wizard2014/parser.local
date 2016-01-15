@@ -33,20 +33,41 @@ class Xml
     }
 
     /**
-     * @param $data
-     * @param $xmlData
+     * @param $path
+     *
+     * @return bool|string
      */
-    protected static function arrayToXml($data, &$xmlData)
+    public static function getAsXml($path)
+    {
+        $filePath = self::$basePath . $path . '.xml';
+
+        if (!is_file($filePath)) {
+            return false;
+        }
+
+        return file_get_contents($filePath);
+    }
+
+    /**
+     * @param            $data
+     * @param            $xmlData
+     * @param bool|false $numItems
+     */
+    protected static function arrayToXml($data, &$xmlData, $numItems = false)
     {
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                if (is_numeric($key)) {
-                    $key = 'item' . $key; // dealing with <0/>..<n/> issues
+                if ($numItems) {
+                    if (is_numeric($key)) {
+                        $key = 'item' . $key; // dealing with <0/>..<n/> issues
+                    }
+                } else {
+                    $key = 'item';
                 }
 
                 $subnode = $xmlData->addChild($key);
 
-                self::arrayToXml($value, $subnode);
+                self::arrayToXml($value, $subnode, $numItems);
             } else {
                 $xmlData->addChild("$key", htmlspecialchars("$value"));
             }

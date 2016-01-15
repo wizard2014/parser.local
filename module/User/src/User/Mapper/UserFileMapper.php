@@ -45,14 +45,45 @@ class UserFileMapper implements UserFileMapperInterface
      */
     public function getFies($user, $dataSourceGlobal)
     {
+        $result = [];
+
         $entity = $this->getUserFileEntity();
 
-        $files = $this->em->getRepository($entity)->find([
+        $files = $this->em->getRepository($entity)->findBy([
             'user'             => $user,
             'dataSourceGlobal' => $dataSourceGlobal,
         ]);
 
-        return $files;
+        foreach ($files as $file) {
+            $result[$file->getDataSourceGlobal()->getName()][] = [
+                'filename'  => $file->getNameFile(),
+                'path'      => $file->getPathFile(),
+                'date'      => $file->getDateCreation()->format('M d, Y H:m'),
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNotDownloadedFilesCount($user)
+    {
+        $entity = $this->getUserFileEntity();
+
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('count(uf)')
+            ->from($entity, 'uf')
+            ->where('uf.user = :user')
+            ->andWhere('uf.qtyDownloaded = :count')
+            ->setParameter('user', $user)
+            ->setParameter('count', 0);
+
+        $count = $qb->getQuery()->getSingleScalarResult();
+
+        return (int) $count;
     }
 
     /**

@@ -18,7 +18,21 @@
             <div class="col col-sm-10">
                 <div class="row">
                     <section class="downloads">
+                        {% for vaendor, files in userFiles  %}
+                            <h3>{{ vaendor }}</h3>
 
+                            {% for file in files %}
+                                <p>
+                                    <a href="{{ url('settings/default',
+                                                {'action': 'get-file'},
+                                                {'query': {'file': file.path ~ '/' ~ file.filename}}) }}" target="_blank">
+                                        {{ file.date }}
+                                    </a>
+                                </p>
+                            {% endfor %}
+                        {% else %}
+                            <h3>No files yet.</h3>
+                        {% endfor %}
                     </section>
                 </div>
             </div>
