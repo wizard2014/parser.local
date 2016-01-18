@@ -31,4 +31,12 @@ interface UserFileMapperInterface
         $path,
         $filename
     );
+
+    /**
+     * @param $filePath
+     * @param $filename
+     *
+     * @return object
+     */
+    public function incrementFileCounter($filename, $filePath);
 }

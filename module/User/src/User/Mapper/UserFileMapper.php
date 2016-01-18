@@ -107,6 +107,27 @@ class UserFileMapper implements UserFileMapperInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function incrementFileCounter($filePath, $filename)
+    {
+        $entity = $this->getUserFileEntity();
+
+        $file = $this->em->getRepository($entity)->findOneBy([
+            'pathFile' => $filePath,
+            'nameFile' => $filename
+        ]);
+
+        $newCount = $file->getQtyDownloaded() + 1;
+
+        $file->setQtyDownloaded($newCount);
+
+        $this->persistFlush($file);
+
+        return $file;
+    }
+
+    /**
      * flush
      */
     public function flush()

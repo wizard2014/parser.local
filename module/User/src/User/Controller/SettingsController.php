@@ -158,30 +158,38 @@ class SettingsController extends AbstractActionController
 
     public function getFileAction()
     {
-        $path = $this->params()->fromQuery('file');
+        $fullPath = $this->params()->fromQuery('file');
 
-        if (empty($path)) {
+        if (empty($fullPath)) {
             return $this->redirect()->toRoute('settings/default', ['action' => 'download']);
         }
 
         // get file if exists
-
-        // show save dialog
-        $data = Xml::getAsXml($path);
+        $data = Xml::getAsXml($fullPath);
 
         // if data is false
-        // set false message
+        if (false === $data) {
+            // @todo set error message
 
+            return $this->redirect()->toRoute('settings/default', ['action' => 'download']);
+        }
+
+        $explode = explode('/', $fullPath);
+        $filePath = $explode[0] . '/' . $explode[1];
+        $filename = end($explode);
+
+        // show save dialog
         $response = $this->getEvent()->getResponse();
         $response->getHeaders()->addHeaders([
                 'Content-Type'          => 'text/xml',
-                'Content-Disposition'   => 'attachment;filename="' . end(explode('/', $path)) . '.xml"',
+                'Content-Disposition'   => 'attachment;filename="' . $filename . '.xml"',
             ]
         );
 
         $response->setContent($data);
 
         // increment download counter
+        $this->userService->increment($filePath, $filename);
 
         return $response;
     }

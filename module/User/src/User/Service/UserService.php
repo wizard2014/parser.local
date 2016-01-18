@@ -143,4 +143,15 @@ class UserService implements UserServiceInterface
     {
         $this->userFileMapper->saveFileData($user, $dataSourceGlobal, $path, $filename);
     }
+
+    /**
+     * @param $path
+     * @param $filename
+     *
+     * @return object
+     */
+    public function increment($path, $filename)
+    {
+        return $this->userFileMapper->incrementFileCounter($path, $filename);
+    }
 }
