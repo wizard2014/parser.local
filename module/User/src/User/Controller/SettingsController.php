@@ -152,7 +152,8 @@ class SettingsController extends AbstractActionController
         $userFiles = $this->userService->getUserFies($this->user, array_flip($vendors));
 
         return new ViewModel([
-            'userFiles' => $userFiles
+            'userFiles'     => $userFiles,
+            'flashMessages' => $this->flashMessenger()->getMessages()
         ]);
     }
 
@@ -169,7 +170,8 @@ class SettingsController extends AbstractActionController
 
         // if data is false
         if (false === $data) {
-            // @todo set error message
+            // set error message
+            $this->flashMessenger()->addMessage('File not found!');
 
             return $this->redirect()->toRoute('settings/default', ['action' => 'download']);
         }

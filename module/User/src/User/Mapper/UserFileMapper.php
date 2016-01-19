@@ -58,7 +58,7 @@ class UserFileMapper implements UserFileMapperInterface
             $result[$file->getDataSourceGlobal()->getName()][] = [
                 'filename'   => $file->getNameFile(),
                 'path'       => $file->getPathFile(),
-                'date'       => $file->getDateCreation()->format('M d, Y H:m'),
+                'date'       => $file->getDateCreation()->format('M d, Y H:m:s'),
                 'downloaded' => $file->getQtyDownloaded() > 0,
             ];
         }

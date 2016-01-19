@@ -17,6 +17,17 @@
 
             <div class="col col-sm-10">
                 <div class="row">
+                    <div class="alert alert-dismissable alert-danger{{ flashMessages|length ? '' : ' hide' }}">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <h3 class="error-header">Oops... Error!</h3>
+
+                        <ul class="list-unstyled error-list">
+                            {% for msg in flashMessages %}
+                                <li>{{ msg }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
                     <section class="downloads">
                         {% for vaendor, files in userFiles  %}
                             <h3>{{ vaendor }}</h3>
@@ -25,7 +36,7 @@
                                 <p class="{{ file.downloaded ? 'downloaded' : 'not-downloaded' }}">
                                     <a href="{{ url('settings/default',
                                                 {'action': 'get-file'},
-                                                {'query': {'file': file.path ~ '/' ~ file.filename}}) }}" target="_blank">
+                                                {'query': {'file': file.path ~ '/' ~ file.filename}}) }}">
                                         {{ file.date }}
                                     </a>
                                 </p>
