@@ -5,4 +5,8 @@
 <h4>User</h4>
 <p><a href="{{ url('settings/default', {'action': 'profile'}) }}">Profile</a></p>
 <p><a href="{{ url('settings/default', {'action': 'notification'}) }}">Notifications</a></p>
-<p><a href="{{ url('settings/default', {'action': 'download'}) }}">Downloads</a></p>
+<p>
+    <a href="{{ url('settings/default', {'action': 'download'}) }}">Downloads
+        <span class="badge">{{ badge }}</span> {# global variable #}
+    </a>
+</p>

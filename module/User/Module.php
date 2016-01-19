@@ -27,14 +27,23 @@ class Module implements AutoloaderProviderInterface
             $auth = new AuthenticationService();
             $user = $auth->getIdentity();
 
+            $matchRoute = $e->getApplication()->getMvcEvent()->getRouteMatch()->getMatchedRouteName();
+
             // if user
             if (null !== $user) {
                 // add variable to layout
-                $twig = $e->getApplication()->getServiceManager()->get('twigenvironment');
-                $twig->addGlobal('user', true);
-            } else {
-                $matchRoute = $e->getApplication()->getMvcEvent()->getRouteMatch()->getMatchedRouteName();
+                $sm = $e->getApplication()->getServiceManager();
 
+                $twig = $sm->get('twigenvironment');
+                $twig->addGlobal('user', true);
+
+                if (strpos($matchRoute, 'settings') !== false) {
+                    $userService = $sm->get(\User\Service\UserService::class);
+
+                    // this user has not downloaded the files
+                    $twig->addGlobal('badge', $userService->getNotDownloadedFilesCount($user));
+                }
+            } else {
                 if (in_array($matchRoute, $protectedRoute)) {
                     $response = $e->getResponse();
                     $response->setStatusCode(302);

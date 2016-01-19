@@ -22,7 +22,7 @@
                             <h3>{{ vaendor }}</h3>
 
                             {% for file in files %}
-                                <p>
+                                <p class="{{ file.downloaded ? 'downloaded' : 'not-downloaded' }}">
                                     <a href="{{ url('settings/default',
                                                 {'action': 'get-file'},
                                                 {'query': {'file': file.path ~ '/' ~ file.filename}}) }}" target="_blank">

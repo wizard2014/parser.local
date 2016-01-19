@@ -56,9 +56,10 @@ class UserFileMapper implements UserFileMapperInterface
 
         foreach ($files as $file) {
             $result[$file->getDataSourceGlobal()->getName()][] = [
-                'filename'  => $file->getNameFile(),
-                'path'      => $file->getPathFile(),
-                'date'      => $file->getDateCreation()->format('M d, Y H:m'),
+                'filename'   => $file->getNameFile(),
+                'path'       => $file->getPathFile(),
+                'date'       => $file->getDateCreation()->format('M d, Y H:m'),
+                'downloaded' => $file->getQtyDownloaded() > 0,
             ];
         }
 
