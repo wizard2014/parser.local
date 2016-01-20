@@ -166,7 +166,8 @@ class SettingsController extends AbstractActionController
         }
 
         // get file if exists
-        $data = Xml::getAsXml($fullPath);
+//        $data = Xml::getAsXml($fullPath);
+        $data = Xml::getAsXlsx($fullPath);
 
         // if data is false
         if (false === $data) {
@@ -183,12 +184,12 @@ class SettingsController extends AbstractActionController
         // show save dialog
         $response = $this->getEvent()->getResponse();
         $response->getHeaders()->addHeaders([
-                'Content-Type'          => 'text/xml',
-                'Content-Disposition'   => 'attachment;filename="' . $filename . '.xml"',
-            ]
-        );
+                'Content-Type'          => $data['contentType'],
+                'Content-Length'        => $data['contentLength'],
+                'Content-Disposition'   => 'attachment;filename="' . $filename . $data['fileExtension'] . '"',
+        ]);
 
-        $response->setContent($data);
+        $response->setContent($data['fileData']);
 
         // increment download counter
         $this->userService->increment($filePath, $filename);

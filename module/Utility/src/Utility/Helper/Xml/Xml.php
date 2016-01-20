@@ -3,9 +3,27 @@
 namespace Utility\Helper\Xml;
 
 use SimpleXMLElement;
+use ZipArchive;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class Xml
 {
+    /**
+     * Content type for XML
+     */
+    const XML_CONTENT_TYPE   = 'text/xml';
+    const XML_FILE_EXTENSION = '.xml';
+
+    /**
+     * Content type for Excel (xlsx)
+     */
+    const EXCEL_CONTENT_TYPE    = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const EXCEL_FILE_EXTENSION  = '.xlsx';
+
+    /**
+     * @var string 'base file path'
+     */
     private static $basePath = './data/output/';
 
     /**
@@ -45,7 +63,52 @@ class Xml
             return false;
         }
 
-        return file_get_contents($filePath);
+        return [
+            'contentType'   => self::XML_CONTENT_TYPE,
+            'fileExtension' => self::XML_FILE_EXTENSION,
+            'contentLength' => filesize($filePath),
+            'fileData'      => self::getFileData($filePath),
+        ];
+    }
+
+    public static function getAsXlsx($path)
+    {
+        $rootPath = realpath('./data/pattern/ebay');
+
+        // Initialize archive object
+        $zip = new ZipArchive();
+        $zip->open($tempfile = tempnam(sys_get_temp_dir(), 'xlsx_'), ZipArchive::CREATE);
+
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($rootPath),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($files as $name => $file) {
+            // skip directories (they would be added automatically)
+            if (!$file->isDir()) {
+                // get real and relative path for current file
+                $filePath     = $file->getRealPath();
+                $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+                // add current file to archive
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+
+        // create archive
+        $zip->close();
+
+        $data = [
+            'contentType'   => self::EXCEL_CONTENT_TYPE,
+            'fileExtension' => self::EXCEL_FILE_EXTENSION,
+            'contentLength' => filesize($tempfile),
+            'fileData'      => file_get_contents($tempfile),
+        ];
+
+        unlink($tempfile);
+
+        return $data;
     }
 
     /**
@@ -72,5 +135,15 @@ class Xml
                 $xmlData->addChild("$key", htmlspecialchars("$value"));
             }
         }
+    }
+
+    /**
+     * @param $filePath
+     *
+     * @return string
+     */
+    protected static function getFileData($filePath)
+    {
+        return file_get_contents($filePath);
     }
 }
