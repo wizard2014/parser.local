@@ -4,6 +4,9 @@ namespace Utility;
 
 return [
     'service_manager'=> [
+        'invokables' => [
+            'xml2Array' => Service\Array2xmlService::class,
+        ],
         'factories' => [
             Service\DataSourceService::class        => Factory\Service\DataSourceServiceFactory::class,
             Service\SubscriptionService::class      => Factory\Service\SubscriptionServiceFactory::class,

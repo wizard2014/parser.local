@@ -11,7 +11,11 @@ use Utility\Service\DataSourceService;
 use Utility\Service\SubscriptionService;
 use Utility\Service\AttributeService;
 use Utility\Helper\Csrf\Csrf;
-use Utility\Helper\Xml\Xml;
+use Utility\Helper\Xml\Xlsx;
+use Utility\Helper\Save\Xml as SaveAsXml;
+use Utility\Helper\Save\Csv as SaveAsCsv;
+use Utility\Helper\Save\Xlsx as SaveAsXlsx;
+use Utility\Helper\Save\Json as SaveAsJson;
 
 class SettingsController extends AbstractActionController
 {
@@ -36,9 +40,21 @@ class SettingsController extends AbstractActionController
     protected $attributeService;
 
     /**
+     * @var \Utility\Service\Array2xmlService|null
+     */
+    protected $array2XmlService;
+
+    /**
      * @var int|null
      */
     private $user;
+
+    const SUPPORT_FORMATS = [
+        'xml',
+        'csv',
+        'json',
+        'xlsx',
+    ];
 
     /**
      * @param UserService         $userService
@@ -152,6 +168,7 @@ class SettingsController extends AbstractActionController
         $userFiles = $this->userService->getUserFies($this->user, array_flip($vendors));
 
         return new ViewModel([
+            'formats'       => self::SUPPORT_FORMATS,
             'userFiles'     => $userFiles,
             'flashMessages' => $this->flashMessenger()->getMessages()
         ]);
@@ -159,25 +176,47 @@ class SettingsController extends AbstractActionController
 
     public function getFileAction()
     {
-        $fullPath = $this->params()->fromQuery('file');
+        $fullPath   = $this->params()->fromQuery('file');
+        $format     = $this->params()->fromQuery('format');
 
-        if (empty($fullPath)) {
-            return $this->redirect()->toRoute('settings/default', ['action' => 'download']);
+        if (empty($fullPath) || empty($format)) {
+            $this->getFileErrorRedirect();
         }
 
-        // get file if exists
-//        $data = Xml::getAsXml($fullPath);
-        $data = Xml::getAsXlsx($fullPath);
+        if (!in_array($format, self::SUPPORT_FORMATS)) {
+            $this->getFileErrorRedirect('Incorrect file format selected.');
+        }
+
+        // array to xml service
+        $xml2array = $this->getServiceLocator()->get('xml2Array');
+
+        $addedData = Xlsx::getAllFiles($xml2array, ['itemId', 'title', 'price'], 'name');
+
+        // select saving format
+        switch ($format) {
+            case 'xml':
+                $data = SaveAsXml::get(); //<-- add data array
+                break;
+            case 'csv':
+                $data = SaveAsCsv::get();
+                break;
+            case 'json':
+                $data = SaveAsJson::get();
+                break;
+            case 'xlsx':
+                $data = SaveAsXlsx::get();
+                break;
+            default:
+                $data = false;
+        }
 
         // if data is false
         if (false === $data) {
             // set error message
-            $this->flashMessenger()->addMessage('File not found!');
-
-            return $this->redirect()->toRoute('settings/default', ['action' => 'download']);
+            $this->getFileErrorRedirect('File not found!');
         }
 
-        $explode = explode('/', $fullPath);
+        $explode  = explode('/', $fullPath);
         $filePath = $explode[0] . '/' . $explode[1];
         $filename = end($explode);
 
@@ -205,5 +244,23 @@ class SettingsController extends AbstractActionController
     public function statisticsAction()
     {
         return new ViewModel();
+    }
+
+    protected function getFileErrorRedirect($message = null)
+    {
+        if (!is_null($message)) {
+            $this->flashMessenger()->addMessage($message);
+        }
+
+        return $this->redirect()->toRoute('settings/default', ['action' => 'download']);
+    }
+
+    protected function getArrayToXmlService()
+    {
+        if (is_null($this->array2XmlService)) {
+            $this->array2XmlService = $this->getServiceLocator()->get('xml2Array');
+        }
+
+        return $this->array2XmlService;
     }
 }

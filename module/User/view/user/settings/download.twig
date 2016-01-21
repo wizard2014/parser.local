@@ -32,18 +32,50 @@
                         {% for vaendor, files in userFiles  %}
                             <h3>{{ vaendor }}</h3>
 
-                            {% for file in files %}
-                                <p class="{{ file.downloaded ? 'downloaded' : 'not-downloaded' }}">
-                                    <a href="{{ url('settings/default',
-                                                {'action': 'get-file'},
-                                                {'query': {'file': file.path ~ '/' ~ file.filename}}) }}">
-                                        {{ file.date }}
-                                    </a>
-                                </p>
-                            {% endfor %}
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Date <i class="fa fa-clock-o"></i></th>
+                                    <th>Format <i class="fa fa-table"></i></th>
+                                    <th>Status <i class="fa fa-stack-exchange"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for file in files %}
+                                    <tr class="{{ file.downloaded ? 'downloaded' : 'not-downloaded' }}">
+                                        <td>{{ file.date }}</td>
+                                        <td>
+                                            <i class="fa fa-floppy-o"></i>
+                                            {% for format in formats %}
+                                                <a href="{{ url('settings/default',
+                                                    {'action': 'get-file'},
+                                                    {'query': {
+                                                        'file': file.path ~ '/' ~ file.filename,
+                                                        'format': format,
+                                                    }}) }}">
+                                                    {{ format|upper }}
+                                                </a>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% if file.downloaded == 'downloaded' %}
+                                                <em>Downloaded</em>
+                                            {% else %}
+                                                <strong>New</strong>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
                         {% else %}
                             <h3>No files yet.</h3>
                         {% endfor %}
+
+                        <div class="helper">
+                            <p><strong>New</strong> - The new file.</p>
+                            <p><em>Downloaded</em> - You have already downloaded the file.</p>
+                        </div>
                     </section>
                 </div>
             </div>

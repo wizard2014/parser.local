@@ -23,13 +23,22 @@
   }
 
   .downloaded {
-    a {
-      color: #A7C4D2;
+    color: #A7C4D2;
 
+    a {
       &:focus,
       &:hover {
         border-bottom: 1px dashed #A7C4D2;
       }
     }
+  }
+
+  .not-downloaded {
+    font-weight: bold;
+  }
+
+  .helper {
+    font-size: .9em;
+    line-height: .5em;
   }
 }
