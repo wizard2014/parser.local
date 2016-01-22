@@ -94,7 +94,8 @@ class UserFileMapper implements UserFileMapperInterface
         \User\Entity\User $user,
         \Utility\Entity\DataSourceGlobal $dataSourceGlobal,
         $path,
-        $filename
+        $filename,
+        array $downloadedData
     ) {
         $entity = $this->getUserFileEntity();
         $newFileData = new $entity();
@@ -103,8 +104,25 @@ class UserFileMapper implements UserFileMapperInterface
         $newFileData->setDataSourceGlobal($dataSourceGlobal);
         $newFileData->setPathFile($path);
         $newFileData->setNameFile($filename);
+        $newFileData->setDownloadedData($downloadedData);
 
         $this->persistFlush($newFileData);
+
+        return $newFileData;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDownloadedData($filePath, $filename) {
+        $entity = $this->getUserFileEntity();
+
+        $file = $this->em->getRepository($entity)->findOneBy([
+            'pathFile' => $filePath,
+            'nameFile' => $filename,
+        ]);
+
+        return isset($file) ? $file->getDownloadedData() : null;
     }
 
     /**

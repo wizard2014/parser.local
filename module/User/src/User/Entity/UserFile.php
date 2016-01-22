@@ -30,6 +30,13 @@ class UserFile
     private $pathFile;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="downloaded_data", type="json_array", nullable=true)
+     */
+    private $downloadedData;
+
+    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
@@ -75,6 +82,11 @@ class UserFile
      */
     private $dataSourceGlobal;
 
+    /**
+     * UserFile constructor.
+     *
+     * Set date expiration
+     */
     public function __construct()
     {
         if (is_null($this->dateExpiration)) {
@@ -128,6 +140,30 @@ class UserFile
     public function getPathFile()
     {
         return $this->pathFile;
+    }
+
+    /**
+     * Set downloadedData
+     *
+     * @param array $downloadedData
+     *
+     * @return UserFile
+     */
+    public function setDownloadedData($downloadedData)
+    {
+        $this->downloadedData = $downloadedData;
+
+        return $this;
+    }
+
+    /**
+     * Get downloadedData
+     *
+     * @return array
+     */
+    public function getDownloadedData()
+    {
+        return $this->downloadedData;
     }
 
     /**

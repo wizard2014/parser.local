@@ -45,7 +45,6 @@ class Xlsx
         $data = [
             'contentType'   => self::CONTENT_TYPE,
             'fileExtension' => self::FILE_EXTENSION,
-            'contentLength' => filesize($tempfile),
             'fileData'      => file_get_contents($tempfile),
         ];
 

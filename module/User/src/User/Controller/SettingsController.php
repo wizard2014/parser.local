@@ -187,48 +187,55 @@ class SettingsController extends AbstractActionController
             $this->getFileErrorRedirect('Incorrect file format selected.');
         }
 
-        // array to xml service
-        $xml2array = $this->getServiceLocator()->get('xml2Array');
-
-        $addedData = Xlsx::getAllFiles($xml2array, ['itemId', 'title', 'price'], 'name');
-
-        // select saving format
-        switch ($format) {
-            case 'xml':
-                $data = SaveAsXml::get(); //<-- add data array
-                break;
-            case 'csv':
-                $data = SaveAsCsv::get();
-                break;
-            case 'json':
-                $data = SaveAsJson::get();
-                break;
-            case 'xlsx':
-                $data = SaveAsXlsx::get();
-                break;
-            default:
-                $data = false;
-        }
-
-        // if data is false
-        if (false === $data) {
-            // set error message
-            $this->getFileErrorRedirect('File not found!');
-        }
-
+        // parse query string
         $explode  = explode('/', $fullPath);
         $filePath = $explode[0] . '/' . $explode[1];
         $filename = end($explode);
 
+        // get data from db
+        $downloadedData = $this->userService->getDownloadedData($filePath, $filename);
+
+        // if data is false
+        if (is_null($downloadedData)) {
+            // set error message
+            $this->getFileErrorRedirect('File not found!');
+        }
+
+        // array to xml service
+        $xml2array = $this->getServiceLocator()->get('xml2Array');
+
+        // select saving format
+        switch ($format) {
+            case 'xml':
+                $returnedData = SaveAsXml::get($xml2array, $filename, $downloadedData);
+                break;
+            case 'csv':
+                $returnedData = SaveAsCsv::get($downloadedData);
+                break;
+            case 'json':
+                $returnedData = SaveAsJson::get($downloadedData);
+                break;
+            case 'xlsx':
+                $addedData = Xlsx::getAllFiles($xml2array, ['itemId', 'title', 'price'], 'name');
+
+                $returnedData = SaveAsXlsx::get($downloadedData);
+                break;
+            default:
+                $returnedData = false;
+        }
+
+        if (!$returnedData) {
+            $this->getFileErrorRedirect('Something went wrong, please try again later.');
+        }
+
         // show save dialog
         $response = $this->getEvent()->getResponse();
         $response->getHeaders()->addHeaders([
-                'Content-Type'          => $data['contentType'],
-                'Content-Length'        => $data['contentLength'],
-                'Content-Disposition'   => 'attachment;filename="' . $filename . $data['fileExtension'] . '"',
+                'Content-Type'          => $returnedData['contentType'],
+                'Content-Disposition'   => 'attachment;filename="' . $filename . $returnedData['fileExtension'] . '"',
         ]);
 
-        $response->setContent($data['fileData']);
+        $response->setContent($returnedData['fileData']);
 
         // increment download counter
         $this->userService->increment($filePath, $filename);

@@ -138,10 +138,24 @@ class UserService implements UserServiceInterface
      * @param $dataSourceGlobal
      * @param $path
      * @param $filename
+     * @param $downloadedData
+     *
+     * @return object
      */
-    public function saveFileData($user, $dataSourceGlobal, $path, $filename)
+    public function saveFileData($user, $dataSourceGlobal, $path, $filename, $downloadedData)
     {
-        $this->userFileMapper->saveFileData($user, $dataSourceGlobal, $path, $filename);
+        return $this->userFileMapper->saveFileData($user, $dataSourceGlobal, $path, $filename, $downloadedData);
+    }
+
+    /**
+     * @param $filePath
+     * @param $filename
+     *
+     * @return array|null
+     */
+    public function getDownloadedData($filePath, $filename)
+    {
+        return $this->userFileMapper->getDownloadedData($filePath, $filename);
     }
 
     /**

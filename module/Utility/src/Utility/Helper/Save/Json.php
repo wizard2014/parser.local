@@ -20,7 +20,7 @@ class Json
         return [
             'contentType'   => self::CONTENT_TYPE,
             'fileExtension' => self::FILE_EXTENSION,
-            'fileData'      => json_encode($data),
+            'fileData'      => json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
         ];
     }
 }

@@ -24,13 +24,25 @@ interface UserFileMapperInterface
      * @param \Utility\Entity\DataSourceGlobal $dataSourceGlobal
      * @param                                  $path
      * @param                                  $filename
+     * @param array                            $downloadedData
+     *
+     * @return object
      */
     public function saveFileData(
         \User\Entity\User $user,
         \Utility\Entity\DataSourceGlobal $dataSourceGlobal,
         $path,
-        $filename
+        $filename,
+        array $downloadedData
     );
+
+    /**
+     * @param $path
+     * @param $filename
+     *
+     * @return array|null
+     */
+    public function getDownloadedData($path, $filename);
 
     /**
      * @param $filePath

@@ -10,7 +10,6 @@ use Ebay\Service\FindItemsService;
 use Utility\Service\DataSourceService;
 use User\Service\UserService;
 use Utility\Helper\Csrf\Csrf;
-use Utility\Helper\Xml\Xml;
 
 class IndexController extends AbstractActionController
 {
@@ -104,15 +103,20 @@ class IndexController extends AbstractActionController
                     $path     = md5($this->userService->getEmail($this->user)) . '/' . self::VENDOR;
                     $filename = self::VENDOR . uniqid('_');
 
-                    // save data into file
-                    if (true === Xml::saveAsXml($resultData, $path, $filename)) {
-                        // if success save into db
-                        $this->userService->saveFileData(
+                    // @todo send success message
+
+                    // if success save into db
+
+                    if (!empty($resultData)) {
+                        /* $insertedData = */$this->userService->saveFileData(
                             $this->userService->getUser($this->user),
                             $this->dataSourceService->getSourceGlobalById($data['region']),
                             $path,
-                            $filename
+                            $filename,
+                            $resultData
                         );
+                    } else {
+                        $this->flashMessenger()->addMessage(['Nothing found! Change your search criteria and try again.']);
                     }
                 }
             }
