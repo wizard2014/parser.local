@@ -53,7 +53,7 @@ class SettingsController extends AbstractActionController
         'xml',
         'csv',
         'json',
-        'xlsx',
+//        'xlsx',
     ];
 
     /**

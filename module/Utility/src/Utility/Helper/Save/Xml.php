@@ -11,12 +11,22 @@ class Xml
     const FILE_EXTENSION = '.xml';
 
     /**
+     * @param       $writer
+     * @param       $sheetName
      * @param array $data
      *
-     * @return array|bool
+     * @return array
      */
     public static function get($writer, $sheetName, $data = [])
     {
+        // add header
+        array_unshift($data, array_keys($data[0]));
+
+        // replace string keys to int
+        array_walk($data, function (&$item) {
+            $item = array_values($item);
+        });
+
         $array2xml = new $writer();
 
         $array2xml->setRootName('Workbook');
@@ -51,10 +61,32 @@ class Xml
         ];
 
         $xml['Worksheet']['@attributes'] = [
-            'ss:Name' => 'Reporting',
+            'ss:Name' => $sheetName,
         ];
 
-        // column foreach
+        foreach ($data[0] as $i => $item) {
+            $xml['Worksheet']['Table']['Column' . $i]['@attributes'] = [
+                'ss:Width'        => 100,
+                'ss:AutoFitWidth' => 0,
+            ];
+        }
+
+        foreach ($data as $i => $row) {
+            foreach ($row as $j => $value) {
+                // make header bolder
+                if ($i == 0) {
+                    $xml['Worksheet']['Table']['Row' . $i]['Cell' . $j]['@attributes'] = [
+                        'ss:StyleID' => 's22',
+                    ];
+                }
+
+                $xml['Worksheet']['Table']['Row' . $i]['Cell' . $j]['Data']['@attributes'] = [
+                    'ss:Type' => 'String',
+                ];
+
+                $xml['Worksheet']['Table']['Row' . $i]['Cell' . $j]['Data']['@content'] = $value;
+            }
+        }
 
         $array2xml->setElementsAttrs([
             'Alignment' => [
