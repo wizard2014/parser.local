@@ -105,15 +105,30 @@ class IndexController extends AbstractActionController
 
                     // @todo send success message
 
-                    // if success save into db
-
+                    // if success
                     if (!empty($resultData)) {
+                        // save into db
                         /* $insertedData = */$this->userService->saveFileData(
                             $this->userService->getUser($this->user),
                             $this->dataSourceService->getSourceGlobalById($data['region']),
                             $path,
                             $filename,
                             $resultData
+                        );
+
+                        // set log
+                        /* $requestLog = */$this->userService->setRequestLog(
+                            'subId',
+                            count($resultData),
+                            [
+                                'keyword'       => $data['keyword'],
+                                'sortOrder'     => $data['sortOrder'],
+                                'minPrice'      => $data['minPrice'],
+                                'maxPrice'      => $data['maxPrice'],
+                                'itemsQty'      => $data['itemsQty'],
+                                'listingType'   => $data['listingType'],
+                                'region'        => $this->dataSourceService->getRegionNameById($data['region']),
+                            ]
                         );
                     } else {
                         $this->flashMessenger()->addMessage(['Nothing found! Change your search criteria and try again.']);

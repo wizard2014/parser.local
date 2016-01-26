@@ -39,6 +39,13 @@ class RequestLog
     private $qtyRows = '0';
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="property_set", type="json_array", nullable=true)
+     */
+    private $propertySet;
+
+    /**
      * @var \User\Entity\Subscription
      *
      * @ORM\ManyToOne(targetEntity="User\Entity\Subscription")
@@ -104,6 +111,30 @@ class RequestLog
     public function getQtyRows()
     {
         return $this->qtyRows;
+    }
+
+    /**
+     * Set propertySet
+     *
+     * @param array $propertySet
+     *
+     * @return RequestLog
+     */
+    public function setPropertySet($propertySet)
+    {
+        $this->propertySet = $propertySet;
+
+        return $this;
+    }
+
+    /**
+     * Get propertySet
+     *
+     * @return array
+     */
+    public function getPropertySet()
+    {
+        return $this->propertySet;
     }
 
     /**

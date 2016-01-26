@@ -70,12 +70,15 @@
                             </table>
                         {% else %}
                             <h3>No files yet.</h3>
+                            <p>You need to get file first. <a href="{{ url('get-started') }}">Get started</a></p>
                         {% endfor %}
 
-                        <div class="helper">
-                            <p><strong>New</strong> - The new file.</p>
-                            <p><em>Downloaded</em> - You have already downloaded the file.</p>
-                        </div>
+                        {% if files %}
+                            <div class="helper">
+                                <p><strong>New</strong> - The new file.</p>
+                                <p><em>Downloaded</em> - You have already downloaded the file.</p>
+                            </div>
+                        {% endif %}
                     </section>
                 </div>
             </div>

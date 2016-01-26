@@ -215,11 +215,11 @@ class SettingsController extends AbstractActionController
             case 'json':
                 $returnedData = SaveAsJson::get($downloadedData);
                 break;
-            case 'xlsx':
-                $addedData = Xlsx::getAllFiles($xml2array, ['itemId', 'title', 'price'], 'name');
-
-                $returnedData = SaveAsXlsx::get($downloadedData);
-                break;
+//            case 'xlsx':
+//                $addedData = Xlsx::getAllFiles($xml2array, ['itemId', 'title', 'price'], 'name');
+//
+//                $returnedData = SaveAsXlsx::get($downloadedData);
+//                break;
             default:
                 $returnedData = false;
         }

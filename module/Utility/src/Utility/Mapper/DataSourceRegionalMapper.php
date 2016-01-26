@@ -41,6 +41,20 @@ class DataSourceRegionalMapper implements DataSourceRegionalMapperInterface
     }
 
     /**
+     * @param $id
+     *
+     * @return string|null
+     */
+    public function getRegionNameById($id)
+    {
+        $entity  = $this->getDataSourceRegionalEntity();
+
+        $region = $this->em->find($entity, $id);
+
+        return isset($region) ? $region->getRegion() : null;
+    }
+
+    /**
      * @param               $dataSourceGlobalId
      * @param string|array  $lang
      * @param bool          $fullResult

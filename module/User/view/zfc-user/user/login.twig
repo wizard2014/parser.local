@@ -33,7 +33,7 @@
                         <strong>{{ hasInfo ? '' : 'Error!' }}</strong>
 
                         {% if hasInfo %}
-                            <h4>Confirm your email (<strong>{{ email }}</strong>).</h4>
+                            <h4 class="confirm-email-header">Confirm your email (<strong>{{ email }}</strong>).</h4>
                             <p>After you created your account we sent you a confirmation email. You need to check that out before you can sign in.</p>
                             <p>If you didn't receive the email we can send you another one. <a class="btn btn-raised btn-primary" href="{{ url('resend') }}">Resend</a></p>
                         {% else %}

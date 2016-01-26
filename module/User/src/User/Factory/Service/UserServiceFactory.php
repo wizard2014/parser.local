@@ -9,6 +9,7 @@ use User\Mapper\UserMapper;
 use User\Mapper\UserStatusMapper;
 use User\Mapper\UserFileMapper;
 use User\Mapper\SubscriptionMapper;
+use User\Mapper\RequestLogMapper;
 
 class UserServiceFactory implements FactoryInterface
 {
@@ -25,7 +26,8 @@ class UserServiceFactory implements FactoryInterface
             new UserMapper($em),
             new UserStatusMapper($em),
             new UserFileMapper($em),
-            new SubscriptionMapper($em)
+            new SubscriptionMapper($em),
+            new RequestLogMapper($em)
         );
     }
 }

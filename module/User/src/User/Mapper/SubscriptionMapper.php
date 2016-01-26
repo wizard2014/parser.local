@@ -40,6 +40,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
         $this->userSubscription = $userSubscription;
     }
 
+    public function getUserSubscriptionById($id)
+    {
+
+    }
+
     /**
      * {@inheritdoc}
      */

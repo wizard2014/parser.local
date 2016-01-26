@@ -44,4 +44,13 @@ interface UserServiceInterface
      * @return string
      */
     public function getEmail($userId);
+
+    /**
+     * @param       $subscriptionId
+     * @param       $qtyRows
+     * @param array $propertySet
+     *
+     * @return object
+     */
+    public function setRequestLog($subscriptionId, $qtyRows, array $propertySet);
 }

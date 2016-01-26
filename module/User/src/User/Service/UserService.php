@@ -6,6 +6,7 @@ use User\Mapper\UserMapper;
 use User\Mapper\UserStatusMapper;
 use User\Mapper\UserFileMapper;
 use User\Mapper\SubscriptionMapper;
+use User\Mapper\RequestLogMapper;
 
 class UserService implements UserServiceInterface
 {
@@ -30,21 +31,31 @@ class UserService implements UserServiceInterface
     protected $subscriptionMapper;
 
     /**
+     * @var RequestLogMapper
+     */
+    protected $requestLogMapper;
+
+    /**
+     * UserService constructor.
+     *
      * @param UserMapper         $userMapper
      * @param UserStatusMapper   $userStatusMapper
      * @param UserFileMapper     $userFileMapper
      * @param SubscriptionMapper $subscriptionMapper
+     * @param RequestLogMapper   $requestLogMapper
      */
     public function __construct(
         UserMapper          $userMapper,
         UserStatusMapper    $userStatusMapper,
         UserFileMapper      $userFileMapper,
-        SubscriptionMapper  $subscriptionMapper
+        SubscriptionMapper  $subscriptionMapper,
+        RequestLogMapper    $requestLogMapper
     ) {
         $this->userMapper         = $userMapper;
         $this->userStatusMapper   = $userStatusMapper;
         $this->userFileMapper     = $userFileMapper;
         $this->subscriptionMapper = $subscriptionMapper;
+        $this->requestLogMapper   = $requestLogMapper;
     }
 
     /**
@@ -110,6 +121,14 @@ class UserService implements UserServiceInterface
     public function getEmail($userId)
     {
         return $this->userMapper->getUserEmail($userId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRequestLog($subscriptionId, $qtyRows, array $propertySet)
+    {
+        return $this->requestLogMapper->set($subscriptionId, $qtyRows, $propertySet);
     }
 
     /**

@@ -67,6 +67,16 @@ class DataSourceService implements DataSourceServiceInterface
     }
 
     /**
+     * @param $id
+     *
+     * @return int|null
+     */
+    public function getRegionNameById($id)
+    {
+        return $this->dataSourceRegionalMapper->getRegionNameById($id);
+    }
+
+    /**
      * @return array
      */
     public function getVendors()
