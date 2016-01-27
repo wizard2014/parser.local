@@ -40,11 +40,6 @@ class RequestLogMapper implements RequestLogMapperInterface
         $this->requestLog = $requestLog;
     }
 
-    public function get()
-    {        
-        
-    }
-
     /**
      * @param       $subscriptionId
      * @param       $qtyRows
@@ -59,7 +54,7 @@ class RequestLogMapper implements RequestLogMapperInterface
         $requestLog = new $entity();
         $requestLog->setSubscription($subscriptionId);
         $requestLog->setQtyRows($qtyRows);
-        $requestLog->serPropertySet($propertySet);
+        $requestLog->setPropertySet($propertySet);
 
         $this->persistFlush($requestLog);
 

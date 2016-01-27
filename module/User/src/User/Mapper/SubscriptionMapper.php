@@ -40,9 +40,43 @@ class SubscriptionMapper implements SubscriptionMapperInterface
         $this->userSubscription = $userSubscription;
     }
 
-    public function getUserSubscriptionById($id)
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserSubscriptionByUserId($userId)
     {
+        $entity = $this->getUserSubscription();
 
+        $qb = $this->em->createQueryBuilder();
+
+        $qb
+            ->select('sub')
+            ->from($entity, 'sub')
+            ->where('sub.user = :userId')
+            ->andWhere('sub.dateExpiration > :now')
+            ->andWhere('sub.isBlocked = false')
+            ->andWhere('sub.subscriptionStatus = 7')
+            ->setParameter('userId', $userId)
+            ->setParameter('now', new \DateTime())
+            ->orderBy('sub.subscriptionStatus', 'DESC');
+
+        $subscriptions = $qb->getQuery()->getResult();
+
+        $activeSubscription = null;
+
+        $tmpId = 0;
+        if (!empty($subscriptions)) {
+            foreach ($subscriptions as $subscription) {
+                $schemeId = $subscription->getSubscriptionScheme()->getId();
+
+                if ($schemeId > $tmpId) {
+                    $activeSubscription = $subscription;
+                    $tmpId = $schemeId;
+                }
+            }
+        }
+
+        return $activeSubscription;
     }
 
     /**

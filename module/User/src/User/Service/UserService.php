@@ -132,6 +132,16 @@ class UserService implements UserServiceInterface
     }
 
     /**
+     * @param $userId
+     *
+     * @return null
+     */
+    public function getUserSubscriptionByUserId($userId)
+    {
+        return $this->subscriptionMapper->getUserSubscriptionByUserId($userId);
+    }
+
+    /**
      * @param $user
      * @param $dataSourceGlobal
      *

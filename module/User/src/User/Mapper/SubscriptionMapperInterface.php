@@ -17,6 +17,13 @@ interface SubscriptionMapperInterface
     /**
      * @param $userId
      *
+     * @return object|null
+     */
+    public function getUserSubscriptionByUserId($userId);
+
+    /**
+     * @param $userId
+     *
      * @return \DateTimeZone
      */
     public function getDateCreation($userId);

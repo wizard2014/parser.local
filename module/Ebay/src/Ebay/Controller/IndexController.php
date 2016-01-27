@@ -117,19 +117,13 @@ class IndexController extends AbstractActionController
                         );
 
                         // set log
-                        /* $requestLog = */$this->userService->setRequestLog(
-                            'subId',
-                            count($resultData),
-                            [
-                                'keyword'       => $data['keyword'],
-                                'sortOrder'     => $data['sortOrder'],
-                                'minPrice'      => $data['minPrice'],
-                                'maxPrice'      => $data['maxPrice'],
-                                'itemsQty'      => $data['itemsQty'],
-                                'listingType'   => $data['listingType'],
-                                'region'        => $this->dataSourceService->getRegionNameById($data['region']),
-                            ]
-                        );
+                        $activeSubscription = $this->userService->getUserSubscriptionByUserId($this->user);
+                        $qtyRows = count($resultData);
+                        $propertySet = $this->propertySetPrepare($data);
+                        // add region name
+                        $propertySet['region'] = ucwords($this->dataSourceService->getRegionNameById($data['region']));
+
+                        /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $qtyRows, $propertySet);
                     } else {
                         $this->flashMessenger()->addMessage(['Nothing found! Change your search criteria and try again.']);
                     }
@@ -138,5 +132,31 @@ class IndexController extends AbstractActionController
         }
 
         return $this->redirect()->toRoute('get-started');
+    }
+
+    /**
+     * Skip not selected filters
+     *
+     * @param $data
+     *
+     * @return array
+     */
+    protected function propertySetPrepare($data)
+    {
+        $exclude = [
+            'category',
+            'token',
+            'region',
+        ];
+
+        $prepare = [];
+
+        foreach ($data as $key => $value) {
+            if (!empty($value) && (!in_array($key, $exclude) && strpos($key, 'id') === false)) {
+                $prepare[$key] = $value;
+            }
+        }
+
+        return $prepare;
     }
 }
