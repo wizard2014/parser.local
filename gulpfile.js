@@ -45,6 +45,7 @@ gulp.task('scripts', function() {
         paths.bower   + '/pwstrength-bootstrap/dist/pwstrength-bootstrap-1.2.9.js',
         paths.bower   + '/jquery-validation/dist/jquery.validate.js',
         paths.bower   + '/jquery-validation/dist/additional-methods.js',
+        paths.bower   + '/tablesorter/jquery.tablesorter.js',
         paths.assets  + '/scripts/base/*.js',
         paths.assets  + '/scripts/validator/*.js',
         paths.assets  + '/scripts/init/*.js'

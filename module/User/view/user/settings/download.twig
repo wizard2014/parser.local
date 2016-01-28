@@ -32,12 +32,12 @@
                         {% for vaendor, files in userFiles  %}
                             <h3>{{ vaendor }}</h3>
 
-                            <table class="table table-striped">
+                            <table class="table table-striped tablesorter">
                                 <thead>
                                 <tr>
-                                    <th>Date <i class="fa fa-clock-o"></i></th>
+                                    <th>Date <i class="fa fa-clock-o"></i> <i class="fa fa-caret-down pull-right"></i></th>
                                     <th>Format <i class="fa fa-table"></i></th>
-                                    <th>Status <i class="fa fa-stack-exchange"></i></th>
+                                    <th>Status <i class="fa fa-stack-exchange"></i> <i class="fa fa-caret-down pull-right"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -73,7 +73,7 @@
                             <p>You need to get file first. <a href="{{ url('get-started') }}">Get started</a></p>
                         {% endfor %}
 
-                        {% if files %}
+                        {% if userFiles %}
                             <div class="helper">
                                 <p><strong>New</strong> - The new file.</p>
                                 <p><em>Downloaded</em> - You have already downloaded the file.</p>
