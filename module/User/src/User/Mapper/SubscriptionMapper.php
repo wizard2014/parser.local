@@ -43,7 +43,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserSubscriptionByUserId($userId)
+    public function getActiveSubscription($userId, $vendor)
     {
         $entity = $this->getUserSubscription();
 
@@ -53,30 +53,24 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             ->select('sub')
             ->from($entity, 'sub')
             ->where('sub.user = :userId')
-            ->andWhere('sub.dateExpiration > :now')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->lte('sub.dateActivation', ':now'),
+                    $qb->expr()->gte('sub.dateExpiration', ':now')
+                )
+            )
+            ->andWhere('sub.subscriptionScheme = :subScheme')
             ->andWhere('sub.isBlocked = false')
             ->andWhere('sub.subscriptionStatus = 7')
             ->setParameter('userId', $userId)
             ->setParameter('now', new \DateTime())
-            ->orderBy('sub.subscriptionStatus', 'DESC');
+            ->setParameter('subScheme', $vendor)
+            ->orderBy('sub.subscriptionStatus', 'DESC')
+            ->setMaxResults(1);
 
-        $subscriptions = $qb->getQuery()->getResult();
+        $subscription = $qb->getQuery()->getSingleResult();
 
-        $activeSubscription = null;
-
-        $tmpId = 0;
-        if (!empty($subscriptions)) {
-            foreach ($subscriptions as $subscription) {
-                $schemeId = $subscription->getSubscriptionScheme()->getId();
-
-                if ($schemeId > $tmpId) {
-                    $activeSubscription = $subscription;
-                    $tmpId = $schemeId;
-                }
-            }
-        }
-
-        return $activeSubscription;
+        return $subscription;
     }
 
     /**

@@ -77,7 +77,7 @@ class IndexController extends AbstractActionController
             });
 
             // validate form data
-            $errors = $this->dataSourceService->validate('ebay', $data);
+            $errors = $this->dataSourceService->validate(self::VENDOR, $data);
             // validate category
             if (!isset($errors['region']) && !empty($categoryValid = $this->categoryService->validate($data))) {
                 $errors['category'] = $categoryValid;
@@ -117,7 +117,7 @@ class IndexController extends AbstractActionController
                         );
 
                         // set log
-                        $activeSubscription = $this->userService->getUserSubscriptionByUserId($this->user);
+                        $activeSubscription = $this->userService->getActiveUserSubscription($this->user, $data['region']);
                         $qtyRows = count($resultData);
                         $propertySet = $this->propertySetPrepare($data);
                         // add region name

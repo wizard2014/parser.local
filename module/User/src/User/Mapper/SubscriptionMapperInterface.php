@@ -16,10 +16,13 @@ interface SubscriptionMapperInterface
 
     /**
      * @param $userId
+     * @param $vendor
      *
-     * @return object|null
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getUserSubscriptionByUserId($userId);
+    public function getActiveSubscription($userId, $vendor);
 
     /**
      * @param $userId

@@ -4,8 +4,6 @@ namespace User\Mapper;
 
 interface RequestLogMapperInterface
 {
-    public function get();
-
     /**
      * @param       $subscriptionId
      * @param       $qtyRows

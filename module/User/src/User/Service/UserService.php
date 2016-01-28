@@ -133,12 +133,13 @@ class UserService implements UserServiceInterface
 
     /**
      * @param $userId
+     * @param $vendor
      *
-     * @return null
+     * @return mixed
      */
-    public function getUserSubscriptionByUserId($userId)
+    public function getActiveUserSubscription($userId, $vendor)
     {
-        return $this->subscriptionMapper->getUserSubscriptionByUserId($userId);
+        return $this->subscriptionMapper->getActiveSubscription($userId, $vendor);
     }
 
     /**

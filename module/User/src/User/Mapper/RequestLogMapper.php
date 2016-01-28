@@ -41,11 +41,7 @@ class RequestLogMapper implements RequestLogMapperInterface
     }
 
     /**
-     * @param       $subscriptionId
-     * @param       $qtyRows
-     * @param array $propertySet
-     *
-     * @return object
+     * {@inheritdoc}
      */
     public function set($subscriptionId, $qtyRows, array $propertySet)
     {
