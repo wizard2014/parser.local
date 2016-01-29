@@ -88,8 +88,13 @@ class SubscriptionMapper implements SubscriptionMapperInterface
 
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function resetCounterDaily($userId)
     {
+        $now = new \DateTime();
+
         $entity = $this->getUserSubscription();
 
         $qb = $this->em->createQueryBuilder();
@@ -105,13 +110,14 @@ class SubscriptionMapper implements SubscriptionMapperInterface
                     $qb->expr()->gte('sub.dateExpiration', ':now')
                 )
             )
-//            ->andWhere(
-//                $qb->expr()->lte('sub.dateStartCounter + 24 hours', ':now')
-//            )
+            ->andWhere(
+                $qb->expr()->lte('sub.dateStartCounter', ':nowModify')
+            )
             ->setParameter('counter', 0)
             ->setParameter('blocked', false)
             ->setParameter('userId', $userId)
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', $now)
+            ->setParameter('nowModify', $now->modify('-24 hours'))
             ->getQuery();
 
         $qu->execute();

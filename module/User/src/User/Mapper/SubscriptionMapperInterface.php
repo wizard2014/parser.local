@@ -25,6 +25,11 @@ interface SubscriptionMapperInterface
     public function getActiveSubscription($userId, $vendor);
 
     /**
+     * @param $userId
+     */
+    public function resetCounterDaily($userId);
+
+    /**
      * @param $id
      *
      * @return \DateTimeZone
