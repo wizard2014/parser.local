@@ -253,6 +253,11 @@ class SettingsController extends AbstractActionController
         return new ViewModel();
     }
 
+    public function removeUserAction()
+    {
+        var_dump($this->user); exit;
+    }
+
     protected function getFileErrorRedirect($message = null)
     {
         if (!is_null($message)) {

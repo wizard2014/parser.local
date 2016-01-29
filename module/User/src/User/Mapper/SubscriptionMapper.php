@@ -73,14 +73,58 @@ class SubscriptionMapper implements SubscriptionMapperInterface
         return $subscription;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDateCreation($userId)
+    public function getActiveSubscriptions($userId)
+    {
+
+    }
+
+    public function getBlockedSubscriptions($userId)
+    {
+
+    }
+
+    public function getExpiredSubscriptions($userId)
+    {
+
+    }
+
+    public function resetCounterDaily($userId)
     {
         $entity = $this->getUserSubscription();
 
-        $dateCreation = $this->em->find($entity, $userId)->getDateCreation();
+        $qb = $this->em->createQueryBuilder();
+
+        $qu = $qb
+            ->update($entity, 'sub')
+            ->set('sub.requestCounterDaily', ':counter')
+            ->set('sub.isBlocked', ':blocked')
+            ->where('sub.user = :userId')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->lte('sub.dateActivation', ':now'),
+                    $qb->expr()->gte('sub.dateExpiration', ':now')
+                )
+            )
+//            ->andWhere(
+//                $qb->expr()->lte('sub.dateStartCounter + 24 hours', ':now')
+//            )
+            ->setParameter('counter', 0)
+            ->setParameter('blocked', false)
+            ->setParameter('userId', $userId)
+            ->setParameter('now', new \DateTime())
+            ->getQuery();
+
+        $qu->execute();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDateCreation($id)
+    {
+        $entity = $this->getUserSubscription();
+
+        $dateCreation = $this->em->find($entity, $id)->getDateCreation();
 
         return $dateCreation;
     }
@@ -88,11 +132,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getDateActivation($userId)
+    public function getDateActivation($id)
     {
         $entity = $this->getUserSubscription();
 
-        $dateActivation = $this->em->find($entity, $userId)->getDateActivation();
+        $dateActivation = $this->em->find($entity, $id)->getDateActivation();
 
         return $dateActivation;
     }
@@ -100,11 +144,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getDateExpiration($userId)
+    public function getDateExpiration($id)
     {
         $entity = $this->getUserSubscription();
 
-        $dateExpiration = $this->em->find($entity, $userId)->getDateExpiration();
+        $dateExpiration = $this->em->find($entity, $id)->getDateExpiration();
 
         return $dateExpiration;
     }
@@ -112,11 +156,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getIsBlocked($userId)
+    public function getIsBlocked($id)
     {
         $entity = $this->getUserSubscription();
 
-        $isBlocked = $this->em->find($entity, $userId)->getIsBlocked();
+        $isBlocked = $this->em->find($entity, $id)->getIsBlocked();
 
         return $isBlocked;
     }
@@ -124,11 +168,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getRequestCounterTotal($userId)
+    public function getRequestCounterTotal($id)
     {
         $entity = $this->getUserSubscription();
 
-        $requestCounterTotal = $this->em->find($entity, $userId)->getRequestCounterTotal();
+        $requestCounterTotal = $this->em->find($entity, $id)->getRequestCounterTotal();
 
         return $requestCounterTotal;
     }
@@ -136,11 +180,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getRequestCounterDaily($userId)
+    public function getRequestCounterDaily($id)
     {
         $entity = $this->getUserSubscription();
 
-        $requestCounterDaily = $this->em->find($entity, $userId)->getRequestCounterDaily();
+        $requestCounterDaily = $this->em->find($entity, $id)->getRequestCounterDaily();
 
         return $requestCounterDaily;
     }
@@ -148,11 +192,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getDateStartCounter($userId)
+    public function getDateStartCounter($id)
     {
         $entity = $this->getUserSubscription();
 
-        $dateStartCounter = $this->em->find($entity, $userId)->getDateStartCounter();
+        $dateStartCounter = $this->em->find($entity, $id)->getDateStartCounter();
 
         return $dateStartCounter;
     }
@@ -160,11 +204,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getSubscriptionSchemeId($userId)
+    public function getSubscriptionSchemeId($id)
     {
         $entity = $this->getUserSubscription();
 
-        $subscriptionSchemeId = $this->em->find($entity, $userId)
+        $subscriptionSchemeId = $this->em->find($entity, $id)
                                             ->getSubscriptionScheme()
                                             ->getId();
 
@@ -174,11 +218,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function getSubscriptionStatusId($userId)
+    public function getSubscriptionStatusId($id)
     {
         $entity = $this->getUserSubscription();
 
-        $subscriptionStatusId = $this->em->find($entity, $userId)
+        $subscriptionStatusId = $this->em->find($entity, $id)
                                             ->getSubscriptionStatus()
                                             ->getId();
 
@@ -188,9 +232,9 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function isFreeSubUser($userId)
+    public function isFreeSubUser($id)
     {
-        $subTypeId = $this->getSubscriptionSchemeId($userId);
+        $subTypeId = $this->getSubscriptionSchemeId($id);
 
         return (bool) ($subTypeId === 1);// Free account
     }
@@ -198,9 +242,9 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function isActiveUser($userId)
+    public function isActiveUser($id)
     {
-        $subStatusId = $this->getSubscriptionStatusId($userId);
+        $subStatusId = $this->getSubscriptionStatusId($id);
 
         return (bool) ($subStatusId === 7) || ($subStatusId === 10); // Active or In Progress account
     }

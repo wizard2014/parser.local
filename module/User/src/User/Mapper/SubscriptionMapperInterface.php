@@ -25,79 +25,79 @@ interface SubscriptionMapperInterface
     public function getActiveSubscription($userId, $vendor);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return \DateTimeZone
      */
-    public function getDateCreation($userId);
+    public function getDateCreation($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return \DateTimeZone
      */
-    public function getDateActivation($userId);
+    public function getDateActivation($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return \DateTimeZone
      */
-    public function getDateExpiration($userId);
+    public function getDateExpiration($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return bool
      */
-    public function getIsBlocked($userId);
+    public function getIsBlocked($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return int
      */
-    public function getRequestCounterTotal($userId);
+    public function getRequestCounterTotal($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return int
      */
-    public function getRequestCounterDaily($userId);
+    public function getRequestCounterDaily($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return \DateTimeZone
      */
-    public function getDateStartCounter($userId);
+    public function getDateStartCounter($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return int
      */
-    public function getSubscriptionSchemeId($userId);
+    public function getSubscriptionSchemeId($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return int
      */
-    public function getSubscriptionStatusId($userId);
+    public function getSubscriptionStatusId($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return bool
      */
-    public function isFreeSubUser($userId);
+    public function isFreeSubUser($id);
 
     /**
-     * @param $userId
+     * @param $id
      *
      * @return bool
      */
-    public function isActiveUser($userId);
+    public function isActiveUser($id);
 }

@@ -53,4 +53,9 @@ interface UserServiceInterface
      * @return object
      */
     public function setRequestLog($subscriptionId, $qtyRows, array $propertySet);
+
+    /**
+     * @param $userId
+     */
+    public function resetCounterDaily($userId);
 }

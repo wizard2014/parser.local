@@ -132,6 +132,14 @@ class UserService implements UserServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function resetCounterDaily($userId)
+    {
+        $this->subscriptionMapper->resetCounterDaily($userId);
+    }
+
+    /**
      * @param $userId
      * @param $vendor
      *
