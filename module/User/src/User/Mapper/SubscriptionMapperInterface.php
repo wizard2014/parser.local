@@ -26,8 +26,29 @@ interface SubscriptionMapperInterface
 
     /**
      * @param $userId
+     *
+     * @return array
      */
-    public function resetCounterDaily($userId);
+    public function getActiveSubscriptions($userId);
+
+    /**
+     * @param $userId
+     *
+     * @return array
+     */
+    public function getBlockedSubscriptions($userId);
+
+    /**
+     * @param $userId
+     *
+     * @return array
+     */
+    public function getExpiredSubscriptions($userId);
+
+    /**
+     * @param $userId
+     */
+    public function userCheckout($userId);
 
     /**
      * @param $id

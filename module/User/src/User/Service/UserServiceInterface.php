@@ -57,5 +57,5 @@ interface UserServiceInterface
     /**
      * @param $userId
      */
-    public function resetCounterDaily($userId);
+    public function userCheckout($userId);
 }

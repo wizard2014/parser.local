@@ -117,7 +117,7 @@ class IndexController extends AbstractActionController
                         );
 
                         // set log
-                        $activeSubscription = $this->userService->getActiveUserSubscription($this->user, $data['region']);
+                        $activeSubscription = $this->userService->getActiveSubscription($this->user, $data['region']);
                         $qtyRows            = count($resultData);
                         $propertySet        = $this->propertySetPrepare($data);
                         // add region name

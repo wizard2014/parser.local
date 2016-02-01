@@ -19,9 +19,16 @@ class CategoryServiceFactory implements FactoryInterface
     {
         $em = $serviceLocator->get(\Doctrine\ORM\EntityManager::class);
 
+        try {
+            $cache = $serviceLocator->get('memcached');
+        } catch(\Exception $e) {
+            $cache = $serviceLocator->get('filesystem');
+        }
+
         return new CategoryService(
             new ModuleOptions($serviceLocator->get('Config')['application_options']),
-            new CategoryMapper($em)
+            new CategoryMapper($em),
+            $cache
         );
     }
 }

@@ -134,9 +134,9 @@ class UserService implements UserServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function resetCounterDaily($userId)
+    public function userCheckout($userId)
     {
-        $this->subscriptionMapper->resetCounterDaily($userId);
+        $this->subscriptionMapper->userCheckout($userId);
     }
 
     /**
@@ -145,9 +145,39 @@ class UserService implements UserServiceInterface
      *
      * @return mixed
      */
-    public function getActiveUserSubscription($userId, $vendor)
+    public function getActiveSubscription($userId, $vendor)
     {
         return $this->subscriptionMapper->getActiveSubscription($userId, $vendor);
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return array
+     */
+    public function getActiveSubscriptions($userId)
+    {
+        return $this->subscriptionMapper->getActiveSubscriptions($userId);
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return mixed
+     */
+    public function getBlockedSubscriptions($userId)
+    {
+        return $this->subscriptionMapper->getBlockedSubscriptions($userId);
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return mixed
+     */
+    public function getExpiredSubscriptions($userId)
+    {
+        return $this->subscriptionMapper->getExpiredSubscriptions($userId);
     }
 
     /**

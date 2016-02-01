@@ -19,13 +19,14 @@ class GetStartedControllerFactory implements FactoryInterface
 
         $categoryService   = $sm->get(\Ebay\Service\CategoryService::class);
         $dataSourceService = $sm->get(\Utility\Service\DataSourceService::class);
+        $userService       = $sm->get(\User\Service\UserService::class);
 
-        try {
-            $cache = $sm->get('memcached');
-        } catch(\Exception $e) {
-            $cache = $sm->get('filesystem');
-        }
 
-        return new GetStartedController($cache, $categoryService, $dataSourceService);
+
+        return new GetStartedController(
+            $categoryService,
+            $dataSourceService,
+            $userService
+        );
     }
 }

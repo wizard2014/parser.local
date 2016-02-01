@@ -21,15 +21,25 @@ class CategoryService implements CategoryServiceInterface
     protected $categoryMapper;
 
     /**
+     * @var \Zend\Cache\Storage\Adapter\Filesystem|\Zend\Cache\Storage\Adapter\Memcached
+     */
+    protected $cache;
+
+    /**
+     * CategoryService constructor.
+     *
      * @param ModuleOptions  $options
      * @param CategoryMapper $categoryMapper
+     * @param                $cache
      */
     public function __construct(
         ModuleOptions            $options,
-        CategoryMapper           $categoryMapper
+        CategoryMapper           $categoryMapper,
+                                 $cache
     ) {
         $this->options          = $options;
         $this->categoryMapper   = $categoryMapper;
+        $this->cache            = $cache;
     }
 
     /**
@@ -116,10 +126,22 @@ class CategoryService implements CategoryServiceInterface
      */
     public function getCategory($dataSourceRegional, $categoryLevel, $categoryParentId)
     {
-        if (!empty($categoryParentId)) {
-            $categories = $this->categoryMapper->getCategory($dataSourceRegional, $categoryLevel, $categoryParentId);
+        $cacheKey = 'ebay'. $dataSourceRegional . $categoryLevel . $categoryParentId ?: 0;
+
+        $cachedCategories = unserialize($this->cache->getItem($cacheKey));
+
+        if ($cachedCategories) {
+            // get data from cache
+            $categories = unserialize($this->cache->getItem($cacheKey));
         } else {
-            $categories = $this->categoryMapper->getMainCategory($dataSourceRegional, $categoryLevel);
+            // get data from db
+            if (!empty($categoryParentId)) {
+                $categories = $this->categoryMapper->getCategory($dataSourceRegional, $categoryLevel, $categoryParentId);
+            } else {
+                $categories = $this->categoryMapper->getMainCategory($dataSourceRegional, $categoryLevel);
+            }
+
+            $this->cache->setItem($cacheKey, serialize($categories));
         }
 
         return $categories;

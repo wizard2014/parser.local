@@ -8,15 +8,11 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
 use Ebay\Service\CategoryService;
 use Utility\Service\DataSourceService;
+use User\Service\UserService;
 use Utility\Helper\Csrf\Csrf;
 
 class GetStartedController extends AbstractActionController
 {
-    /**
-     * @var $cache
-     */
-    protected $cache;
-
     /**
      * @var CategoryService
      */
@@ -28,24 +24,30 @@ class GetStartedController extends AbstractActionController
     protected $dataSourceService;
 
     /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
      * @var int|null
      */
     protected $user;
 
     /**
-     * @param                   $cache
+     * GetStartedController constructor.
+     *
      * @param CategoryService   $categoryService
      * @param DataSourceService $dataSourceService
+     * @param UserService       $userService
      */
     public function __construct(
-        $cache,
         CategoryService     $categoryService,
-        DataSourceService   $dataSourceService
+        DataSourceService   $dataSourceService,
+        UserService         $userService
     ) {
-        $this->cache  = $cache;
-
         $this->categoryService   = $categoryService;
         $this->dataSourceService = $dataSourceService;
+        $this->userService       = $userService;
 
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
@@ -55,6 +57,9 @@ class GetStartedController extends AbstractActionController
     {
         // get eBay Sort Order & Listing Type
         $ebayFilterSet = $this->dataSourceService->getEbayFilterSet();
+
+        // reset daily counter
+        $this->userService->userCheckout($this->user);
 
         return new ViewModel([
             'ebayFilterSet'    => $ebayFilterSet,

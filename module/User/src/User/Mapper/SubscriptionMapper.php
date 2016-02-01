@@ -73,25 +73,90 @@ class SubscriptionMapper implements SubscriptionMapperInterface
         return $subscription;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getActiveSubscriptions($userId)
     {
+        $entity = $this->getUserSubscription();
 
-    }
+        $qb = $this->em->createQueryBuilder();
 
-    public function getBlockedSubscriptions($userId)
-    {
+        $qb
+            ->select('sub')
+            ->from($entity, 'sub')
+            ->where('sub.user = :userId')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->lte('sub.dateActivation', ':now'),
+                    $qb->expr()->gte('sub.dateExpiration', ':now')
+                )
+            )
+//            ->andWhere('sub.subscriptionScheme = :subScheme')
+            ->andWhere('sub.isBlocked = false')
+            ->andWhere('sub.subscriptionStatus = 7')
+            ->setParameter('userId', $userId)
+            ->setParameter('now', new \DateTime());
+//            ->setParameter('subScheme', $vendor);
 
-    }
+        $subscription = $qb->getQuery()->getResult();
 
-    public function getExpiredSubscriptions($userId)
-    {
-
+        return $subscription;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function resetCounterDaily($userId)
+    public function getBlockedSubscriptions($userId)
+    {
+        $entity = $this->getUserSubscription();
+
+        $qb = $this->em->createQueryBuilder();
+
+        $qb
+            ->select('sub')
+            ->from($entity, 'sub')
+            ->where('sub.user = :userId')
+            ->andWhere(
+                $qb->expr()->lt('sub.dateExpiration', ':now')
+            )
+            ->andWhere('sub.isBlocked = true')
+            ->setParameter('userId', $userId)
+            ->setParameter('now', new \DateTime());
+
+        $subscription = $qb->getQuery()->getResult();
+
+        return $subscription;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpiredSubscriptions($userId)
+    {
+        $entity = $this->getUserSubscription();
+
+        $qb = $this->em->createQueryBuilder();
+
+        $qb
+            ->select('sub')
+            ->from($entity, 'sub')
+            ->where('sub.user = :userId')
+            ->andWhere(
+                $qb->expr()->lt('sub.dateExpiration', ':now')
+            )
+            ->setParameter('userId', $userId)
+            ->setParameter('now', new \DateTime());
+
+        $subscription = $qb->getQuery()->getResult();
+
+        return $subscription;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function userCheckout($userId)
     {
         $now = new \DateTime();
 
@@ -103,6 +168,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             ->update($entity, 'sub')
             ->set('sub.requestCounterDaily', ':counter')
             ->set('sub.isBlocked', ':blocked')
+            ->set('sub.subscriptionStatus', ':expired')
             ->where('sub.user = :userId')
             ->andWhere(
                 $qb->expr()->andX(
@@ -115,6 +181,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             )
             ->setParameter('counter', 0)
             ->setParameter('blocked', false)
+            ->setParameter('expired', 8) // Expired
             ->setParameter('userId', $userId)
             ->setParameter('now', $now)
             ->setParameter('nowModify', $now->modify('-24 hours'))
