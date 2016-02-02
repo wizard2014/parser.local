@@ -19,6 +19,7 @@
         "zf-commons/zfc-twig": "^1.2",
         "hrevert/ht-user-registration-doctrine-orm": "^0.0.1",
         "goalio/goalio-forgotpassword-doctrine-orm": "1.0.0",
-        "gedmo/doctrine-extensions": "^2.4"
+        "gedmo/doctrine-extensions": "^2.4",
+        "predis/predis": "v1.0.3"
     }
 }

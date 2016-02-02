@@ -18,9 +18,7 @@ interface SubscriptionMapperInterface
      * @param $userId
      * @param $vendor
      *
-     * @return mixed
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return mixed|null
      */
     public function getActiveSubscription($userId, $vendor);
 

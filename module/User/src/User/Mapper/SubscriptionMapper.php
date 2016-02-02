@@ -68,7 +68,11 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             ->orderBy('sub.subscriptionStatus', 'DESC')
             ->setMaxResults(1);
 
-        $subscription = $qb->getQuery()->getSingleResult();
+        try {
+            $subscription = $qb->getQuery()->getSingleResult();
+        } catch (\Exception $e) {
+            $subscription =  null;
+        }
 
         return $subscription;
     }
@@ -168,7 +172,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             ->update($entity, 'sub')
             ->set('sub.requestCounterDaily', ':counter')
             ->set('sub.isBlocked', ':blocked')
-            ->set('sub.subscriptionStatus', ':expired')
+//            ->set('sub.subscriptionStatus', ':expired')
             ->where('sub.user = :userId')
             ->andWhere(
                 $qb->expr()->andX(
@@ -181,7 +185,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             )
             ->setParameter('counter', 0)
             ->setParameter('blocked', false)
-            ->setParameter('expired', 8) // Expired
+//            ->setParameter('expired', 8) // Expired
             ->setParameter('userId', $userId)
             ->setParameter('now', $now)
             ->setParameter('nowModify', $now->modify('-24 hours'))
