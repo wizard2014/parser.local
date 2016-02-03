@@ -5,29 +5,49 @@ namespace User\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
-use User\Mapper\UserMapper;
+use User\Service\UserService;
 use HtUserRegistration\Mapper\UserRegistrationMapperInterface;
 use HtUserRegistration\Mailer\MailerInterface;
-
 use Utility\Helper\Csrf\Csrf;
 
 class ReSendController extends AbstractActionController
 {
-    protected $session;
+    /**
+     * @var int|null
+     */
     protected $user;
-    protected $mapper;
+
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * @var UserRegistrationMapperInterface
+     */
     protected $userRegistrationMapper;
+
+    /**
+     * @var MailerInterface
+     */
     protected $mailer;
 
+    /**
+     * ReSendController constructor.
+     *
+     * @param UserService                     $userService
+     * @param UserRegistrationMapperInterface $userRegistrationMapper
+     * @param MailerInterface                 $mailer
+     */
     public function __construct(
-        UserMapper $mapper,
+        UserService                     $userService,
         UserRegistrationMapperInterface $userRegistrationMapper,
-        MailerInterface $mailer
+        MailerInterface                 $mailer
     ) {
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
 
-        $this->mapper                 = $mapper;
+        $this->userService            = $userService;
         $this->userRegistrationMapper = $userRegistrationMapper;
         $this->mailer                 = $mailer;
     }
@@ -36,7 +56,7 @@ class ReSendController extends AbstractActionController
     {
         // if user log in
         if (null !== $this->user) {
-            return $this->redirect()->toRoute('zfcuser');
+            return $this->redirect()->toRoute('settings/default', ['action' => 'profile']);
         }
 
         $request = $this->getRequest();
@@ -57,13 +77,13 @@ class ReSendController extends AbstractActionController
                     $this->flashMessenger()->addMessage('Invalid Email');
                 } else {
                     // check user exists
-                    $userExists = $this->mapper->userExists($data['email']);
+                    $userExists = $this->userService->userExists($data['email']);
 
                     if (!$userExists) {
-                        return $this->redirect()->toRoute('zfcuser');
+                        return $this->redirect()->toRoute('zfcuser/register');
                     }
 
-                    $user = $this->mapper->getUserByEmail($data['email']);
+                    $user = $this->userService->getUserByEmail($data['email']);
 
                     $registrationRecord = $this->getUserRegistrationMapper()->findByUser($user);
 

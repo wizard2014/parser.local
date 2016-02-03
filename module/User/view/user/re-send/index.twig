@@ -17,7 +17,7 @@
                     <strong>{{ hasInfo ? '' : 'Error!' }}</strong>
 
                     {% if hasInfo %}
-                        <h4>Confirm your email (<strong>{{ email }}</strong>).</h4>
+                        <h4 class="confirm-email-header">Confirm your email (<strong>{{ email }}</strong>).</h4>
                         <p>We sent you a confirmation email. You need to check that out before you can <strong><a href="{{ url('zfcuser/login') }}">sign in</a></strong>.</p>
                     {% else %}
                         <p>{{ flashMessenger[0] }}</p>

@@ -4,6 +4,9 @@
 <?php $link = $this->serverUrl() . $this->url('zfcuser/verify_email', ['userId' => $user->getId(), 'token' => $registrationRecord->getToken()]); ?>
 <p><a href="<?php echo $link ?>">Verify</a></p>
 
+<p>or copy the link into your browser</p>
+<p><?php echo $link ?></p>
+
 <hr>
 
 <p>Any questions?</p>

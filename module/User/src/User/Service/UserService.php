@@ -236,4 +236,24 @@ class UserService implements UserServiceInterface
     {
         return $this->userFileMapper->incrementFileCounter($path, $filename);
     }
+
+    /**
+     * @param $userEmail
+     *
+     * @return bool
+     */
+    public function userExists($userEmail)
+    {
+        return $this->userMapper->userExists($userEmail);
+    }
+
+    /**
+     * @param $userEmail
+     *
+     * @return object|\ZfcUser\Entity\UserInterface
+     */
+    public function getUserByEmail($userEmail)
+    {
+        return $this->userMapper->getUserByEmail($userEmail);
+    }
 }
