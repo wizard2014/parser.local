@@ -141,6 +141,14 @@ class UserService implements UserServiceInterface
 
     /**
      * @param $userId
+     */
+    public function updateSubscriptionStatus($userId)
+    {
+        $this->subscriptionMapper->updateSubscriptionStatus($userId);
+    }
+
+    /**
+     * @param $userId
      * @param $vendor
      *
      * @return mixed

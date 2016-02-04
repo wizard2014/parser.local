@@ -46,6 +46,11 @@ interface SubscriptionMapperInterface
     /**
      * @param $userId
      */
+    public function updateSubscriptionStatus($userId);
+
+    /**
+     * @param $userId
+     */
     public function userCheckout($userId);
 
     /**

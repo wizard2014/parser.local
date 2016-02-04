@@ -58,6 +58,9 @@ class GetStartedController extends AbstractActionController
         // get eBay Sort Order & Listing Type
         $ebayFilterSet = $this->dataSourceService->getEbayFilterSet();
 
+        // change subscription status if expired
+        $this->userService->updateSubscriptionStatus($this->user);
+
         // reset daily counter
         $this->userService->userCheckout($this->user);
 

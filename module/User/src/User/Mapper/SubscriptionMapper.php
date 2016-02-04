@@ -47,7 +47,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     {
         $entity = $this->getUserSubscription();
 
-        $qb = $this->em->createQueryBuilder();
+        $qb  = $this->em->createQueryBuilder();
 
         $qb
             ->select('sub')
@@ -59,13 +59,23 @@ class SubscriptionMapper implements SubscriptionMapperInterface
                     $qb->expr()->gte('sub.dateExpiration', ':now')
                 )
             )
-            ->andWhere('sub.subscriptionScheme = :subScheme')
+            ->andWhere(
+                // sub select
+                $qb->expr()->in(
+                    'sub.subscriptionScheme',
+                    $this->em->createQueryBuilder()
+                        ->select('subScheme.id')
+                        ->from(\Utility\Entity\SubscriptionScheme::class, 'subScheme')
+                        ->where('subScheme.dataSourceGlobal = :vendor')
+                        ->getDQL()
+                )
+            )
             ->andWhere('sub.isBlocked = false')
             ->andWhere('sub.subscriptionStatus = 7')
             ->setParameter('userId', $userId)
             ->setParameter('now', new \DateTime())
-            ->setParameter('subScheme', $vendor)
-            ->orderBy('sub.subscriptionStatus', 'DESC')
+            ->setParameter('vendor', $vendor)
+            ->orderBy('sub.subscriptionScheme', 'DESC')
             ->setMaxResults(1);
 
         try {
@@ -160,6 +170,30 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
+    public function updateSubscriptionStatus($userId)
+    {
+        $entity = $this->getUserSubscription();
+
+        $qb = $this->em->createQueryBuilder();
+
+        $qu = $qb
+            ->update($entity, 'sub')
+            ->set('sub.subscriptionStatus', ':expired')
+            ->where('sub.user = :userId')
+            ->andWhere(
+                $qb->expr()->lte('sub.dateExpiration', ':now')
+            )
+            ->setParameter('userId', $userId)
+            ->setParameter('expired', 8) // Expired
+            ->setParameter('now', new \DateTime())
+            ->getQuery();
+
+        $qu->execute();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function userCheckout($userId)
     {
         $now = new \DateTime();
@@ -172,7 +206,6 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             ->update($entity, 'sub')
             ->set('sub.requestCounterDaily', ':counter')
             ->set('sub.isBlocked', ':blocked')
-//            ->set('sub.subscriptionStatus', ':expired')
             ->where('sub.user = :userId')
             ->andWhere(
                 $qb->expr()->andX(
@@ -185,7 +218,6 @@ class SubscriptionMapper implements SubscriptionMapperInterface
             )
             ->setParameter('counter', 0)
             ->setParameter('blocked', false)
-//            ->setParameter('expired', 8) // Expired
             ->setParameter('userId', $userId)
             ->setParameter('now', $now)
             ->setParameter('nowModify', $now->modify('-24 hours'))
