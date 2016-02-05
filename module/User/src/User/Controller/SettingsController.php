@@ -79,12 +79,6 @@ class SettingsController extends AbstractActionController
 
     public function indexAction()
     {
-        $redirect = $this->userService->getRedirectRule($this->user);
-
-        if (!$redirect) {
-            return $this->redirect()->toRoute('settings/default', ['action' => 'subscription']);
-        }
-
         return $this->redirect()->toRoute('settings/default', ['action' => 'profile']);
     }
 

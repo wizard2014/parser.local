@@ -82,7 +82,7 @@ class SubscriptionService implements SubscriptionServiceInterface
                 ];
 
                 if ($plan->getIsKeyOwner()) {
-                    $plans[$scheme->getDataSourceGlobal()->getName()]['withKey'][]   = $currentPlan;
+                    $plans[$scheme->getDataSourceGlobal()->getName()]['withKey'][]    = $currentPlan;
                 } else {
                     $plans[$scheme->getDataSourceGlobal()->getName()]['withoutKey'][] = $currentPlan;
                 }
@@ -90,5 +90,24 @@ class SubscriptionService implements SubscriptionServiceInterface
         }
 
         return $plans;
+    }
+
+    /**
+     * @param      $subscriptionScheme
+     * @param bool $isKeyOwner
+     *
+     * @return object
+     */
+    public function getUserSubscriptionPlan($subscriptionScheme, $isKeyOwner)
+    {
+        return $this->subscriptionPlanMapper->getUserSubscriptionPlan($subscriptionScheme, $isKeyOwner);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllLimitRowPerRequest()
+    {
+        return $this->subscriptionPlanMapper->getAllLimitRowPerRequest();
     }
 }

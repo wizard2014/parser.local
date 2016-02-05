@@ -17,16 +17,16 @@ class GetStartedControllerFactory implements FactoryInterface
     {
         $sm = $serviceLocator->getServiceLocator();
 
-        $categoryService   = $sm->get(\Ebay\Service\CategoryService::class);
-        $dataSourceService = $sm->get(\Utility\Service\DataSourceService::class);
-        $userService       = $sm->get(\User\Service\UserService::class);
-
-
+        $categoryService     = $sm->get(\Ebay\Service\CategoryService::class);
+        $dataSourceService   = $sm->get(\Utility\Service\DataSourceService::class);
+        $userService         = $sm->get(\User\Service\UserService::class);
+        $subscriptionService = $sm->get(\Utility\Service\SubscriptionService::class);
 
         return new GetStartedController(
             $categoryService,
             $dataSourceService,
-            $userService
+            $userService,
+            $subscriptionService
         );
     }
 }

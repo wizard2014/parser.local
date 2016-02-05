@@ -69,21 +69,6 @@ class UserService implements UserServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getRedirectRule($userId)
-    {
-        $isFreeUser     = $this->subscriptionMapper->isFreeSubUser($userId);
-        $isActiveUser   = $this->subscriptionMapper->isActiveUser($userId);
-
-        if ($isFreeUser || !$isActiveUser) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getUserInfo($userId)
     {
         $userInfo = [];

@@ -54,13 +54,55 @@ class SubscriptionPlanMapper implements SubscriptionPlanMapperInterface
         return $plans;
     }
 
+    /**
+     * @param $subscriptionSchemeId
+     *
+     * @return array
+     */
     public function getPlansBySubscriptionScheme($subscriptionSchemeId)
     {
         $entity = $this->getSubscriptionPlan();
 
-        $plans = $this->em->getRepository($entity)->findBy(['subscriptionScheme' => $subscriptionSchemeId]);
+        $plans = $this->em->getRepository($entity)->findBy([
+            'subscriptionScheme' => $subscriptionSchemeId
+        ]);
 
         return  $plans;
+    }
+
+    /**
+     * @param      $subscriptionScheme
+     * @param bool $isKeyOwner
+     *
+     * @return object
+     */
+    public function getUserSubscriptionPlan($subscriptionScheme, $isKeyOwner)
+    {
+        $entity = $this->getSubscriptionPlan();
+
+        $currentPlan = $this->em->getRepository($entity)->findOneBy([
+            'subscriptionScheme' => $subscriptionScheme,
+            'isKeyOwner'         => $isKeyOwner,
+        ]);
+
+        return $currentPlan;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllLimitRowPerRequest()
+    {
+        $result = [];
+
+        $limits = $this->getAllSubscriptionPlanes();
+
+        foreach ($limits as $limit) {
+            if (!in_array($currentLimit = $limit->getLimitRowPerRequest(), $result)) {
+                $result[] = $currentLimit;
+            }
+        }
+        return $result;
     }
 
     /**

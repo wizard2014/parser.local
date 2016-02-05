@@ -138,6 +138,17 @@ class DataSourceService implements DataSourceServiceInterface
     }
 
     /**
+     * @param $user
+     * @param $dataSourceGlobal
+     *
+     * @return bool
+     */
+    public function keyExists($user, $dataSourceGlobal)
+    {
+        return $this->dataSourceKeyMapper->keyExists($user, $dataSourceGlobal);
+    }
+
+    /**
      * @param $vendor
      * @param $data
      *

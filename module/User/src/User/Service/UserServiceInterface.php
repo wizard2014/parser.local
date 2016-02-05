@@ -14,13 +14,6 @@ interface UserServiceInterface
     /**
      * @param $userId
      *
-     * @return bool
-     */
-    public function getRedirectRule($userId);
-
-    /**
-     * @param $userId
-     *
      * @return array
      */
     public function getUserInfo($userId);

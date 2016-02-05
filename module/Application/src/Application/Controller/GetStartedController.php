@@ -9,6 +9,7 @@ use Zend\Authentication\AuthenticationService;
 use Ebay\Service\CategoryService;
 use Utility\Service\DataSourceService;
 use User\Service\UserService;
+use Utility\Service\SubscriptionService;
 use Utility\Helper\Csrf\Csrf;
 
 class GetStartedController extends AbstractActionController
@@ -29,6 +30,11 @@ class GetStartedController extends AbstractActionController
     protected $userService;
 
     /**
+     * @var SubscriptionService
+     */
+    protected $subscriptionService;
+
+    /**
      * @var int|null
      */
     protected $user;
@@ -36,18 +42,21 @@ class GetStartedController extends AbstractActionController
     /**
      * GetStartedController constructor.
      *
-     * @param CategoryService   $categoryService
-     * @param DataSourceService $dataSourceService
-     * @param UserService       $userService
+     * @param CategoryService     $categoryService
+     * @param DataSourceService   $dataSourceService
+     * @param UserService         $userService
+     * @param SubscriptionService $subscriptionService
      */
     public function __construct(
         CategoryService     $categoryService,
         DataSourceService   $dataSourceService,
-        UserService         $userService
+        UserService         $userService,
+        SubscriptionService $subscriptionService
     ) {
-        $this->categoryService   = $categoryService;
-        $this->dataSourceService = $dataSourceService;
-        $this->userService       = $userService;
+        $this->categoryService      = $categoryService;
+        $this->dataSourceService    = $dataSourceService;
+        $this->userService          = $userService;
+        $this->subscriptionService  = $subscriptionService;
 
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
@@ -64,8 +73,22 @@ class GetStartedController extends AbstractActionController
         // reset daily counter
         $this->userService->userCheckout($this->user);
 
+        // active user subscription info
+        $sub = $this->userService->getActiveSubscription($this->user, 1); // ebay
+
+        $subInfo = [];
+        if (!is_null($sub)) {
+            $subscriptionPlan = $this->subscriptionService->getUserSubscriptionPlan(
+                $sub->getSubscriptionScheme(),
+                $this->dataSourceService->keyExists($this->user, 1) // ebay
+            );
+
+            $subInfo = $this->getSubscriptionInfo($sub, $subscriptionPlan);
+        }
+
         return new ViewModel([
             'ebayFilterSet'    => $ebayFilterSet,
+            'subInfo'          => $subInfo,
             'flashMessages'    => $this->flashMessenger()->getMessages(),
             'token'            => Csrf::generate(),
         ]);
@@ -101,5 +124,20 @@ class GetStartedController extends AbstractActionController
         }
 
         return $this->redirect()->toRoute('get-started');
+    }
+
+    protected function getSubscriptionInfo($subscription, $subscriptionPlan)
+    {
+        $result = [];
+
+        $result['current']['requestCounterDaily']   = $subscription->getRequestCounterDaily();
+        $result['current']['subscriptionType']      = $subscription->getSubscriptionScheme()->getSubscriptionType();
+
+        $result['available']['limitRequestDaily']   = $subscriptionPlan->getLimitRequestDaily();
+        $result['available']['limitRowPerRequest']  = $subscriptionPlan->getLimitRowPerRequest();
+        $result['allLimitsRowPerRequest']           = [100, 1000, 10000, 50000, 100000];
+//        $result['allLimitsRowPerRequest']           = $this->subscriptionService->getAllLimitRowPerRequest();
+
+        return $result;
     }
 }
