@@ -11,6 +11,7 @@ return [
             Service\DataSourceService::class        => Factory\Service\DataSourceServiceFactory::class,
             Service\SubscriptionService::class      => Factory\Service\SubscriptionServiceFactory::class,
             Service\AttributeService::class         => Factory\Service\AttributeServiceFactory::class,
+            Service\ValidateService::class          => Factory\Service\ValidateServiceFactory::class,
         ],
     ],
     'doctrine' => [

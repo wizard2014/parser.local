@@ -9,6 +9,7 @@ use Ebay\Service\CategoryService;
 use Ebay\Service\FindItemsService;
 use Utility\Service\DataSourceService;
 use User\Service\UserService;
+use Utility\Service\ValidateService;
 use Utility\Helper\Csrf\Csrf;
 
 class IndexController extends AbstractActionController
@@ -35,27 +36,34 @@ class IndexController extends AbstractActionController
      */
     protected $userService;
 
+    protected $validateService;
+
     /**
      * @var int|null
      */
     protected $user;
 
     /**
+     * IndexController constructor.
+     *
      * @param CategoryService   $categoryService
      * @param FindItemsService  $findItemsService
      * @param DataSourceService $dataSourceService
      * @param UserService       $userService
+     * @param ValidateService   $validateService
      */
     public function __construct(
         CategoryService   $categoryService,
         FindItemsService  $findItemsService,
         DataSourceService $dataSourceService,
-        UserService       $userService
+        UserService       $userService,
+        ValidateService   $validateService
     ) {
         $this->categoryService   = $categoryService;
         $this->findItemsService  = $findItemsService;
         $this->dataSourceService = $dataSourceService;
         $this->userService       = $userService;
+        $this->validateService   = $validateService;
 
         $auth = new AuthenticationService();
         $this->user = $auth->getIdentity();
@@ -77,7 +85,7 @@ class IndexController extends AbstractActionController
             });
 
             // validate form data
-            $errors = $this->dataSourceService->validate(self::VENDOR, $data);
+            $errors = $this->validateService->validateFormData(self::VENDOR, $data, $this->user);
             // validate category
             if (!isset($errors['region']) && !empty($categoryValid = $this->categoryService->validate($data))) {
                 $errors['category'] = $categoryValid;
