@@ -244,7 +244,22 @@ class SettingsController extends AbstractActionController
 
     public function statisticsAction()
     {
-        return new ViewModel();
+        // active user subscription info
+        $sub = $this->userService->getActiveSubscription($this->user, 1); // ebay
+
+        $subInfo = null;
+        if (!is_null($sub)) {
+            $subscriptionPlan = $this->subscriptionService->getUserSubscriptionPlan(
+                $sub->getSubscriptionScheme(),
+                $this->dataSourceService->keyExists($this->user, 1) // ebay
+            );
+
+            $subInfo = $this->getSubscriptionInfo($sub, $subscriptionPlan);
+        }
+
+        return new ViewModel([
+            'subInfo' => $subInfo,
+        ]);
     }
 
     public function removeUserAction()
@@ -268,5 +283,19 @@ class SettingsController extends AbstractActionController
         }
 
         return $this->array2XmlService;
+    }
+
+    protected function getSubscriptionInfo($subscription, $subscriptionPlan)
+    {
+        $result = [];
+
+        $result['subscriptionType']    = $subscription->getSubscriptionScheme()->getSubscriptionType();
+        $result['requestCounterDaily'] = $subscription->getRequestCounterDaily() . '/' . $subscriptionPlan->getLimitRequestDaily();
+        $result['requestCounterTotal'] = $subscription->getRequestCounterTotal();
+        $result['dateActivation']      = $subscription->getDateActivation();
+        $result['dateExpiration']      = $subscription->getDateExpiration();
+        $result['limitRowPerRequest']  = $subscriptionPlan->getLimitRowPerRequest();
+
+        return $result;
     }
 }

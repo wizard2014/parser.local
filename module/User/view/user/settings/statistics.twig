@@ -18,7 +18,63 @@
             <div class="col col-sm-10">
                 <div class="row">
                     <section class="statistics">
+                        <div class="row">
+                            <div class="col col-sm-2">
+                                <strong>Subscription</strong>
+                            </div>
+                            <div class="col col-sm-2">
+                                {{ subInfo.subscriptionType }}
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col col-sm-2">
+                                <strong>Downloads today</strong>
+                            </div>
+                            <div class="col col-sm-2">
+                                {{ subInfo.requestCounterDaily }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-sm-2">
+                                <strong>Downloads total</strong>
+                            </div>
+                            <div class="col col-sm-2">
+                                {{ subInfo.requestCounterTotal }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-sm-2">
+                                <strong>Date activation</strong>
+                            </div>
+                            <div class="col col-sm-2">
+                                {{ subInfo.dateActivation|date('M d, Y') }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-sm-2">
+                                <strong>Date expiration</strong>
+                            </div>
+                            <div class="col col-sm-2">
+                                {% if subInfo.subscriptionType == 'Free' %}
+                                    No limit
+                                {% else %}
+                                    <td>{{ subInfo.dateExpiration|date('M d, Y') }}</td>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-sm-2">
+                                <strong>Limit request daily</strong>
+                            </div>
+                            <div class="col col-sm-2">
+                                {{ subInfo.limitRowPerRequest }}
+                            </div>
+                        </div>
                     </section>
                 </div>
             </div>
