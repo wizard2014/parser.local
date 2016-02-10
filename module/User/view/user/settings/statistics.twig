@@ -18,63 +18,41 @@
             <div class="col col-sm-10">
                 <div class="row">
                     <section class="statistics">
-                        <div class="row">
-                            <div class="col col-sm-3">
-                                <strong>Subscription</strong>
-                            </div>
-                            <div class="col col-sm-2">
-                                {{ subInfo.subscriptionType }}
-                            </div>
-                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Subscription</th>
+                                <th>Downloads today</th>
+                                <th>Downloads total</th>
+                                <th>Date activation</th>
+                                <th>Date expiration</th>
+                                <th>Limit Row Per Request</th>
+                                <th>Time to activation</th>
+                            </tr>
+                            </thead>
 
-                        <div class="row">
-                            <div class="col col-sm-3">
-                                <strong>Downloads today</strong>
-                            </div>
-                            <div class="col col-sm-2">
-                                {{ subInfo.requestCounterDaily }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col col-sm-3">
-                                <strong>Downloads total</strong>
-                            </div>
-                            <div class="col col-sm-2">
-                                {{ subInfo.requestCounterTotal }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col col-sm-3">
-                                <strong>Date activation</strong>
-                            </div>
-                            <div class="col col-sm-2">
-                                {{ subInfo.dateActivation|date('M d, Y') }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col col-sm-3">
-                                <strong>Date expiration</strong>
-                            </div>
-                            <div class="col col-sm-2">
-                                {% if subInfo.subscriptionType == 'Free' %}
-                                    No limit
-                                {% else %}
-                                    <td>{{ subInfo.dateExpiration|date('M d, Y') }}</td>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col col-sm-3">
-                                <strong>Limit Row Per Request</strong>
-                            </div>
-                            <div class="col col-sm-2">
-                                {{ subInfo.limitRowPerRequest }}
-                            </div>
-                        </div>
+                            <tbody>
+                            {% for sub in subInfo %}
+                            <tr>
+                                <td>{{ sub.subscriptionType }}</td>
+                                <td>{{ sub.requestCounterDaily }}</td>
+                                <td>{{ sub.requestCounterTotal }}</td>
+                                <td>{{ sub.dateActivation|date('M d, Y') }}</td>
+                                <td>
+                                    {% if sub.subscriptionType == 'Free' %}
+                                        No limit
+                                    {% else %}
+                                        {{ sub.dateExpiration|date('M d, Y') }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ sub.limitRowPerRequest }}</td>
+                                <td class="countdown-holder" data-time="{{ sub.timeToActivation }}">
+                                    <span class="countdown"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
                     </section>
                 </div>
             </div>

@@ -244,17 +244,19 @@ class SettingsController extends AbstractActionController
 
     public function statisticsAction()
     {
-        // active user subscription info
-        $sub = $this->userService->getActiveSubscription($this->user, 1); // ebay
+        // user subscriptions
+        $subs = $this->userService->getSubscriptions($this->user);
 
         $subInfo = null;
-        if (!is_null($sub)) {
-            $subscriptionPlan = $this->subscriptionService->getUserSubscriptionPlan(
-                $sub->getSubscriptionScheme(),
-                $this->dataSourceService->keyExists($this->user, 1) // ebay
-            );
+        if (!is_null($subs)) {
+            foreach ($subs as $sub) {
+                $subscriptionPlan = $this->subscriptionService->getUserSubscriptionPlan(
+                    $sub->getSubscriptionScheme(),
+                    $this->dataSourceService->keyExists($this->user, 1) // ebay
+                );
 
-            $subInfo = $this->getSubscriptionInfo($sub, $subscriptionPlan);
+                $subInfo[] = $this->getSubscriptionInfo($sub, $subscriptionPlan);
+            }
         }
 
         return new ViewModel([
@@ -295,6 +297,7 @@ class SettingsController extends AbstractActionController
         $result['dateActivation']      = $subscription->getDateActivation();
         $result['dateExpiration']      = $subscription->getDateExpiration();
         $result['limitRowPerRequest']  = $subscriptionPlan->getLimitRowPerRequest();
+        $result['timeToActivation']    = $subscription->getDateStartCounter()->modify('+1 day')->format('Y/m/d H:i:s');
 
         return $result;
     }

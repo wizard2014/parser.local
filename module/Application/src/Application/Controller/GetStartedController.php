@@ -76,7 +76,7 @@ class GetStartedController extends AbstractActionController
         // active user subscription info
         $sub = $this->userService->getActiveSubscription($this->user, 1); // ebay
 
-        $subInfo = [];
+        $subInfo = null;
         if (!is_null($sub)) {
             $subscriptionPlan = $this->subscriptionService->getUserSubscriptionPlan(
                 $sub->getSubscriptionScheme(),

@@ -26,6 +26,7 @@
     "matchHeight": "~0.6.0",
     "pwstrength-bootstrap": "~1.2.9",
     "jquery-validation": "~1.14.0",
-    "tablesorter": "*"
+    "tablesorter": "*",
+    "jquery.countdown": "^2.1.0"
   }
 }

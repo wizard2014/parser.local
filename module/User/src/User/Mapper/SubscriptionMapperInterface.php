@@ -27,6 +27,13 @@ interface SubscriptionMapperInterface
      *
      * @return array
      */
+    public function getSubscriptions($userId);
+
+    /**
+     * @param $userId
+     *
+     * @return array
+     */
     public function getActiveSubscriptions($userId);
 
     /**

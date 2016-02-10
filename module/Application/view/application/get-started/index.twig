@@ -33,6 +33,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="ebay">
+                            {% if subInfo %}
                             <div class="brief-info">
                                 {# short info #}
                                 <div class="row">
@@ -58,6 +59,7 @@
                                 </div>
                             </div>
                             <hr>
+
                             <div class="row">
                                 <div class="col col-sm-3">
                                     <span class="label control-label">Select region: <span class="fa fa-asterisk"></span></span>
@@ -81,87 +83,93 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
 
-                        <hr>
-                        <div class="form-place ebay-form">
-                            <form action="{{ url('ebay') }}" method="post" class="form">
-                                <div class="row">
-                                    <div class="col col-sm-4">
-                                        <div class="form-group form-group-material-blue-grey label-floating">
-                                            <label for="keyword" class="label control-label">Enter keyword(s):</label>
-                                            <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1">
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-sm-2">
-                                        <div class="form-group form-group-material-blue-grey label-floating">
-                                            <label class="label control-label" for="sortOrder">Sort Order: <span class="fa fa-asterisk"></span></label>
-                                            <select name="sortOrder" id="sortOrder" class="form-control">
-                                                {% for sortOrder in ebayFilterSet['Sort Order'] %}
-                                                    <option value="{{ sortOrder }}">{{ sortOrder }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-sm-2">
-                                        <div class="row">
+                        {% if subInfo %}
+                            <hr>
+                            <div class="form-place ebay-form">
+                                <form action="{{ url('ebay') }}" method="post" class="form">
+                                    <div class="row">
+                                        <div class="col col-sm-4">
                                             <div class="form-group form-group-material-blue-grey label-floating">
-                                                <label for="minPrice" class="label control-label">Min Price:</label>
-                                                <input type="number" name="minPrice" id="minPrice" class="form-control num-only" min="1" step="1">
+                                                <label for="keyword" class="label control-label">Enter keyword(s):</label>
+                                                <input type="text" name="keyword" id="keyword" class="form-control" min="1" step="1">
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-sm-2">
+                                            <div class="form-group form-group-material-blue-grey label-floating">
+                                                <label class="label control-label" for="sortOrder">Sort Order: <span class="fa fa-asterisk"></span></label>
+                                                <select name="sortOrder" id="sortOrder" class="form-control">
+                                                    {% for sortOrder in ebayFilterSet['Sort Order'] %}
+                                                        <option value="{{ sortOrder }}">{{ sortOrder }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-sm-2">
+                                            <div class="row">
+                                                <div class="form-group form-group-material-blue-grey label-floating">
+                                                    <label for="minPrice" class="label control-label">Min Price:</label>
+                                                    <input type="number" name="minPrice" id="minPrice" class="form-control num-only" min="1" step="1">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-sm-2">
+                                            <div class="form-group form-group-material-blue-grey label-floating">
+                                                <label for="maxPrice" class="label control-label">Max Price:</label>
+                                                <input type="number" name="maxPrice" id="maxPrice" class="form-control num-only" min="1" step="1">
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-sm-2">
+                                            <div class="form-group form-group-material-blue-grey label-floating">
+                                                <label for="itemsQty" class="label control-label">Items qty: <span class="fa fa-asterisk"></span></label>
+                                                <select name="itemsQty" id="itemsQty" class="form-control">
+                                                    {% for limit in subInfo.allLimitsRowPerRequest %}
+                                                        {% if limit <= limitRowPerRequest %}
+                                                            <option value="{{ limit }}">{{ limit }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col col-sm-2">
-                                        <div class="form-group form-group-material-blue-grey label-floating">
-                                            <label for="maxPrice" class="label control-label">Max Price:</label>
-                                            <input type="number" name="maxPrice" id="maxPrice" class="form-control num-only" min="1" step="1">
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-sm-2">
-                                        <div class="form-group form-group-material-blue-grey label-floating">
-                                            <label for="itemsQty" class="label control-label">Items qty: <span class="fa fa-asterisk"></span></label>
-                                            <select name="itemsQty" id="itemsQty" class="form-control">
-                                                {% for limit in subInfo.allLimitsRowPerRequest %}
-                                                    {% if limit <= limitRowPerRequest %}
-                                                        <option value="{{ limit }}">{{ limit }}</option>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col col-sm-12">
-                                        <div class="form-group form-group-material-blue-grey label-floating">
-                                            <label class="label control-label">Listing Type:</label>
-                                            <div class="checkbox checkbox-material-blue-grey" id="listingType">
-                                                {% for listingType in ebayFilterSet['Listing Type'] %}
-                                                    <label>
-                                                        <input type="checkbox" name="listingType[]" value="{{ listingType }}"> <span class="check-text">{{ listingType }}</span>
-                                                    </label>
-                                                {% endfor %}
+                                    <div class="row">
+                                        <div class="col col-sm-12">
+                                            <div class="form-group form-group-material-blue-grey label-floating">
+                                                <label class="label control-label">Listing Type:</label>
+                                                <div class="checkbox checkbox-material-blue-grey" id="listingType">
+                                                    {% for listingType in ebayFilterSet['Listing Type'] %}
+                                                        <label>
+                                                            <input type="checkbox" name="listingType[]" value="{{ listingType }}"> <span class="check-text">{{ listingType }}</span>
+                                                        </label>
+                                                    {% endfor %}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <hr>
+                                    <hr>
 
-                                <input class="input-region" type="hidden" name="region" value="1">
-                                <input class="input-category" type="hidden" name="category">
-                                <input class="input-category-level" type="hidden" value="1">
+                                    <input class="input-region" type="hidden" name="region" value="1">
+                                    <input class="input-category" type="hidden" name="category">
+                                    <input class="input-category-level" type="hidden" value="1">
 
-                                <input type="hidden" name="token" value="{{ token }}">
+                                    <input type="hidden" name="token" value="{{ token }}">
 
-                                <input type="submit" value="send" class="btn btn-raised btn-primary btn-block submit-btn disabled" disabled>
-                            </form>
+                                    <input type="submit" value="send" class="btn btn-raised btn-primary btn-block submit-btn disabled" disabled>
+                                </form>
 
-                            <p><span class="fa fa-asterisk"></span> - required fields.</p>
-                        </div>
-                        <!-- add tabs here -->
+                                <p><span class="fa fa-asterisk"></span> - required fields.</p>
+                            </div>
+                            <!-- add tabs here -->
+                        {% else %}
+                            <h2 class="text-center">Sorry, but you've spent your limit.</h2>
+                            <p>For more information see <a href="{{ url('settings/default', {'action': 'statistics'}) }}">Statistics</a>.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

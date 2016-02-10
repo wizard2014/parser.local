@@ -1,12 +1,14 @@
-<h4>Account</h4>
-<p><a href="{{ url('settings/default', {'action': 'subscription'}) }}">Subscription</a></p>
-<p><a href="{{ url('settings/default', {'action': 'statistics'}) }}">Statistics</a></p>
-
-<h4>User</h4>
-<p><a href="{{ url('settings/default', {'action': 'profile'}) }}">Profile</a></p>
-<p><a href="{{ url('settings/default', {'action': 'notification'}) }}">Notifications</a></p>
-<p>
-    <a href="{{ url('settings/default', {'action': 'download'}) }}">Downloads
-        <span class="badge">{{ badge }}</span> {# global variable #}
-    </a>
-</p>
+<section class="sidebar">
+    <h4>Account</h4>
+    <p><a href="{{ url('settings/default', {'action': 'subscription'}) }}">Subscription</a></p>
+    <p><a href="{{ url('settings/default', {'action': 'statistics'}) }}">Statistics</a></p>
+    <hr>
+    <h4>User</h4>
+    <p><a href="{{ url('settings/default', {'action': 'profile'}) }}">Profile</a></p>
+    <p><a href="{{ url('settings/default', {'action': 'notification'}) }}">Notifications</a></p>
+    <p>
+        <a href="{{ url('settings/default', {'action': 'download'}) }}">Downloads
+            <span class="badge">{{ badge }}</span> {# global variable #}
+        </a>
+    </p>
+</section>

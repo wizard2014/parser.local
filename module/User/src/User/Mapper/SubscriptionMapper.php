@@ -90,6 +90,35 @@ class SubscriptionMapper implements SubscriptionMapperInterface
     /**
      * {@inheritdoc}
      */
+    public function getSubscriptions($userId)
+    {
+        $entity = $this->getUserSubscription();
+
+        $qb = $this->em->createQueryBuilder();
+
+        $qb
+            ->select('sub')
+            ->from($entity, 'sub')
+            ->where('sub.user = :userId')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->lte('sub.dateActivation', ':now'),
+                    $qb->expr()->gte('sub.dateExpiration', ':now')
+                )
+            )
+            ->andWhere('sub.subscriptionStatus = 7')
+            ->setParameter('userId', $userId)
+            ->setParameter('now', new \DateTime())
+            ->orderBy('sub.dateStartCounter', 'ASC');
+
+        $subscription = $qb->getQuery()->getResult();
+
+        return $subscription;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getActiveSubscriptions($userId)
     {
         $entity = $this->getUserSubscription();
@@ -106,12 +135,10 @@ class SubscriptionMapper implements SubscriptionMapperInterface
                     $qb->expr()->gte('sub.dateExpiration', ':now')
                 )
             )
-//            ->andWhere('sub.subscriptionScheme = :subScheme')
             ->andWhere('sub.isBlocked = false')
             ->andWhere('sub.subscriptionStatus = 7')
             ->setParameter('userId', $userId)
             ->setParameter('now', new \DateTime());
-//            ->setParameter('subScheme', $vendor);
 
         $subscription = $qb->getQuery()->getResult();
 
@@ -214,7 +241,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
                 )
             )
             ->andWhere(
-                $qb->expr()->lte('sub.dateStartCounter', ':nowModify')
+                $qb->expr()->gte('sub.dateStartCounter', ':nowModify')
             )
             ->setParameter('counter', 0)
             ->setParameter('blocked', false)
