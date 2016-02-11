@@ -241,7 +241,7 @@ class SubscriptionMapper implements SubscriptionMapperInterface
                 )
             )
             ->andWhere(
-                $qb->expr()->gte('sub.dateStartCounter', ':nowModify')
+                $qb->expr()->lte('sub.dateStartCounter', ':nowModify')
             )
             ->setParameter('counter', 0)
             ->setParameter('blocked', false)

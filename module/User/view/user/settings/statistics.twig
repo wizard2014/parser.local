@@ -34,7 +34,7 @@
                             <tbody>
                             {% for sub in subInfo %}
                             <tr>
-                                <td>{{ sub.subscriptionType }}</td>
+                                <td><a href="{{ url('price') }}">{{ sub.subscriptionType }}</a></td>
                                 <td>{{ sub.requestCounterDaily }}</td>
                                 <td>{{ sub.requestCounterTotal }}</td>
                                 <td>{{ sub.dateActivation|date('M d, Y') }}</td>
