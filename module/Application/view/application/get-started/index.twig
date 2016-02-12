@@ -14,16 +14,33 @@
                     <a href="{{ url('get-started') }}">Select source</a>
                 </h2>
 
-                <div class="alert alert-dismissable alert-danger{{ flashMessages|length ? '' : ' hide' }}">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <h3 class="error-header">Oops... Error!</h3>
+                {# flash messenger #}
+                {% set hasInfo  = '|' in flashMessages[0][0] %}
 
-                    <ul class="list-unstyled error-list">
-                        {% for msg in flashMessages[0] %}
-                            <li>{{ msg }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                {% if flashMessages|length  %}
+                    {% if hasInfo %}
+                        {% set msg = flashMessenger[0][0]|split('|')|first %}
+                        <div class="alert alert-dismissable alert-info"{{ flashMessages|length ? '' : ' hide' }}">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h3 class="info-header">Congratulations!</h3>
+
+                            <ul class="list-unstyled info-list">
+                                <li>{{ msg }}</li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-dismissable alert-danger"{{ flashMessages|length ? '' : ' hide' }}">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h3 class="error-header">Oops... Error!</h3>
+
+                            <ul class="list-unstyled error-list">
+                                {% for msg in flashMessages[0] %}
+                                    <li>{{ msg }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endif %}
 
                 <div class="well source-list">
                     <ul class="nav nav-tabs">

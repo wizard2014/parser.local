@@ -7,10 +7,24 @@ use DTS\eBaySDK\Finding\Services as FindingServices;
 use DTS\eBaySDK\Finding\Types as TypesFinding;
 use DTS\eBaySDK\Finding\Enums as EnumsFinding;
 use Ebay\Options\ModuleOptions;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class FindItemsService implements FindItemsServiceInterface
 {
+    /**
+     * @var ModuleOptions
+     */
     protected $options;
+
+    /**
+     * @var AMQPStreamConnection
+     */
+    protected $connection;
+
+    /**
+     * @var int
+     */
     private $maxItemForPage = 100;
 
     /**
@@ -18,7 +32,45 @@ class FindItemsService implements FindItemsServiceInterface
      */
     public function __construct(ModuleOptions $options)
     {
+        $this->connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+
         $this->options = $options;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listen()
+    {
+        $channel = $this->connection->channel();
+
+        $channel->queue_declare('queue', false, true, false, false);
+
+        $channel->basic_qos(null, 1, null);
+
+        $channel->basic_consume('queue', '', false, false, false, false, [$this, 'process']);
+
+        while(count($channel->callbacks)) {
+            $channel->wait();
+        }
+
+        $channel->close();
+        $this->connection->close();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function process(AMQPMessage $msg)
+    {
+        // process
+        $data = json_decode($msg->body, true);
+
+        file_put_contents('./data/output/msg.txt', json_encode($this->findItems($data[0], $data[1])), FILE_APPEND | LOCK_EX);
+
+        $msg->delivery_info['channel']->basic_ack(
+            $msg->delivery_info['delivery_tag']
+        );
     }
 
     /**

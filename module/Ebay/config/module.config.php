@@ -34,8 +34,9 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\Index::class   => Factory\Controller\IndexControllerFactory::class,
-            Controller\Console::class => Factory\Controller\ConsoleControllerFactory::class,
+            Controller\Index::class    => Factory\Controller\IndexControllerFactory::class,
+            Controller\Console::class  => Factory\Controller\ConsoleControllerFactory::class,
+            Controller\Listener::class => Factory\Controller\ListenerControllerFactory::class,
         ],
     ],
     'service_manager'=> [
@@ -58,6 +59,15 @@ return [
                         'route'    => 'ebay-category',
                         'defaults' => [
                             'controller' => Controller\Console::class,
+                            'action'     => 'index'
+                        ],
+                    ],
+                ],
+                'listener' => [
+                    'options' => [
+                        'route'    => 'listener',
+                        'defaults' => [
+                            'controller' => Controller\Listener::class,
                             'action'     => 'index'
                         ],
                     ],

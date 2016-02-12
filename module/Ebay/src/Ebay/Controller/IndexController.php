@@ -6,11 +6,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
 use Ebay\Service\CategoryService;
-use Ebay\Service\FindItemsService;
 use Utility\Service\DataSourceService;
 use User\Service\UserService;
 use Utility\Service\ValidateService;
 use Utility\Helper\Csrf\Csrf;
+use Ebay\Sender\WorkerSender;
 
 class IndexController extends AbstractActionController
 {
@@ -47,20 +47,17 @@ class IndexController extends AbstractActionController
      * IndexController constructor.
      *
      * @param CategoryService   $categoryService
-     * @param FindItemsService  $findItemsService
      * @param DataSourceService $dataSourceService
      * @param UserService       $userService
      * @param ValidateService   $validateService
      */
     public function __construct(
         CategoryService   $categoryService,
-        FindItemsService  $findItemsService,
         DataSourceService $dataSourceService,
         UserService       $userService,
         ValidateService   $validateService
     ) {
         $this->categoryService   = $categoryService;
-        $this->findItemsService  = $findItemsService;
         $this->dataSourceService = $dataSourceService;
         $this->userService       = $userService;
         $this->validateService   = $validateService;
@@ -99,43 +96,35 @@ class IndexController extends AbstractActionController
 
                 $data['ebay_global_id'] = $this->dataSourceService->getEbayGlobalId($data['region']);
 
-                $resultData = $this->findItemsService->findItems($data, $appId);
+                // enqueue
+//                $sender = new WorkerSender();
+//                $sender->execute([$data, $appId]);
 
-                // if returns error
-                if (500 === $resultData) {
-                    $this->flashMessenger()->addMessage(['Invalid key, please check it out and add again.']);
+//                $resultData = $this->findItemsService->findItems($data, $appId);
 
-                    // change key status to Invalid
-                    $this->dataSourceService->setInvalidKey($this->user, $data['region']);
-                } else {
-                    $path     = md5($this->userService->getEmail($this->user)) . '/' . self::VENDOR;
-                    $filename = self::VENDOR . uniqid('_');
+                $path     = md5($this->userService->getEmail($this->user)) . '/' . self::VENDOR;
+                $filename = self::VENDOR . uniqid('_');
 
-                    // @todo send success message
+                $this->flashMessenger()->addMessage(['After all necessary operations, we will send you an e-mail.|info']);
 
-                    // if success
-                    if (!empty($resultData)) {
-                        // save into db
-                        /* $insertedData = */$this->userService->saveFileData(
-                            $this->userService->getUser($this->user),
-                            $this->dataSourceService->getSourceGlobalById($data['region']),
-                            $path,
-                            $filename,
-                            $resultData
-                        );
+                // save into db
+//                /* $insertedData = */$this->userService->saveFileData(
+//                    $this->userService->getUser($this->user),
+//                    $this->dataSourceService->getSourceGlobalById($data['region']),
+//                    $path,
+//                    $filename,
+//                    $resultData
+//                );
 
-                        // set log
-                        $activeSubscription = $this->userService->getActiveSubscription($this->user, $data['region']);
-                        $qtyRows            = count($resultData);
-                        $propertySet        = $this->propertySetPrepare($data);
-                        // add region name
-                        $propertySet['region'] = ucwords($this->dataSourceService->getRegionNameById($data['region']));
+                // set log
+//                $activeSubscription = $this->userService->getActiveSubscription($this->user, $data['region']);
+//                $qtyRows            = count($resultData);
+//                $propertySet        = $this->propertySetPrepare($data);
+//                // add region name
+//                $propertySet['region'] = ucwords($this->dataSourceService->getRegionNameById($data['region']));
+//
+//                /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $qtyRows, $propertySet);
 
-                        /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $qtyRows, $propertySet);
-                    } else {
-                        $this->flashMessenger()->addMessage(['Nothing found! Change your search criteria and try again.']);
-                    }
-                }
             }
         }
 

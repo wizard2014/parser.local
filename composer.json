@@ -20,6 +20,7 @@
         "hrevert/ht-user-registration-doctrine-orm": "^0.0.1",
         "goalio/goalio-forgotpassword-doctrine-orm": "1.0.0",
         "gedmo/doctrine-extensions": "^2.4",
-        "predis/predis": "v1.0.3"
+        "predis/predis": "v1.0.3",
+        "php-amqplib/php-amqplib": "v2.6.0"
     }
 }

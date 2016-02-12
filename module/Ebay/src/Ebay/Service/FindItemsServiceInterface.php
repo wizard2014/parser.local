@@ -2,8 +2,20 @@
 
 namespace Ebay\Service;
 
+use PhpAmqpLib\Message\AMQPMessage;
+
 interface FindItemsServiceInterface
 {
+    /**
+     * Listener
+     */
+    public function listen();
+
+    /**
+     * @param AMQPMessage $msg
+     */
+    public function process(AMQPMessage $msg);
+
     /**
      * @param array $data
      * @param null  $appId
