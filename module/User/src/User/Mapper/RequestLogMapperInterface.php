@@ -6,10 +6,9 @@ interface RequestLogMapperInterface
 {
     /**
      * @param       $subscriptionId
-     * @param       $qtyRows
      * @param array $propertySet
      *
      * @return object
      */
-    public function set($subscriptionId, $qtyRows, array $propertySet);
+    public function set($subscriptionId, array $propertySet);
 }

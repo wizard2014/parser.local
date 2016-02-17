@@ -118,12 +118,11 @@ class IndexController extends AbstractActionController
 
                 // set log
 //                $activeSubscription = $this->userService->getActiveSubscription($this->user, $data['region']);
-//                $qtyRows            = count($resultData);
 //                $propertySet        = $this->propertySetPrepare($data);
 //                // add region name
 //                $propertySet['region'] = ucwords($this->dataSourceService->getRegionNameById($data['region']));
 //
-//                /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $qtyRows, $propertySet);
+//                /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $propertySet);
 
             }
         }

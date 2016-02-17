@@ -111,9 +111,9 @@ class UserService implements UserServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function setRequestLog($subscriptionId, $qtyRows, array $propertySet)
+    public function setRequestLog($subscriptionId, array $propertySet)
     {
-        return $this->requestLogMapper->set($subscriptionId, $qtyRows, $propertySet);
+        return $this->requestLogMapper->set($subscriptionId, $propertySet);
     }
 
     /**

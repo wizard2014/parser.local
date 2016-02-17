@@ -40,12 +40,11 @@ interface UserServiceInterface
 
     /**
      * @param       $subscriptionId
-     * @param       $qtyRows
      * @param array $propertySet
      *
      * @return object
      */
-    public function setRequestLog($subscriptionId, $qtyRows, array $propertySet);
+    public function setRequestLog($subscriptionId, array $propertySet);
 
     /**
      * @param $userId
