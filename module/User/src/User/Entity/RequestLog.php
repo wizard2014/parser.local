@@ -32,13 +32,6 @@ class RequestLog
     private $requestTime;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="qty_rows", type="integer", nullable=false)
-     */
-    private $qtyRows = '0';
-
-    /**
      * @var array
      *
      * @ORM\Column(name="property_set", type="json_array", nullable=true)
@@ -87,30 +80,6 @@ class RequestLog
     public function getRequestTime()
     {
         return $this->requestTime;
-    }
-
-    /**
-     * Set qtyRows
-     *
-     * @param integer $qtyRows
-     *
-     * @return RequestLog
-     */
-    public function setQtyRows($qtyRows)
-    {
-        $this->qtyRows = $qtyRows;
-
-        return $this;
-    }
-
-    /**
-     * Get qtyRows
-     *
-     * @return integer
-     */
-    public function getQtyRows()
-    {
-        return $this->qtyRows;
     }
 
     /**
