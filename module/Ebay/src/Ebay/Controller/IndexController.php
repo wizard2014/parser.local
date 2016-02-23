@@ -96,6 +96,14 @@ class IndexController extends AbstractActionController
 
                 $data['ebay_global_id'] = $this->dataSourceService->getEbayGlobalId($data['region']);
 
+                // set log
+                $activeSubscription = $this->userService->getActiveSubscription($this->user, $data['region']);
+                $propertySet        = $this->propertySetPrepare($data);
+                // add region name
+                $propertySet['region'] = ucwords($this->dataSourceService->getRegionNameById($data['region']));
+
+                /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $propertySet);
+
                 // enqueue
 //                $sender = new WorkerSender();
 //                $sender->execute([$data, $appId]);
@@ -115,15 +123,6 @@ class IndexController extends AbstractActionController
 //                    $filename,
 //                    $resultData
 //                );
-
-                // set log
-//                $activeSubscription = $this->userService->getActiveSubscription($this->user, $data['region']);
-//                $propertySet        = $this->propertySetPrepare($data);
-//                // add region name
-//                $propertySet['region'] = ucwords($this->dataSourceService->getRegionNameById($data['region']));
-//
-//                /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $propertySet);
-
             }
         }
 
