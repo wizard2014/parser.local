@@ -104,14 +104,19 @@ class IndexController extends AbstractActionController
 
                 /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $propertySet);
 
-                // enqueue
-//                $sender = new WorkerSender();
-//                $sender->execute([$data, $appId]);
-
-//                $resultData = $this->findItemsService->findItems($data, $appId);
-
                 $path     = md5($this->userService->getEmail($this->user)) . '/' . self::VENDOR;
                 $filename = self::VENDOR . uniqid('_');
+
+                // enqueue
+                $sender = new WorkerSender();
+                $sender->execute([
+                    'responseData' => $this->propertySetPrepare($data),
+                    'appId'        => $appId,
+                    'user'         => $this->user,
+                    'region'       => $data['region'],
+                    'path'         => $path,
+                    'filename'     => $filename,
+                ]);
 
                 $this->flashMessenger()->addMessage(['After all necessary operations, we will send you an e-mail.|info']);
 

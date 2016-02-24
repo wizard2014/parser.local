@@ -66,7 +66,18 @@ class FindItemsService implements FindItemsServiceInterface
         // process
         $data = json_decode($msg->body, true);
 
-        file_put_contents('./data/output/msg.txt', json_encode($this->findItems($data[0], $data[1])), FILE_APPEND | LOCK_EX);
+        $resultData = $this->findItems($data['responseData'], $data['appId']);
+
+        // save data
+//        $this->userService->saveFileData(
+//            $data['user'],
+//            $data['region'],
+//            $data['path'],
+//            $data['filename'],
+//            $resultData
+//        );
+
+        // send email
 
         $msg->delivery_info['channel']->basic_ack(
             $msg->delivery_info['delivery_tag']
