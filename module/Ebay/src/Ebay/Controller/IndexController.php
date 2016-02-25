@@ -36,6 +36,9 @@ class IndexController extends AbstractActionController
      */
     protected $userService;
 
+    /**
+     * @var ValidateService
+     */
     protected $validateService;
 
     /**
@@ -104,13 +107,14 @@ class IndexController extends AbstractActionController
 
                 /* $requestLog = */$this->userService->setRequestLog($activeSubscription, $propertySet);
 
-                $path     = md5($this->userService->getEmail($this->user)) . '/' . self::VENDOR;
+                $email    = $this->userService->getEmail($this->user);
+                $path     = md5($email) . '/' . self::VENDOR;
                 $filename = self::VENDOR . uniqid('_');
 
                 // enqueue
                 $sender = new WorkerSender();
                 $sender->execute([
-                    'responseData' => $this->propertySetPrepare($data),
+                    'responseData' => $data,
                     'appId'        => $appId,
                     'user'         => $this->user,
                     'region'       => $data['region'],

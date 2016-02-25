@@ -9,6 +9,9 @@ use DTS\eBaySDK\Finding\Enums as EnumsFinding;
 use Ebay\Options\ModuleOptions;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use MtMail\Service\Mail;
+use User\Service\UserService;
+use Utility\Service\DataSourceService;
 
 class FindItemsService implements FindItemsServiceInterface
 {
@@ -16,6 +19,21 @@ class FindItemsService implements FindItemsServiceInterface
      * @var ModuleOptions
      */
     protected $options;
+
+    /**
+     * @var Mail
+     */
+    protected $mail;
+
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * @var DataSourceService
+     */
+    protected $dataSourceService;
 
     /**
      * @var AMQPStreamConnection
@@ -28,13 +46,25 @@ class FindItemsService implements FindItemsServiceInterface
     private $maxItemForPage = 100;
 
     /**
-     * @param ModuleOptions $options
+     * FindItemsService constructor.
+     *
+     * @param ModuleOptions     $options
+     * @param Mail              $mail
+     * @param UserService       $userService
+     * @param DataSourceService $dataSourceService
      */
-    public function __construct(ModuleOptions $options)
-    {
-        $this->connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+    public function __construct(
+        ModuleOptions       $options,
+        Mail                $mail,
+        UserService         $userService,
+        DataSourceService   $dataSourceService
+    ) {
+        $this->options           = $options;
+        $this->mail              = $mail;
+        $this->userService       = $userService;
+        $this->dataSourceService = $dataSourceService;
 
-        $this->options = $options;
+        $this->connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
     }
 
     /**
@@ -68,14 +98,14 @@ class FindItemsService implements FindItemsServiceInterface
 
         $resultData = $this->findItems($data['responseData'], $data['appId']);
 
-        // save data
-//        $this->userService->saveFileData(
-//            $data['user'],
-//            $data['region'],
-//            $data['path'],
-//            $data['filename'],
-//            $resultData
-//        );
+        // save into db
+        $this->userService->saveFileData(
+            $this->userService->getUser($data['user']),
+            $this->dataSourceService->getSourceGlobalById($data['region']),
+            $data['path'],
+            $data['filename'],
+            $resultData
+        );
 
         // send email
 

@@ -17,8 +17,11 @@ class FindItemsServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $options = new ModuleOptions($serviceLocator->get('Config')['application_options']);
+        $options            = new ModuleOptions($serviceLocator->get('Config')['application_options']);
+        $mail               = $serviceLocator->get(\MtMail\Service\Mail::class);
+        $userService        = $serviceLocator->get(\User\Service\UserService::class);
+        $dataSourceService  = $serviceLocator->get(\Utility\Service\DataSourceService::class);
 
-        return new FindItemsService($options);
+        return new FindItemsService($options, $mail, $userService, $dataSourceService);
     }
 }
