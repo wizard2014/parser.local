@@ -123,15 +123,6 @@ class IndexController extends AbstractActionController
                 ]);
 
                 $this->flashMessenger()->addMessage(['After all necessary operations, we will send you an e-mail.|info']);
-
-                // save into db
-//                /* $insertedData = */$this->userService->saveFileData(
-//                    $this->userService->getUser($this->user),
-//                    $this->dataSourceService->getSourceGlobalById($data['region']),
-//                    $path,
-//                    $filename,
-//                    $resultData
-//                );
             }
         }
 

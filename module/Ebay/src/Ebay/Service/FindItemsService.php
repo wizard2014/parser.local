@@ -98,6 +98,7 @@ class FindItemsService implements FindItemsServiceInterface
 
         $resultData = $this->findItems($data['responseData'], $data['appId']);
 
+        // @todo catch exception (service unavailable)
         // save into db
         $this->userService->saveFileData(
             $this->userService->getUser($data['user']),
