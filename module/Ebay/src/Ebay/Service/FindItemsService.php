@@ -9,7 +9,7 @@ use DTS\eBaySDK\Finding\Enums as EnumsFinding;
 use Ebay\Options\ModuleOptions;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use MtMail\Service\Mail;
+use MtMail\Service\Mail as MailService;
 use User\Service\UserService;
 use Utility\Service\DataSourceService;
 
@@ -21,9 +21,9 @@ class FindItemsService implements FindItemsServiceInterface
     protected $options;
 
     /**
-     * @var Mail
+     * @var MailService
      */
-    protected $mail;
+    protected $mailService;
 
     /**
      * @var UserService
@@ -49,18 +49,18 @@ class FindItemsService implements FindItemsServiceInterface
      * FindItemsService constructor.
      *
      * @param ModuleOptions     $options
-     * @param Mail              $mail
+     * @param MailService       $mailService
      * @param UserService       $userService
      * @param DataSourceService $dataSourceService
      */
     public function __construct(
         ModuleOptions       $options,
-        Mail                $mail,
+        MailService         $mailService,
         UserService         $userService,
         DataSourceService   $dataSourceService
     ) {
         $this->options           = $options;
-        $this->mail              = $mail;
+        $this->mailService       = $mailService;
         $this->userService       = $userService;
         $this->dataSourceService = $dataSourceService;
 
@@ -109,6 +109,7 @@ class FindItemsService implements FindItemsServiceInterface
         );
 
         // send email
+        $this->sendMail($data['user'], 'Subject', json_encode($resultData));
 
         $msg->delivery_info['channel']->basic_ack(
             $msg->delivery_info['delivery_tag']
@@ -251,5 +252,20 @@ class FindItemsService implements FindItemsServiceInterface
         }
 
         return $result;
+    }
+
+    protected function sendMail($user, $subject, $msg)
+    {
+        $message = new \Zend\Mail\Message();
+        $message->setSender('versoverteam@gmail.com');
+        $message->addFrom(
+            'versoverteam@gmail.com', 'Extrow | Ebay data'
+        );
+        $message->addTo(
+            $this->userService->getEmail($user)
+        );
+        $message->setSubject($subject);
+        $message->setBody($msg);
+        $this->mailService->send($message);
     }
 }
