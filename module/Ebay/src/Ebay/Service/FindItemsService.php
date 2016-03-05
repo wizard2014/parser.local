@@ -108,25 +108,17 @@ class FindItemsService implements FindItemsServiceInterface
                 $data['filename'],
                 $resultData
             );
-        } catch (\Exception $e) {
-            file_put_contents('./data/output/get_data_error.txt',
-                '['. (new \DateTime())->format('Y-m-d h:i:s') . ']'
-                . 'User ID ' . $data['user']
-                . "\n"
-            );
-        }
 
-        // send email
-        try {
-            $this->sendMail($data['user']);
-        } catch (\Exception $e) {
-            file_put_contents('./data/output/mail_error.txt',
-                '['. (new \DateTime())->format('Y-m-d h:i:s') . ']'
-                . 'User ID ' . $data['user']
-                . "\n"
-            );
+            // send email
+            try {
+                $this->sendMail($data['user']);
+            } catch (\Exception $e) {
+                $this->setLog('mail_error.txt');
 
-            $this->sendMail($data['user']);
+                $this->sendMail($data['user']);
+            }
+        } catch (\Exception $e) {
+            $this->setLog('get_data_error.txt');
         }
 
         $msg->delivery_info['channel']->basic_ack(
@@ -281,5 +273,14 @@ class FindItemsService implements FindItemsServiceInterface
         ];
         $message = $this->mailService->compose($headers, 'ebay/message');
         $this->mailService->send($message);
+    }
+
+    protected function setLog($filename)
+    {
+        file_put_contents('./data/output/' . $filename,
+            '['. (new \DateTime())->format('Y-m-d h:i:s') . ']'
+            . 'User ID ' . $data['user']
+            . "\n"
+        );
     }
 }
