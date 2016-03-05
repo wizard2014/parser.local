@@ -46,6 +46,9 @@ return [
         ],
     ],
     'view_manager' => [
+        'template_map' => [
+            'ebay/message' => __DIR__ . '/../view/ebay/mail/message.phtml',
+        ],
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],

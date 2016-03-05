@@ -100,16 +100,34 @@ class FindItemsService implements FindItemsServiceInterface
 
         // @todo catch exception (service unavailable)
         // save into db
-        $this->userService->saveFileData(
-            $this->userService->getUser($data['user']),
-            $this->dataSourceService->getSourceGlobalById($data['region']),
-            $data['path'],
-            $data['filename'],
-            $resultData
-        );
+        try {
+            $this->userService->saveFileData(
+                $this->userService->getUser($data['user']),
+                $this->dataSourceService->getSourceGlobalById($data['region']),
+                $data['path'],
+                $data['filename'],
+                $resultData
+            );
+        } catch (\Exception $e) {
+            file_put_contents('./data/output/get_data_error.txt',
+                '['. (new \DateTime())->format('Y-m-d h:i:s') . ']'
+                . 'User ID ' . $data['user']
+                . "\n"
+            );
+        }
 
         // send email
-        $this->sendMail($data['user'], 'Subject', json_encode($resultData));
+        try {
+            $this->sendMail($data['user']);
+        } catch (\Exception $e) {
+            file_put_contents('./data/output/mail_error.txt',
+                '['. (new \DateTime())->format('Y-m-d h:i:s') . ']'
+                . 'User ID ' . $data['user']
+                . "\n"
+            );
+
+            $this->sendMail($data['user']);
+        }
 
         $msg->delivery_info['channel']->basic_ack(
             $msg->delivery_info['delivery_tag']
@@ -254,18 +272,14 @@ class FindItemsService implements FindItemsServiceInterface
         return $result;
     }
 
-    protected function sendMail($user, $subject, $msg)
+    protected function sendMail($user)
     {
-        $message = new \Zend\Mail\Message();
-        $message->setSender('versoverteam@gmail.com');
-        $message->addFrom(
-            'versoverteam@gmail.com', 'Extrow | Ebay data'
-        );
-        $message->addTo(
-            $this->userService->getEmail($user)
-        );
-        $message->setSubject($subject);
-        $message->setBody($msg);
+        $headers = [
+            'to'        => $this->userService->getEmail($user),
+            'from'      => 'Extrow | Ebay data <versoverteam@gmail.com>',
+            'subject'   => 'Extrow. Your data',
+        ];
+        $message = $this->mailService->compose($headers, 'ebay/message');
         $this->mailService->send($message);
     }
 }
