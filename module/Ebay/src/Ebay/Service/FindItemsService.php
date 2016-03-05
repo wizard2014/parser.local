@@ -113,12 +113,12 @@ class FindItemsService implements FindItemsServiceInterface
             try {
                 $this->sendMail($data['user']);
             } catch (\Exception $e) {
-                $this->setLog('mail_error.txt');
+                $this->setLog('mail_error.txt', $data['user']);
 
                 $this->sendMail($data['user']);
             }
         } catch (\Exception $e) {
-            $this->setLog('get_data_error.txt');
+            $this->setLog('get_data_error.txt', $data['user']);
         }
 
         $msg->delivery_info['channel']->basic_ack(
@@ -275,11 +275,11 @@ class FindItemsService implements FindItemsServiceInterface
         $this->mailService->send($message);
     }
 
-    protected function setLog($filename)
+    protected function setLog($filename, $userId)
     {
         file_put_contents('./data/output/' . $filename,
             '['. (new \DateTime())->format('Y-m-d h:i:s') . ']'
-            . 'User ID ' . $data['user']
+            . 'User ID ' . $userId
             . "\n"
         );
     }
