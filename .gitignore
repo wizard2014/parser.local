@@ -11,7 +11,7 @@ composer.lock
 vendor
 composer.phar
 node_modules
-puphpet
+puphpet/config-custom.yaml
 .gulp-scss-cache
 .sass-cache
 auth.json
